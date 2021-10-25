@@ -22,7 +22,7 @@ class World:  # A Wordl
     def World_init(self):
         # Set itens world
         self.screen = pygame.display.set_mode((v.FUllSCREEN))
-        pygame.display.set_icon(pygame.image.load(v.ICON))      
+        pygame.display.set_icon(pygame.image.load(v.ICON))
 
         self.Fps = pygame.time.Clock()
 
