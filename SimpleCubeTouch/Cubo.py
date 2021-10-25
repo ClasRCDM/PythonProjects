@@ -9,7 +9,6 @@ window_getsize = surface.get_rect()
 
 FPS = pygame.time.Clock()
 
-
 class World:
     def __init__(self):
         super(World, self).__init__()
