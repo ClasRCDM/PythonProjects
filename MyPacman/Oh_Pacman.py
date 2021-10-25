@@ -2,6 +2,9 @@ import pygame
 import vars as v
 
 
+########################
+# Configuring my World #
+#######################
 class World:  # A Wordl
     def __init__(self, title):
         # Build game
@@ -68,6 +71,10 @@ class World:  # A Wordl
 
         pygame.display.flip()
 
+
+###################
+#  Init my World  #
+###################
 
 MyWorld = World(v.TITLE_GAME)
 MyWorld.World_init()
