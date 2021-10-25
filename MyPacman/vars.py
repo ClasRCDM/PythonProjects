@@ -1,0 +1,11 @@
+# Vars world
+LARGURA = 480
+ALTURA = 600
+
+FUllSCREEN = (LARGURA, ALTURA)
+
+TITLE_GAME = 'Oh, PACman'
+
+BACKGROUND = (0, 0, 0)
+
+FPS = 60
