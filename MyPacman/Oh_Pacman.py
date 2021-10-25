@@ -22,11 +22,13 @@ class World:  # A Wordl
     def World_init(self):
         # Set itens world
         self.screen = pygame.display.set_mode((v.FUllSCREEN))
+        pygame.display.set_icon(pygame.image.load(v.ICON))      
+
         self.Fps = pygame.time.Clock()
 
         self.Run = True
         self.running = True
-       
+
         self.World_objcts()
 
     def World_objcts(self):
