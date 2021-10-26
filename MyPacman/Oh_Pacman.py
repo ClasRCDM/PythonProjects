@@ -1,5 +1,8 @@
-import pygame, os
+import pygame
 import vars as v
+
+from os import path, getcwd
+from sys import exit
 
 
 ########################
@@ -10,6 +13,7 @@ class World:  # A Wordl
         # Build game
         pygame.init()
         pygame.mixer.init()
+        pygame.font.init()
         pygame.display.set_caption(title)
 
         self.screen = None
@@ -19,7 +23,7 @@ class World:  # A Wordl
         self.Run = None
         self.running = None
 
-        self.font = pygame.font.match_font(v.FONT)
+        self.font = None
 
         # Itens World
         self.Sprites_world = None
@@ -28,6 +32,9 @@ class World:  # A Wordl
         self.dirctyudo = None
 
         self.Game_Start = None
+        self.Game = None
+
+        self.widget_world = None
 
     def World_init(self):
         # Set itens world
@@ -50,9 +57,10 @@ class World:  # A Wordl
         self.World_time()
 
     def World_widget(self):
-        if self.Game_Start:
-            self.World_texts('-Pressione uma tecla para jogar', 32,
-                             v.YELLOW, v.WIDTH / 2, 320)
+        match self.widget_world:
+            case 'StartGame':
+                self.World_texts('-Pressione uma tecla para jogar', 14,
+                                 v.YELLOW, v.WIDTH / 2, 320)
 
     def World_time(self):
         # Time and Space world
@@ -63,7 +71,9 @@ class World:  # A Wordl
             self.World_sprits()
             self.World_SpritsDraw()
 
+            self.World_functions()
             self.World_widget()
+            # self.World_images()
 
             self.Fps.tick(v.FPS)
             pygame.display.flip()
@@ -73,23 +83,37 @@ class World:  # A Wordl
         for ev in pygame.event.get():
             if ev.type == pygame.QUIT and self.Run:
                 self.Run, self.running = False
+                exit()
+            if ev.type == pygame.KEYUP:
+                self.Game = True
+                self.Game_Start = False
 
-        # self.World_widget()
+    def World_functions(self):
+        if self.Game_Start and not self.Game:
+            self.widget_world = 'StartGame'
 
     def World_scenes(self):
         # Manage the scenes
         self.Game_Start = v.game_start
 
+        self.Game = v.game
+
     def World_adofle(self):
         # Load files, and audios
-        self.dirctrymges = os.path.join(os.getcwd(), 'images')
-        self.dirctyudo = os.path.join(os.getcwd(), 'sounds')
+        self.dirctrymges = path.join(getcwd(), "MyPacman/images")
+        self.dirctyudo = path.join(getcwd(), 'MyPacman/sounds')
+        self.dirctyfnts = path.join(getcwd(), 'MyPacman/fonts')
 
-        self.pacmanlogo = os.path.join(self.dirctrymges, v.LOGO_PACMAN)
+        self.pacmanlogo = path.join(self.dirctrymges, v.LOGO_PACMAN)
+        self.font_set = path.join(self.dirctyfnts, v.FONT)
 
     def World_images(self):
         # Call/add image
-        self.pacmanlogo = pygame.image.load(self.pacmanlogo).convert()
+        match self.widget_world:
+            case 'StartGame':
+                self.pacmanlogo = pygame.image.load(v.ICON).convert()
+
+        self.screen.blit(self.pacmanlogo, (0, 0))
 
     def World_sounds(self):
         # Call/add sound
@@ -101,9 +125,9 @@ class World:  # A Wordl
 
     def World_texts(self, text: str, size: int, color, x: int, y: int):
         # Create/add/render texts
-        font = pygame.font.Font(self.font, size)
+        font = pygame.font.Font(self.font_set, size)
 
-        text_render = font.render(text, True, color)
+        text_render = font.render(text, False, color)
         text_rect = text_render.get_rect()
         text_rect.midtop = (x, y)
 
@@ -120,5 +144,4 @@ class World:  # A Wordl
 ###################
 
 MyWorld = World(v.TITLE_GAME)
-print('Init Game')
 MyWorld.World_init()

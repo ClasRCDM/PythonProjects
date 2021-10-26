@@ -14,13 +14,14 @@ BACKGROUND = (0, 0, 0)
 
 FPS = 60
 
-FONT = 'PressStart2P-Regular.ttf'
+FONT = 'PressStart2P.ttf'
 
 # global variables #
 ####################
 
 # Scenes #
 game_start = True
+game = False
 
 # Images #
 LOGO_PACMAN = 'PACMANLOGO.png'
