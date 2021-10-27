@@ -33,7 +33,7 @@ LOGO_PACMAN = 'PACMANLOGO.png'
 
 # Sounds #
 music_START = 'intermission.wav'
-music_PLAY = 'munch.wav'
+music_PLAY = 'munch_1.wav'
 
 # Colors #
 YELLOW = (244, 233, 51)

@@ -104,15 +104,14 @@ class World:  # A Wordl
                 exit()
             # Init game
             if ev.type == pygame.KEYUP:
-                self.Game = True
-                self.Game_Start = False
+                self.Game, self.Game_Start = True, False
+                v.MUSICS = 'PlayGame_music'
 
     def World_functions(self):
         if self.Game_Start and not self.Game:
             self.widget_world = 'StartGame'
-        else:
+        elif self.Game and not self.Game_Start:
             self.widget_world = 'PlayGame'
-            v.gamestart_music = 'PlayGame_music'
 
     def World_scenes(self):
         # Manage the scenes
@@ -142,17 +141,22 @@ class World:  # A Wordl
         match v.MUSICS:
             case 'StartGame_music':
                 start = path.join(self.dirctyudo, v.music_START)
-                pygame.mixer.stop()
+
                 pygame.mixer.music.load(start)
                 pygame.mixer.music.play()
+
                 v.MUSICS = ''
 
             case 'PlayGame_music':
-                start = path.join(self.dirctyudo, v.music_PLAY)
-                pygame.mixer.stop()
-                pygame.mixer.music.load(start)
+                play = path.join(self.dirctyudo, v.music_PLAY)
+
+                pygame.mixer.music.load(play)
                 pygame.mixer.music.play()
-                v.MUSICS = ''
+
+                v.MUSICS = 'Background_music'
+
+            case 'Background_music':
+                pass
 
     def World_sprits(self):
         # Set/Update sprits/draw
