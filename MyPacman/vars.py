@@ -26,8 +26,16 @@ FONT = 'PressStart2P.ttf'
 game_start = True
 game = False
 
+MUSICS = 'StartGame_music'
+
 # Images #
 LOGO_PACMAN = 'PACMANLOGO.png'
 
+# Sounds #
+music_START = 'intermission.wav'
+music_PLAY = 'munch.wav'
+
 # Colors #
 YELLOW = (244, 233, 51)
+WHITE = (255, 255, 255)
+GREY = (72, 72, 72)

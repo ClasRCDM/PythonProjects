@@ -37,6 +37,8 @@ class World:  # A Wordl
 
         self.widget_world = None
 
+        self.pacmanlogo = None
+
     def World_init(self):
         # Set itens world
         self.icon = path.join(getcwd(), v.MAIN_FILE, v.FILES[0], v.ICON)
@@ -50,7 +52,9 @@ class World:  # A Wordl
         self.running = True
 
         self.World_scenes()
+
         self.World_adofle()
+
         self.World_objcts()
 
     def World_objcts(self):
@@ -64,19 +68,29 @@ class World:  # A Wordl
             case 'StartGame':
                 self.World_texts('-Pressione uma tecla para jogar', 14,
                                  v.YELLOW, v.WIDTH / 2, 320)
+                self.World_texts('-Desenvolvido por Clas.RCDM-', 14,
+                                 v.WHITE, v.WIDTH / 2, 520)
+                self.World_texts('-Projeto inspirado por João Tinti-', 10,
+                                 v.GREY, v.WIDTH / 2, 550)
+
+            case 'PlayGame':
+                self.World_texts(f'FPS: {self.Fps.get_fps():.2f}', 10,
+                                 v.GREY, v.WIDTH - 60, 10)
 
     def World_time(self):
         # Time and Space world
         while self.Run:
 
             self.World_events()
+            self.World_functions()
 
             self.World_sprits()
             self.World_SpritsDraw()
 
-            self.World_functions()
-            self.World_widget()
             self.World_images()
+            self.World_widget()
+
+            self.World_sounds()
 
             self.Fps.tick(v.FPS)
             pygame.display.flip()
@@ -84,9 +98,11 @@ class World:  # A Wordl
     def World_events(self):
         # Add/Create events
         for ev in pygame.event.get():
+            # Exit to game
             if ev.type == pygame.QUIT and self.Run:
                 self.Run, self.running = False
                 exit()
+            # Init game
             if ev.type == pygame.KEYUP:
                 self.Game = True
                 self.Game_Start = False
@@ -94,6 +110,9 @@ class World:  # A Wordl
     def World_functions(self):
         if self.Game_Start and not self.Game:
             self.widget_world = 'StartGame'
+        else:
+            self.widget_world = 'PlayGame'
+            v.gamestart_music = 'PlayGame_music'
 
     def World_scenes(self):
         # Manage the scenes
@@ -106,21 +125,34 @@ class World:  # A Wordl
         self.dirctrymges = path.join(getcwd(), v.MAIN_FILE, v.FILES[0])
         self.dirctyudo = path.join(getcwd(), v.MAIN_FILE, v.FILES[1])
         self.dirctyfnts = path.join(getcwd(), v.MAIN_FILE, v.FILES[2])
-        print(self.dirctrymges)
 
         self.font_set = path.join(self.dirctyfnts, v.FONT)
 
     def World_images(self):
         # Call/add image
+        pacmanlogo = path.join(self.dirctrymges, v.LOGO_PACMAN)
+        self.pacmanlogo = pygame.image.load(pacmanlogo).convert_alpha()
+
         match self.widget_world:
             case 'StartGame':
-                pacmanlogo = path.join(self.dirctrymges, v.LOGO_PACMAN)
-                pacmanlogo = pygame.image.load(pacmanlogo).convert_alpha()
-                self.screen.blit(pacmanlogo, (6, 0))
+                self.screen.blit(self.pacmanlogo, (6, 0))
 
     def World_sounds(self):
         # Call/add sound
-        pass
+        match v.MUSICS:
+            case 'StartGame_music':
+                start = path.join(self.dirctyudo, v.music_START)
+                pygame.mixer.stop()
+                pygame.mixer.music.load(start)
+                pygame.mixer.music.play()
+                v.MUSICS = ''
+
+            case 'PlayGame_music':
+                start = path.join(self.dirctyudo, v.music_PLAY)
+                pygame.mixer.stop()
+                pygame.mixer.music.load(start)
+                pygame.mixer.music.play()
+                v.MUSICS = ''
 
     def World_sprits(self):
         # Set/Update sprits/draw

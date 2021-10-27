@@ -9,6 +9,7 @@ window_getsize = surface.get_rect()
 
 FPS = pygame.time.Clock()
 
+
 class World:
     def __init__(self):
         super(World, self).__init__()
@@ -96,6 +97,7 @@ touched = False
 MYFONT = pygame.font.SysFont('Arial', 12)
 
 Cubo.init_cubo()
+
 while True:
     # Cores
     surface.fill((255, 255, 255))
@@ -122,4 +124,4 @@ while True:
     surface.blit(Text_FPS, (WINDOW_SIZE[0] - 70, WINDOW_SIZE[1] - (WINDOW_SIZE[1] - 10)))
 
     pygame.display.flip()
-    FPS.tick(75)
+    FPS.tick(60)
