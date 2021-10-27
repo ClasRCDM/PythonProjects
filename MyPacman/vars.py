@@ -15,7 +15,7 @@ ICON = 'iconPac.png'
 
 BACKGROUND = (0, 0, 0)
 
-FPS = 60
+FPS = 20
 
 FONT = 'PressStart2P.ttf'
 
@@ -27,6 +27,10 @@ game_start = True
 game = False
 
 MUSICS = 'StartGame_music'
+
+# Animation texts #
+size_anim = 0
+pos_anim = 'up'
 
 # Images #
 LOGO_PACMAN = 'PACMANLOGO.png'

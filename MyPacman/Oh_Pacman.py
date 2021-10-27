@@ -26,18 +26,28 @@ class World:  # A Wordl
 
         self.font = None
 
-        # Itens World
+        ###############
+        # Itens World #
+
+        # # Sprites ##
         self.Sprites_world = None
 
+        # # Directories ##
         self.dirctrymges = None
         self.dirctyudo = None
 
+        # # Scenes ##
         self.Game_Start = None
         self.Game = None
 
+        # # WidGets ##
         self.widget_world = None
 
+        # # Images ##
         self.pacmanlogo = None
+
+        # # Texts ##
+        self.pos_anim = None
 
     def World_init(self):
         # Set itens world
@@ -50,6 +60,8 @@ class World:  # A Wordl
 
         self.Run = True
         self.running = True
+
+        self.pos_anim = 'up'
 
         self.World_scenes()
 
@@ -66,8 +78,9 @@ class World:  # A Wordl
     def World_widget(self):
         match self.widget_world:
             case 'StartGame':
-                self.World_texts('-Pressione uma tecla para jogar', 14,
-                                 v.YELLOW, v.WIDTH / 2, 320)
+                self.World_texts_animated('-Pressione uma tecla para jogar',
+                                          13, 'zipper', 0.65,
+                                          v.YELLOW, v.WIDTH / 2, 320)
                 self.World_texts('-Desenvolvido por Clas.RCDM-', 14,
                                  v.WHITE, v.WIDTH / 2, 520)
                 self.World_texts('-Projeto inspirado por João Tinti-', 10,
@@ -106,6 +119,7 @@ class World:  # A Wordl
             if ev.type == pygame.KEYUP:
                 self.Game, self.Game_Start = True, False
                 v.MUSICS = 'PlayGame_music'
+                v.FPS = 60
 
     def World_functions(self):
         if self.Game_Start and not self.Game:
@@ -162,13 +176,49 @@ class World:  # A Wordl
         # Set/Update sprits/draw
         self.Sprites_world.update()
 
-    def World_texts(self, text: str, size: int, color, x: int, y: int):
+    def World_texts(self,
+                    text: str,
+                    size: int,
+                    color,
+                    x: int,
+                    y: int):
+
         # Create/add/render texts
         font = pygame.font.Font(self.font_set, size)
 
         text_render = font.render(text, False, color)
         text_rect = text_render.get_rect()
         text_rect.midtop = (x, y)
+
+        self.screen.blit(text_render, text_rect)
+
+    def World_texts_animated(self,
+                             text: str,
+                             size: int,
+                             animation: str,
+                             anim_val: float,
+                             color,
+                             x: int,
+                             y: int):
+
+        # Create/add/render animated texts
+        v.size_anim += size if v.size_anim == 0 else 0
+
+        font = pygame.font.Font(self.font_set, int(v.size_anim))
+        font.set_underline(True)
+
+        text_render = font.render(text, False, color)
+        text_rect = text_render.get_rect()
+        text_rect.midtop = (x, y)
+
+        match animation:
+            case 'zipper':
+                if self.pos_anim == 'up':
+                    v.size_anim += anim_val
+                    if font.get_height() >= 16: self.pos_anim = 'down'
+                if self.pos_anim == 'down':
+                    v.size_anim -= anim_val
+                    if font.get_height() <= size: self.pos_anim = 'up'
 
         self.screen.blit(text_render, text_rect)
 
