@@ -6,9 +6,12 @@ HEIGHT = 600
 
 FUllSCREEN = (WIDTH, HEIGHT)
 
+MAIN_FILE = 'MyPacman'
+FILES = ('images', 'sounds', 'fonts')
+
 TITLE_GAME = 'Oh, PACman'
 
-ICON = 'MyPacman/iconPac.png'
+ICON = 'iconPac.png'
 
 BACKGROUND = (0, 0, 0)
 

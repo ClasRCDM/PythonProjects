@@ -17,6 +17,7 @@ class World:  # A Wordl
         pygame.display.set_caption(title)
 
         self.screen = None
+        self.icon = None
 
         self.Fps = None
 
@@ -38,8 +39,10 @@ class World:  # A Wordl
 
     def World_init(self):
         # Set itens world
+        self.icon = path.join(getcwd(), v.MAIN_FILE, v.FILES[0], v.ICON)
+
         self.screen = pygame.display.set_mode((v.FUllSCREEN))
-        pygame.display.set_icon(pygame.image.load(v.ICON))
+        pygame.display.set_icon(pygame.image.load(self.icon))
 
         self.Fps = pygame.time.Clock()
 
@@ -73,7 +76,7 @@ class World:  # A Wordl
 
             self.World_functions()
             self.World_widget()
-            # self.World_images()
+            self.World_images()
 
             self.Fps.tick(v.FPS)
             pygame.display.flip()
@@ -100,20 +103,20 @@ class World:  # A Wordl
 
     def World_adofle(self):
         # Load files, and audios
-        self.dirctrymges = path.join(getcwd(), "MyPacman/images")
-        self.dirctyudo = path.join(getcwd(), 'MyPacman/sounds')
-        self.dirctyfnts = path.join(getcwd(), 'MyPacman/fonts')
+        self.dirctrymges = path.join(getcwd(), v.MAIN_FILE, v.FILES[0])
+        self.dirctyudo = path.join(getcwd(), v.MAIN_FILE, v.FILES[1])
+        self.dirctyfnts = path.join(getcwd(), v.MAIN_FILE, v.FILES[2])
+        print(self.dirctrymges)
 
-        self.pacmanlogo = path.join(self.dirctrymges, v.LOGO_PACMAN)
         self.font_set = path.join(self.dirctyfnts, v.FONT)
 
     def World_images(self):
         # Call/add image
         match self.widget_world:
             case 'StartGame':
-                self.pacmanlogo = pygame.image.load(v.ICON).convert()
-
-        self.screen.blit(self.pacmanlogo, (0, 0))
+                pacmanlogo = path.join(self.dirctrymges, v.LOGO_PACMAN)
+                pacmanlogo = pygame.image.load(pacmanlogo).convert_alpha()
+                self.screen.blit(pacmanlogo, (6, 0))
 
     def World_sounds(self):
         # Call/add sound
