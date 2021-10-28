@@ -1,7 +1,8 @@
 import pygame
 
 import vars as v
-import Class.text as t
+import Class.texts as t
+import Class.sounds as s
 
 from os import path, getcwd
 from sys import exit
@@ -15,8 +16,6 @@ class World:  # A Wordl
         super().__init__()
         # Build game
         pygame.init()
-        pygame.font.init()
-        pygame.mixer.init()
 
         pygame.display.set_caption(title)
 
@@ -82,11 +81,13 @@ class World:  # A Wordl
         match self.widget_world:
             case 'StartGame':
                 self.World_text_menu()
+                self.World_sounds()
 
             case 'PlayGame':
-                t.Text(self.screen, self.font_set,
+                t.text(self.screen, self.font_set,
                        f'FPS: {self.Fps.get_fps():.2f}', 10,
                        v.GREY, v.WIDTH - 60, 10, False)
+                self.World_sounds()
 
     def World_time(self):
         # Time and Space world
@@ -102,8 +103,6 @@ class World:  # A Wordl
 
             self.World_images()
             self.World_widget()
-
-            self.World_sounds()
 
             self.Fps.tick(v.FPS)
             pygame.display.flip()
@@ -158,21 +157,14 @@ class World:  # A Wordl
         match v.MUSICS:
             case 'StartGame_music':
                 start_dirc = path.join(self.dirctyudo, v.music_START)
-
-                start = pygame.mixer.Sound(start_dirc)
-
-                start.fadeout(500)
-                start.play()
-                start.set_volume(0.1)
+                s.sound(start_dirc, 0.1, True)
 
                 v.MUSICS = ''
 
             case 'PlayGame_music':
                 play = path.join(self.dirctyudo, v.music_PLAY)
-
-                pygame.mixer.music.load(play)
+                s.sound(play, play=True)
                 pygame.mixer.fadeout(500)
-                pygame.mixer.music.play()
 
                 v.MUSICS = 'Background_music'
 
@@ -180,10 +172,7 @@ class World:  # A Wordl
                 background_music_dirc = path.join(
                     self.dirctyudo, v.music_BACKGROUND)
 
-                background_music = pygame.mixer.Sound(background_music_dirc)
-
-                background_music.play()
-                background_music.set_volume(0.2)
+                s.sound(background_music_dirc, 0.5, play=True, loop=True)
 
                 v.MUSICS = ''
 
@@ -193,17 +182,17 @@ class World:  # A Wordl
 
     def World_text_menu(self):
         # Load/render texts
-        t.Text(self.screen, self.font_set, '-Pressione uma tecla para jogar',
+        t.text(self.screen, self.font_set, '-Pressione uma tecla para jogar',
                15, v.YELLOW, v.WIDTH / 2, 320, True)  # Press a key to play
 
-        t.Text(self.screen, self.font_set, '-Desenvolvido por',
+        t.text(self.screen, self.font_set, '-Desenvolvido por',
                12, v.WHITE, v.WIDTH / 2 - 65, 520, True)
-        t.Text(self.screen, self.font_set, 'ClasRCDM-',
+        t.text(self.screen, self.font_set, 'ClasRCDM-',
                12, v.WHITE, v.WIDTH / 2 + 105, 520, True)  # Developed by ClasRCDM
 
-        t.Text(self.screen, self.font_set, '-Projeto inspirado por',
+        t.text(self.screen, self.font_set, '-Projeto inspirado por',
                11, v.GREY, v.WIDTH / 2 - 75, 550, True)
-        t.Text(self.screen, self.font_set, 'João Tinti-',
+        t.text(self.screen, self.font_set, 'João Tinti-',
                11, v.GREY, v.WIDTH / 2 + 115, 550, True)  # Project inspired by João Tinti
 
     def World_SpritsDraw(self):

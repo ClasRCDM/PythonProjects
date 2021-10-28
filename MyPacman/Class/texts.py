@@ -1,7 +1,7 @@
 from pygame import font
 
 
-class Text:  # Texts
+class text:  # Texts
     def __init__(self, screen, directory: str,
                  txt: str, size: int, color,
                  x: int = 0, y: int = 0,
@@ -10,17 +10,18 @@ class Text:  # Texts
         # Create/Add texts
         font.init()
 
-        self.size = size
+        self.size: int = size
 
-        self.txt = txt
-        self.pixel = pixel
+        self.txt: str = txt
+        self.pixel: bool = pixel
         self.color = color
 
-        self.x = x
-        self.y = y
+        self.x: int = x
+        self.y: int = y
 
-        self.directory = directory
+        self.directory: str = directory
 
+        # # To create ##
         text_font = font.Font(self.directory, self.size)
 
         text_render = text_font.render(self.txt, self.pixel, self.color)
