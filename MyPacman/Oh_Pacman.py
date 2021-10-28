@@ -114,10 +114,13 @@ class World:  # A Wordl
             # Exit to game
             if ev.type == pygame.QUIT and self.Run:
                 self.Run, self.running = False
+
                 exit()
+
             # Init game
             if ev.type == pygame.KEYUP:
                 self.Game, self.Game_Start = True, False
+
                 v.MUSICS = 'PlayGame_music'
                 v.FPS = 60
 
@@ -154,10 +157,13 @@ class World:  # A Wordl
         # Call/add sound
         match v.MUSICS:
             case 'StartGame_music':
-                start = path.join(self.dirctyudo, v.music_START)
+                start_dirc = path.join(self.dirctyudo, v.music_START)
 
-                pygame.mixer.music.load(start)
-                pygame.mixer.music.play()
+                start = pygame.mixer.Sound(start_dirc)
+
+                start.fadeout(500)
+                start.play()
+                start.set_volume(0.1)
 
                 v.MUSICS = ''
 
@@ -165,12 +171,20 @@ class World:  # A Wordl
                 play = path.join(self.dirctyudo, v.music_PLAY)
 
                 pygame.mixer.music.load(play)
+                pygame.mixer.fadeout(500)
                 pygame.mixer.music.play()
 
                 v.MUSICS = 'Background_music'
 
             case 'Background_music':
-                pass
+                background_music_dirc = path.join(self.dirctyudo, v.music_BACKGROUND)
+
+                background_music = pygame.mixer.Sound(background_music_dirc)
+
+                background_music.play()
+                background_music.set_volume(0.2)
+
+                v.MUSICS = ''
 
     def World_sprits(self):
         # Set/Update sprits/draw
@@ -215,10 +229,12 @@ class World:  # A Wordl
             case 'zipper':
                 if self.pos_anim == 'up':
                     v.size_anim += anim_val
-                    if font.get_height() >= 16: self.pos_anim = 'down'
+                    if font.get_height() >= 16:
+                        self.pos_anim = 'down'
                 if self.pos_anim == 'down':
                     v.size_anim -= anim_val
-                    if font.get_height() <= size: self.pos_anim = 'up'
+                    if font.get_height() <= size:
+                        self.pos_anim = 'up'
 
         self.screen.blit(text_render, text_rect)
 

@@ -38,6 +38,7 @@ LOGO_PACMAN = 'PACMANLOGO.png'
 # Sounds #
 music_START = 'intermission.wav'
 music_PLAY = 'munch_1.wav'
+music_BACKGROUND = 'songs/ManThemeRemix_arsenic1987.mp3'
 
 # Colors #
 YELLOW = (244, 233, 51)
