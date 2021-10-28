@@ -67,6 +67,7 @@ class Cubo:
     def check_touched(self):
         if self.cubo.collidepoint(ev.pos):
             self.touched = True
+            print('oi')
             pygame.mouse.get_rel()
 
     def move_touched(self):

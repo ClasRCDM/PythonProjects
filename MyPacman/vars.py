@@ -28,10 +28,6 @@ game = False
 
 MUSICS = 'StartGame_music'
 
-# Animation texts #
-size_anim = 0
-pos_anim = 'up'
-
 # Images #
 LOGO_PACMAN = 'PACMANLOGO.png'
 

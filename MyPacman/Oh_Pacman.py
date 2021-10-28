@@ -1,5 +1,7 @@
 import pygame
+
 import vars as v
+import Class.text as t
 
 from os import path, getcwd
 from sys import exit
@@ -10,10 +12,12 @@ from sys import exit
 #######################
 class World:  # A Wordl
     def __init__(self, title):
+        super().__init__()
         # Build game
         pygame.init()
-        pygame.mixer.init()
         pygame.font.init()
+        pygame.mixer.init()
+
         pygame.display.set_caption(title)
 
         self.screen = None
@@ -25,6 +29,8 @@ class World:  # A Wordl
         self.running = None
 
         self.font = None
+
+        self.point_mouse = None
 
         ###############
         # Itens World #
@@ -47,7 +53,6 @@ class World:  # A Wordl
         self.pacmanlogo = None
 
         # # Texts ##
-        self.pos_anim = None
 
     def World_init(self):
         # Set itens world
@@ -60,8 +65,6 @@ class World:  # A Wordl
 
         self.Run = True
         self.running = True
-
-        self.pos_anim = 'up'
 
         self.World_scenes()
 
@@ -78,21 +81,18 @@ class World:  # A Wordl
     def World_widget(self):
         match self.widget_world:
             case 'StartGame':
-                self.World_texts_animated('-Pressione uma tecla para jogar',
-                                          13, 'zipper', 0.65,
-                                          v.YELLOW, v.WIDTH / 2, 320)
-                self.World_texts('-Desenvolvido por Clas.RCDM-', 14,
-                                 v.WHITE, v.WIDTH / 2, 520)
-                self.World_texts('-Projeto inspirado por João Tinti-', 10,
-                                 v.GREY, v.WIDTH / 2, 550)
+                self.World_text_menu()
 
             case 'PlayGame':
-                self.World_texts(f'FPS: {self.Fps.get_fps():.2f}', 10,
-                                 v.GREY, v.WIDTH - 60, 10)
+                t.Text(self.screen, self.font_set,
+                       f'FPS: {self.Fps.get_fps():.2f}', 10,
+                       v.GREY, v.WIDTH - 60, 10, False)
 
     def World_time(self):
         # Time and Space world
         while self.Run:
+
+            self.point_mouse = pygame.mouse.get_pos()
 
             self.World_events()
             self.World_functions()
@@ -177,7 +177,8 @@ class World:  # A Wordl
                 v.MUSICS = 'Background_music'
 
             case 'Background_music':
-                background_music_dirc = path.join(self.dirctyudo, v.music_BACKGROUND)
+                background_music_dirc = path.join(
+                    self.dirctyudo, v.music_BACKGROUND)
 
                 background_music = pygame.mixer.Sound(background_music_dirc)
 
@@ -190,53 +191,20 @@ class World:  # A Wordl
         # Set/Update sprits/draw
         self.Sprites_world.update()
 
-    def World_texts(self,
-                    text: str,
-                    size: int,
-                    color,
-                    x: int,
-                    y: int):
+    def World_text_menu(self):
+        # Load/render texts
+        t.Text(self.screen, self.font_set, '-Pressione uma tecla para jogar',
+               15, v.YELLOW, v.WIDTH / 2, 320, True)  # Press a key to play
 
-        # Create/add/render texts
-        font = pygame.font.Font(self.font_set, size)
+        t.Text(self.screen, self.font_set, '-Desenvolvido por',
+               12, v.WHITE, v.WIDTH / 2 - 65, 520, True)
+        t.Text(self.screen, self.font_set, 'ClasRCDM-',
+               12, v.WHITE, v.WIDTH / 2 + 105, 520, True)  # Developed by ClasRCDM
 
-        text_render = font.render(text, False, color)
-        text_rect = text_render.get_rect()
-        text_rect.midtop = (x, y)
-
-        self.screen.blit(text_render, text_rect)
-
-    def World_texts_animated(self,
-                             text: str,
-                             size: int,
-                             animation: str,
-                             anim_val: float,
-                             color,
-                             x: int,
-                             y: int):
-
-        # Create/add/render animated texts
-        v.size_anim += size if v.size_anim == 0 else 0
-
-        font = pygame.font.Font(self.font_set, int(v.size_anim))
-        font.set_underline(True)
-
-        text_render = font.render(text, False, color)
-        text_rect = text_render.get_rect()
-        text_rect.midtop = (x, y)
-
-        match animation:
-            case 'zipper':
-                if self.pos_anim == 'up':
-                    v.size_anim += anim_val
-                    if font.get_height() >= 16:
-                        self.pos_anim = 'down'
-                if self.pos_anim == 'down':
-                    v.size_anim -= anim_val
-                    if font.get_height() <= size:
-                        self.pos_anim = 'up'
-
-        self.screen.blit(text_render, text_rect)
+        t.Text(self.screen, self.font_set, '-Projeto inspirado por',
+               11, v.GREY, v.WIDTH / 2 - 75, 550, True)
+        t.Text(self.screen, self.font_set, 'João Tinti-',
+               11, v.GREY, v.WIDTH / 2 + 115, 550, True)  # Project inspired by João Tinti
 
     def World_SpritsDraw(self):
         # Add/set draw about sprits
