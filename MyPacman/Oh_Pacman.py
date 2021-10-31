@@ -190,18 +190,18 @@ class World:  # A World l
 
     def World_text_menu(self):
         # Load/render texts
-        self.Start_text = t.text(self.screen, self.font_set, v.text_START, 15, v.YELLOW,
-                                 v.WIDTH / 2, 320, True)  # Press a key to play
+        self.Start_text = t.text(self.screen, self.font_set, v.text_START, 15,
+                                 v.YELLOW, v.WIDTH / 2, 320, True)  # Press a key to play
 
     def World_text_menu_events(self, ev):
         self.Start_text.point(pygame.mouse.get_pos(), ev)
 
     def World_text_menu_update(self):
         # Update texts
-        self.Start_text.animation(True, '-zoon', 'Touched')
+        self.Start_text.animation(True, 1, '-zoon', 'one_click', 'Touched')
         self.Start_text.draw()
 
-        '''t.text(self.screen, self.font_set, '-Desenvolvido por',
+        t.text(self.screen, self.font_set, '-Desenvolvido por',
                12, v.WHITE, v.WIDTH / 2 - 65, 520, True)
         t.text(self.screen, self.font_set, 'ClasRCDM-',
                12, v.WHITE, v.WIDTH / 2 + 105, 520, True)  # Developed by ClasRCDM
@@ -209,7 +209,7 @@ class World:  # A World l
         t.text(self.screen, self.font_set, '-Projeto inspirado por',
                11, v.GREY, v.WIDTH / 2 - 75, 550, True)
         t.text(self.screen, self.font_set, 'João Tinti-',
-               11, v.GREY, v.WIDTH / 2 + 115, 550, True)  # Project inspired by João Tinti'''
+               11, v.GREY, v.WIDTH / 2 + 115, 550, True)  # Project inspired by João Tinti
 
     def World_SpritsDraw(self):
         # Add/set draw about sprits

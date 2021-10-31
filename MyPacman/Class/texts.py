@@ -1,4 +1,4 @@
-from pygame import font, event, MOUSEBUTTONUP, MOUSEBUTTONDOWN
+from pygame import font, MOUSEBUTTONUP, MOUSEBUTTONDOWN
 
 
 class text:  # Texts
@@ -11,6 +11,7 @@ class text:  # Texts
         font.init()
 
         self.size: int = size
+        self.size_normal: int = size
 
         self.txt: str = txt
         self.pixel: bool = pixel
@@ -24,8 +25,11 @@ class text:  # Texts
 
         # $ Animation $ #
         self.animation_if: bool = False
+
         self.animation_type: str = 'None'
         self.animation_style: str = 'None'
+    
+        self.animation_constant: str = 'None'
 
         # $ Mouse Point $ #
         self.mouse_input: bool = False
@@ -46,29 +50,35 @@ class text:  # Texts
             self.screen.blit(text_render, self.text_rect)
 
     def animation(self,
-                  animation: bool = True,
-                  type_animation: str = 'None',
+                  animation: bool = True, value_move: int = 1,
+                  type_animation: str = 'None', constant: str = 'repeat',
                   type: str = 'None'):  # Animation texts
 
         self.animation_if = animation
+        self.animation_constant = constant
 
-        anim_val = 1
+        anim_val = value_move
 
         if type == 'Hover':
             self.mouse_input = True if self.mouse_action_h == type else False
         elif type == 'Touched':
             self.mouse_input = True if self.mouse_action_t == type else False
 
-        if self.animation_if and self.mouse_input:
+        if self.animation_if:
             match type_animation:
                 case '+zoon':
                     self.size += anim_val
-                    '''if 15 >= (self.size + 3):
-                        self.animation_if = 'None'''
+
                 case '-zoon':
-                    self.size -= anim_val
-                    '''if 15 <= (self.size - 3):
-                        self.animation_if = 'None'''
+                    if self.animation_constant == 'repeat' and self.mouse_input:
+                        self.size -= anim_val
+                    elif self.animation_constant == 'one_click' and self.mouse_input:
+                        self.size = -anim_val
+
+                    if self.size <= (self.size_normal - 3) and self.animation_constant == 'one_click' and self.mouse_input:
+                        self.size = (self.size_normal - 3)
+                    elif self.size <= (self.size_normal - 3) and not self.mouse_input:
+                        self.size = self.size_normal
 
     def point(self, point_mouse, ev):  # Check mouse points
         if self.text_rect.collidepoint(point_mouse):
@@ -76,11 +86,9 @@ class text:  # Texts
         else: self.mouse_action_h = 'None'
 
         if ev.type == MOUSEBUTTONUP:
-            print('down')
             self.mouse_action_t = 'None'
         if ev.type == MOUSEBUTTONDOWN:
             if self.text_rect.collidepoint(point_mouse):
-                print('up')
                 self.mouse_action_t = 'Touched'
 
     def draw(self):
