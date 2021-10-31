@@ -10,8 +10,8 @@ from sys import exit
 
 ########################
 # Configuring my World #
-#######################
-class World:  # A Wordl
+########################
+class World:  # A World l
     def __init__(self, title):
         super().__init__()
         # Build game
