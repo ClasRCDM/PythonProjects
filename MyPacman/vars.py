@@ -1,4 +1,4 @@
-# absolute variables of the world #
+# /absolute variables of the world\ #
 ###################################
 
 WIDTH = 480
@@ -19,7 +19,7 @@ FPS = 20
 
 FONT = 'PressStart2P.ttf'
 
-# global variables #
+# /global variables\ #
 ####################
 
 # Scenes #
@@ -40,3 +40,8 @@ music_BACKGROUND = 'songs/ManThemeRemix_arsenic1987.mp3'
 YELLOW = (244, 233, 51)
 WHITE = (255, 255, 255)
 GREY = (72, 72, 72)
+
+# /Texts Wold\ #
+################
+
+text_START = '-Pressione uma tecla para jogar'

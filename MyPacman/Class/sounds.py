@@ -15,11 +15,12 @@ class sound:  # Sounds
         self.volume: float = volume
         self.loop: bool = loop
 
-        # # To create ##
+        # $ To create $ #
         start = mixer.Sound(self.directory)
         start.set_volume(self.volume)
 
-        if self.play: 
+        # $ Sound Loop $ #
+        if self.play:
             if self.loop: start.play(-1)
             else: start.play()
         else: self.start.stop()

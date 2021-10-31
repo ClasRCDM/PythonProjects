@@ -31,27 +31,28 @@ class World:  # A World l
 
         self.point_mouse = None
 
-        ###############
-        # Itens World #
+        #################
+        # \Itens World/ #
 
-        # # Sprites ##
+        # $ Sprites $ #
         self.Sprites_world = None
 
-        # # Directories ##
+        # $ Directories $ #
         self.dirctrymges = None
         self.dirctyudo = None
 
-        # # Scenes ##
+        # $ Scenes $ #
         self.Game_Start = None
         self.Game = None
 
-        # # WidGets ##
+        # $ WidGets $ #
         self.widget_world = None
 
-        # # Images ##
+        # $ Images $ #
         self.pacmanlogo = None
 
-        # # Texts ##
+        # $ Texts $ #
+        self.Start_text = None
 
     def World_init(self):
         # Set itens world
@@ -65,9 +66,11 @@ class World:  # A World l
         self.Run = True
         self.running = True
 
-        self.World_scenes()
-
         self.World_adofle()
+
+        self.World_text_menu()
+
+        self.World_scenes()
 
         self.World_objcts()
 
@@ -80,7 +83,7 @@ class World:  # A World l
     def World_widget(self):
         match self.widget_world:
             case 'StartGame':
-                self.World_text_menu()
+                self.World_text_menu_update()
                 self.World_sounds()
 
             case 'PlayGame':
@@ -88,6 +91,9 @@ class World:  # A World l
                        f'FPS: {self.Fps.get_fps():.2f}', 10,
                        v.GREY, v.WIDTH - 60, 10, False)
                 self.World_sounds()
+
+    def World_widget_events(self, ev):
+        self.World_text_menu_events(ev)
 
     def World_time(self):
         # Time and Space world
@@ -122,6 +128,8 @@ class World:  # A World l
 
                 v.MUSICS = 'PlayGame_music'
                 v.FPS = 60
+
+            self.World_widget_events(ev)
 
     def World_functions(self):
         if self.Game_Start and not self.Game:
@@ -182,10 +190,18 @@ class World:  # A World l
 
     def World_text_menu(self):
         # Load/render texts
-        t.text(self.screen, self.font_set, '-Pressione uma tecla para jogar',
-               15, v.YELLOW, v.WIDTH / 2, 320, True)  # Press a key to play
+        self.Start_text = t.text(self.screen, self.font_set, v.text_START, 15, v.YELLOW,
+                                 v.WIDTH / 2, 320, True)  # Press a key to play
 
-        t.text(self.screen, self.font_set, '-Desenvolvido por',
+    def World_text_menu_events(self, ev):
+        self.Start_text.point(pygame.mouse.get_pos(), ev)
+
+    def World_text_menu_update(self):
+        # Update texts
+        self.Start_text.animation(True, '-zoon', 'Touched')
+        self.Start_text.draw()
+
+        '''t.text(self.screen, self.font_set, '-Desenvolvido por',
                12, v.WHITE, v.WIDTH / 2 - 65, 520, True)
         t.text(self.screen, self.font_set, 'ClasRCDM-',
                12, v.WHITE, v.WIDTH / 2 + 105, 520, True)  # Developed by ClasRCDM
@@ -193,7 +209,7 @@ class World:  # A World l
         t.text(self.screen, self.font_set, '-Projeto inspirado por',
                11, v.GREY, v.WIDTH / 2 - 75, 550, True)
         t.text(self.screen, self.font_set, 'João Tinti-',
-               11, v.GREY, v.WIDTH / 2 + 115, 550, True)  # Project inspired by João Tinti
+               11, v.GREY, v.WIDTH / 2 + 115, 550, True)  # Project inspired by João Tinti'''
 
     def World_SpritsDraw(self):
         # Add/set draw about sprits
