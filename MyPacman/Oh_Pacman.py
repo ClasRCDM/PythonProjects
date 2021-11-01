@@ -201,7 +201,7 @@ class World:  # A World l
     def World_text_menu_update(self):
         # Update texts
         self.Itens_world['Start_text'].animation(
-            True, 1, 3, '+zoon', 'one_click', 'Touched')
+            True, 1, 3, '-zoon', 'one_click', 'Touched')
         self.Itens_world['Start_text'].draw()
 
         t.text(self.screen, self.font_set, '-Desenvolvido por',
