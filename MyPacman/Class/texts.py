@@ -28,7 +28,7 @@ class text:  # Texts
 
         self.animation_type: str = 'None'
         self.animation_style: str = 'None'
-    
+
         self.animation_constant: str = 'None'
 
         # $ Mouse Point $ #
@@ -37,17 +37,18 @@ class text:  # Texts
         self.mouse_action_t: str = 'None'
 
         # $ To create $ #
+        self.text_rect = None
+        self.render()
+
+    def render(self):
+        # $ To create $ #
         text_font = font.Font(self.directory, self.size)
         text_render = text_font.render(self.txt, self.pixel, self.color)
-
-        self.text_font = None
-        self.text_render = None
 
         self.text_rect = text_render.get_rect()
         self.text_rect.midtop = (self.x, self.y)
 
-        if not self.animation_if:
-            self.screen.blit(text_render, self.text_rect)
+        self.screen.blit(text_render, self.text_rect)
 
     def animation(self,
                   animation: bool = True, value_move: int = 1,
@@ -59,43 +60,39 @@ class text:  # Texts
 
         anim_val = value_move
 
+        self.check_point(type)
+
+        if self.animation_if:
+            self.type_animation(type_animation, anim_val)
+
+    def type_animation(self, type_animation, anim_val):
+        match type_animation:
+            case '+zoon':
+                if self.animation_constant == 'repeat' and self.mouse_input: self.size += anim_val
+                elif self.animation_constant == 'one_click' and self.mouse_input: self.size = anim_val
+
+                if self.size <= (self.size_normal + 3) and self.animation_constant == 'one_click' and self.mouse_input: self.size = (self.size_normal + 3)
+                elif self.size <= (self.size_normal + 3) and not self.mouse_input: self.size = self.size_normal
+
+            case '-zoon':
+                if self.animation_constant == 'repeat' and self.mouse_input: self.size -= anim_val
+                elif self.animation_constant == 'one_click' and self.mouse_input: self.size = -anim_val
+
+                if self.size <= (self.size_normal - 3) and self.animation_constant == 'one_click' and self.mouse_input: self.size = (self.size_normal - 3)
+                elif self.size <= (self.size_normal - 3) and not self.mouse_input: self.size = self.size_normal
+
+    def point(self, point_mouse, ev):  # Check mouse points
+        self.mouse_action_h = 'Hover' if self.text_rect.collidepoint(point_mouse) else 'None'
+
+        if ev.type == MOUSEBUTTONUP: self.mouse_action_t = 'None'
+        if ev.type == MOUSEBUTTONDOWN:
+            self.mouse_action_t = 'Touched' if self.text_rect.collidepoint(point_mouse) else 'None'
+
+    def check_point(self, type):
         if type == 'Hover':
             self.mouse_input = True if self.mouse_action_h == type else False
         elif type == 'Touched':
             self.mouse_input = True if self.mouse_action_t == type else False
 
-        if self.animation_if:
-            match type_animation:
-                case '+zoon':
-                    self.size += anim_val
-
-                case '-zoon':
-                    if self.animation_constant == 'repeat' and self.mouse_input:
-                        self.size -= anim_val
-                    elif self.animation_constant == 'one_click' and self.mouse_input:
-                        self.size = -anim_val
-
-                    if self.size <= (self.size_normal - 3) and self.animation_constant == 'one_click' and self.mouse_input:
-                        self.size = (self.size_normal - 3)
-                    elif self.size <= (self.size_normal - 3) and not self.mouse_input:
-                        self.size = self.size_normal
-
-    def point(self, point_mouse, ev):  # Check mouse points
-        if self.text_rect.collidepoint(point_mouse):
-            self.mouse_action_h = 'Hover'
-        else: self.mouse_action_h = 'None'
-
-        if ev.type == MOUSEBUTTONUP:
-            self.mouse_action_t = 'None'
-        if ev.type == MOUSEBUTTONDOWN:
-            if self.text_rect.collidepoint(point_mouse):
-                self.mouse_action_t = 'Touched'
-
     def draw(self):
-        text_font = font.Font(self.directory, self.size)
-        text_render = text_font.render(self.txt, self.pixel, self.color)
-
-        self.text_rect = text_render.get_rect()
-        self.text_rect.midtop = (self.x, self.y)
-
-        self.screen.blit(text_render, self.text_rect)
+        self.render()
