@@ -16,9 +16,9 @@ class World:  # A World l
         super().__init__()
         # Build game
         pygame.init()
-
         pygame.display.set_caption(title)
 
+        # &#########################& #
         self.screen = None
         self.icon = None
 
@@ -30,6 +30,7 @@ class World:  # A World l
         self.font = None
 
         self.point_mouse = None
+        # &#########################& #
 
         #################
         # \Itens World/ #
@@ -198,7 +199,7 @@ class World:  # A World l
 
     def World_text_menu_update(self):
         # Update texts
-        self.Start_text.animation(True, 1, '-zoon', 'one_click', 'Touched')
+        self.Start_text.animation(True, 1, 3, '+zoon', 'one_click', 'Touched')
         self.Start_text.draw()
 
         t.text(self.screen, self.font_set, '-Desenvolvido por',

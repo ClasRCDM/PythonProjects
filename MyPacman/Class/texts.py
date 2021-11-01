@@ -10,6 +10,7 @@ class text:  # Texts
         # Create/Add texts
         font.init()
 
+        # &#########################& #
         self.size: int = size
         self.size_normal: int = size
 
@@ -30,6 +31,7 @@ class text:  # Texts
         self.animation_style: str = 'None'
 
         self.animation_constant: str = 'None'
+        # &#########################& #
 
         # $ Mouse Point $ #
         self.mouse_input: bool = False
@@ -38,6 +40,7 @@ class text:  # Texts
 
         # $ To create $ #
         self.text_rect = None
+        self.limit: int = 1
         self.render()
 
     def render(self):
@@ -51,12 +54,13 @@ class text:  # Texts
         self.screen.blit(text_render, self.text_rect)
 
     def animation(self,
-                  animation: bool = True, value_move: int = 1,
+                  animation: bool = True, value_move: int = 1, limit: int = 3,
                   type_animation: str = 'None', constant: str = 'repeat',
                   type: str = 'None'):  # Animation texts
 
         self.animation_if = animation
         self.animation_constant = constant
+        self.limit = limit
 
         anim_val = value_move
 
@@ -71,15 +75,15 @@ class text:  # Texts
                 if self.animation_constant == 'repeat' and self.mouse_input: self.size += anim_val
                 elif self.animation_constant == 'one_click' and self.mouse_input: self.size = anim_val
 
-                if self.size <= (self.size_normal + 3) and self.animation_constant == 'one_click' and self.mouse_input: self.size = (self.size_normal + 3)
-                elif self.size <= (self.size_normal + 3) and not self.mouse_input: self.size = self.size_normal
+                if self.size <= (self.size_normal + self.limit) and self.animation_constant == 'one_click' and self.mouse_input: self.size = (self.size_normal + self.limit)
+                elif self.size <= (self.size_normal + self.limit) and not self.mouse_input: self.size = self.size_normal
 
             case '-zoon':
                 if self.animation_constant == 'repeat' and self.mouse_input: self.size -= anim_val
                 elif self.animation_constant == 'one_click' and self.mouse_input: self.size = -anim_val
 
-                if self.size <= (self.size_normal - 3) and self.animation_constant == 'one_click' and self.mouse_input: self.size = (self.size_normal - 3)
-                elif self.size <= (self.size_normal - 3) and not self.mouse_input: self.size = self.size_normal
+                if self.size <= (self.size_normal - self.limit) and self.animation_constant == 'one_click' and self.mouse_input: self.size = (self.size_normal - self.limit)
+                elif self.size <= (self.size_normal - self.limit) and not self.mouse_input: self.size = self.size_normal
 
     def point(self, point_mouse, ev):  # Check mouse points
         self.mouse_action_h = 'Hover' if self.text_rect.collidepoint(point_mouse) else 'None'
