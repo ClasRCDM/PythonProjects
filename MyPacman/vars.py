@@ -15,7 +15,7 @@ ICON = 'iconPac.png'
 
 BACKGROUND = (0, 0, 0)
 
-FPS = 20
+FPS = 60
 
 FONT = 'PressStart2P.ttf'
 

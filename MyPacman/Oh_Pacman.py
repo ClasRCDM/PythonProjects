@@ -60,6 +60,7 @@ class World:  # A World l
         self.World_adofle()
 
         self.World_text_menu()
+        self.World_footer()
 
         self.World_scenes()
 
@@ -75,13 +76,18 @@ class World:  # A World l
         match self.Itens_world['widget_world']:
             case 'StartGame':
                 self.World_text_menu_update()
+                self.World_footer_update()
                 self.World_sounds()
+
+                v.FPS = 7
 
             case 'PlayGame':
                 t.text(self.screen, self.font_set,
                        f'FPS: {self.Fps.get_fps():.2f}', 10,
                        v.GREY, v.WIDTH - 60, 10, False)
                 self.World_sounds()
+
+                v.FPS = 60
 
     def World_widget_events(self, ev):
         if self.Itens_world['Game_Start'] and not self.Itens_world['Game']:
@@ -102,8 +108,8 @@ class World:  # A World l
             self.World_images()
             self.World_widget()
 
-            self.Fps.tick(v.FPS)
             pygame.display.flip()
+            self.Fps.tick(v.FPS)
 
     def World_events(self):
         # Add/Create events
@@ -121,9 +127,10 @@ class World:  # A World l
 
                 del self.Itens_world['pacmanlogo']
                 del self.Itens_world['Start_text']
+                del self.Itens_world['DevClasRCDM']
+                del self.Itens_world['InsJoãoTinti']
 
                 v.MUSICS = 'PlayGame_music'
-                v.FPS = 60
 
             self.World_widget_events(ev)
 
@@ -189,11 +196,33 @@ class World:  # A World l
         # Set/Update sprits/draw
         self.Itens_world['Sprites_world'].update()
 
+    def World_footer(self):
+        self.Itens_world['DevClasRCDM'] = t.text(
+            self.screen, self.font_set, 'ClasRCDM-',
+            12, v.WHITE, v.WIDTH / 2 + 105, 520, True)  # by ClasRCDM
+
+        self.Itens_world['InsJoãoTinti'] = t.text(
+            self.screen, self.font_set, 'João Tinti-',
+            11, v.GREY, v.WIDTH / 2 + 115, 550, True)  # by João Tinti
+
+    def World_footer_update(self):
+        t.text(self.screen, self.font_set, '-Desenvolvido por',
+               12, v.WHITE, v.WIDTH / 2 - 65, 520, True)  # Developed
+        self.Itens_world['DevClasRCDM'].animation(
+            True, 1, 1, '+backforth', 'repeat', 'Touched')
+        self.Itens_world['DevClasRCDM'].draw()
+
+        t.text(self.screen, self.font_set, '-Projeto inspirado por',
+               11, v.GREY, v.WIDTH / 2 - 75, 550, True)  # Project inspired
+        self.Itens_world['InsJoãoTinti'].animation(
+            True, 1, 1, '-backforth', 'repeat', 'Touched')
+        self.Itens_world['InsJoãoTinti'].draw()
+
     def World_text_menu(self):
         # Load/render texts
         self.Itens_world['Start_text'] = t.text(
             self.screen, self.font_set, v.text_START, 15,
-            v.YELLOW, v.WIDTH / 2, 320, True)  # Press a key to play
+            v.YELLOW, v.WIDTH / 2, 320, True)  # Press a key to play 
 
     def World_text_menu_events(self, ev):
         self.Itens_world['Start_text'].point(pygame.mouse.get_pos(), ev)
@@ -201,18 +230,8 @@ class World:  # A World l
     def World_text_menu_update(self):
         # Update texts
         self.Itens_world['Start_text'].animation(
-            True, 1, 3, '-zoon', 'one_click', 'Touched')
+            True, 1, 2, '-zoon', 'one_click', 'Touched')
         self.Itens_world['Start_text'].draw()
-
-        t.text(self.screen, self.font_set, '-Desenvolvido por',
-               12, v.WHITE, v.WIDTH / 2 - 65, 520, True)  # Developed
-        t.text(self.screen, self.font_set, 'ClasRCDM-',
-               12, v.WHITE, v.WIDTH / 2 + 105, 520, True)  # by ClasRCDM
-
-        t.text(self.screen, self.font_set, '-Projeto inspirado por',
-               11, v.GREY, v.WIDTH / 2 - 75, 550, True)  # Project inspired
-        t.text(self.screen, self.font_set, 'João Tinti-',
-               11, v.GREY, v.WIDTH / 2 + 115, 550, True)  # by João Tinti
 
     def World_SpritsDraw(self):
         # Add/set draw about sprits

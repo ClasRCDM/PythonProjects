@@ -1,4 +1,4 @@
-from pygame import font, MOUSEBUTTONUP, MOUSEBUTTONDOWN
+from pygame import font, MOUSEBUTTONUP, MOUSEBUTTONDOWN, time
 
 
 class text:  # Texts
@@ -32,8 +32,10 @@ class text:  # Texts
         self.Itens_texts = {}
 
         # $ Animation $ #
+        self.Itens_texts['FPS'] = 60
         # $ Mouse Point $ #
         self.mouse_action_t: str = 'None'
+        self.Itens_texts['state'] = 'None'
         # $ To create $ #
 
         # \Itens Texts/ #
@@ -54,11 +56,12 @@ class text:  # Texts
     def animation(self,
                   animation: bool = True, value_move: int = 1, limit: int = 3,
                   type_animation: str = 'None', constant: str = 'repeat',
-                  type: str = 'None'):  # Animation texts
+                  type: str = 'None', fps: int = 60):  # Animation texts
 
         self.Itens_texts['animation_if'] = animation
         self.Itens_texts['animation_constant'] = constant
         self.Itens_texts['limit'] = limit
+        self.Itens_texts['FPS'] = fps
 
         anim_val = value_move
 
@@ -82,7 +85,7 @@ class text:  # Texts
                         'one_click' and self.mouse_input:
                     self.size = (self.size_normal + self.Itens_texts['limit'])
 
-                elif self.size <= (self.size_normal + self.Itens_texts['limit']) and\
+                elif self.size >= (self.size_normal + self.Itens_texts['limit']) and\
                         not self.mouse_input:
                     self.size = self.size_normal
 
@@ -103,11 +106,44 @@ class text:  # Texts
                         not self.mouse_input:
                     self.size = self.size_normal
 
+            case '-backforth':
+                self.Itens_texts['state'] == 'down'
+                if self.Itens_texts['animation_constant'] == 'repeat' and\
+                        self.Itens_texts['state'] == 'down':
+                    self.size -= anim_val
+                if self.Itens_texts['animation_constant'] == 'repeat' and\
+                        self.Itens_texts['state'] == 'up':
+                    self.size += anim_val
+
+                if self.size <= (self.size_normal - self.Itens_texts['limit']):
+                    # self.size = self.size_normal
+                    self.Itens_texts['state'] = 'up'
+                if self.size >= self.size_normal:
+                    # self.size = self.size_normal
+                    self.Itens_texts['state'] = 'down'
+
+            case '+backforth':
+                self.Itens_texts['state'] == 'up'
+                if self.Itens_texts['animation_constant'] == 'repeat' and\
+                        self.Itens_texts['state'] == 'down':
+                    self.size -= anim_val
+                if self.Itens_texts['animation_constant'] == 'repeat' and\
+                        self.Itens_texts['state'] == 'up':
+                    self.size += anim_val
+
+                if self.size >= (self.size_normal + self.Itens_texts['limit']):
+                    # self.size = self.size_normal
+                    self.Itens_texts['state'] = 'down'
+                if self.size <= self.size_normal:
+                    # self.size = self.size_normal
+                    self.Itens_texts['state'] = 'up'
+
     def point(self, point_mouse, ev):  # Check mouse points
         self.Itens_texts['mouse_action_h'] = \
             'Hover' if self.Itens_texts['text_rect'].collidepoint(point_mouse) else 'None'
 
-        if ev.type == MOUSEBUTTONUP: self.mouse_action_t = 'None'
+        if ev.type == MOUSEBUTTONUP:
+            self.mouse_action_t = 'None'
         if ev.type == MOUSEBUTTONDOWN:
             self.mouse_action_t = \
                 'Touched' if self.Itens_texts['text_rect'].collidepoint(point_mouse) else 'None'
