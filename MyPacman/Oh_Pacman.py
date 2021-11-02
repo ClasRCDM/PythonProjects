@@ -139,6 +139,7 @@ class World:  # A World l
                 v.MUSICS = 'PlayGame_music'
 
             self.World_widget_events(ev)
+            self.World_footer_events(ev)
 
     def World_functions(self):
         if self.Itens_world['Game_Start'] and not self.Itens_world['Game']:
@@ -229,6 +230,10 @@ class World:  # A World l
             self.screen, self.font_set, 'João Tinti-',
             11, v.GREY, v.WIDTH / 2 + 115, 550, True)  # by João Tinti
 
+    def World_footer_events(self, ev):
+        self.Itens_text['DevClasRCDM'].point(pygame.mouse.get_pos(), ev)
+        self.Itens_text['InsJoãoTinti'].point(pygame.mouse.get_pos(), ev)
+
     def World_footer_update(self):
         # Update footer menu
         t.text(self.screen, self.font_set, '-Desenvolvido por',
@@ -236,12 +241,14 @@ class World:  # A World l
         self.Itens_text['DevClasRCDM'].animation(
             True, 1, 1, '+backforth', 'repeat', 'Touched')
         self.Itens_text['DevClasRCDM'].draw()
+        self.Itens_text['DevClasRCDM'].link('https://github.com/ClasRCDM')
 
         t.text(self.screen, self.font_set, '-Projeto inspirado por',
                11, v.GREY, v.WIDTH / 2 - 75, 550, True)  # Project inspired
         self.Itens_text['InsJoãoTinti'].animation(
             True, 1, 1, '-backforth', 'repeat', 'Touched')
         self.Itens_text['InsJoãoTinti'].draw()
+        self.Itens_text['InsJoãoTinti'].link('https://github.com/joaotinti75')
 
     def World_text_menu(self):
         # Load/render text menu
@@ -256,8 +263,9 @@ class World:  # A World l
     def World_text_menu_update(self):
         # Update text menu
         self.Itens_text['Start_text'].animation(
-            True, 1, 2, '-zoon', 'one_click', 'Touched')
+            True, 1, 2, '-zoon', 'repeat', 'Touched')
         self.Itens_text['Start_text'].draw()
+        self.Itens_text['Start_text'].link('https://github.com/ClasRCDM')
 
     def World_pacman(self):
         match self.Itens_world['widget_world']:

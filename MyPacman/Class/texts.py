@@ -1,4 +1,5 @@
 from pygame import font, MOUSEBUTTONUP, MOUSEBUTTONDOWN
+from webbrowser import open_new_tab
 
 
 class text:  # Texts
@@ -157,6 +158,10 @@ class text:  # Texts
             self.mouse_input = True if self.mouse_action_h == type else False
         elif type == 'Touched':
             self.mouse_input = True if self.mouse_action_t == type else False
+
+    def link(self, link):
+        if self.mouse_input:
+            open_new_tab(link)
 
     def draw(self):
         self.render()
