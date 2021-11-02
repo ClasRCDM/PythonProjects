@@ -41,6 +41,7 @@ class World:  # A World l
         # $ WidGets $ #
         # $ Images $ #
         # $ Texts $ #
+        self.Itens_text = {}
 
         # \Itens World/ #
         #################
@@ -99,6 +100,8 @@ class World:  # A World l
 
             self.point_mouse = pygame.mouse.get_pos()
 
+            #####################################
+            # /absolute defs of the world\ #
             self.World_events()
             self.World_functions()
 
@@ -107,6 +110,12 @@ class World:  # A World l
 
             self.World_images()
             self.World_widget()
+            # \absolute variables of the world/ #
+            #####################################
+            # /absolute defs of the game\ #
+            self.World_pacman()
+            # \absolute defs of the game/ #
+            #####################################
 
             pygame.display.flip()
             self.Fps.tick(v.FPS)
@@ -125,10 +134,7 @@ class World:  # A World l
                 self.Itens_world['Game'] = True
                 self.Itens_world['Game_Start'] = False
 
-                del self.Itens_world['pacmanlogo']
-                del self.Itens_world['Start_text']
-                del self.Itens_world['DevClasRCDM']
-                del self.Itens_world['InsJoãoTinti']
+                self.Itens_text = {}
 
                 v.MUSICS = 'PlayGame_music'
 
@@ -159,13 +165,30 @@ class World:  # A World l
 
     def World_images(self):
         # Call/add image
-        pacmanlogo = path.join(self.Itens_world['dirctrymges'], v.LOGO_PACMAN)
-        self.Itens_world['pacmanlogo'] = pygame.image.load(
-            pacmanlogo).convert_alpha()
-
         match self.Itens_world['widget_world']:
             case 'StartGame':
-                self.screen.blit(self.Itens_world['pacmanlogo'], (6, 0))
+                pacmanlogo = path.join(
+                    self.Itens_world['dirctrymges'], v.LOGO_PACMAN)
+                Inpacmanlogo = pygame.image.load(
+                    pacmanlogo).convert_alpha()
+
+                Inpacmanlogo_rect = Inpacmanlogo.get_rect()
+                Inpacmanlogo_rect.center = (v.WIDTH / 2, v.HEIGHT / 4)
+
+                self.screen.blit(Inpacmanlogo, (Inpacmanlogo_rect))
+            case 'PlayGame':
+                background_maze = path.join(
+                    self.Itens_world['dirctrymges'], v.MAZE_BACKGROUND)
+                Inbackground_maze = pygame.image.load(
+                    background_maze).convert()
+
+                Inbackground_maze_rect = \
+                    Inbackground_maze.get_rect()
+                Inbackground_maze_rect.center = (v.WIDTH / 2, v.HEIGHT / 2)
+
+                self.screen.blit(
+                    Inbackground_maze,
+                    (Inbackground_maze_rect))
 
     def World_sounds(self):
         # Call/add sound
@@ -197,41 +220,59 @@ class World:  # A World l
         self.Itens_world['Sprites_world'].update()
 
     def World_footer(self):
-        self.Itens_world['DevClasRCDM'] = t.text(
+        # Load/Render footer menu
+        self.Itens_text['DevClasRCDM'] = t.text(
             self.screen, self.font_set, 'ClasRCDM-',
             12, v.WHITE, v.WIDTH / 2 + 105, 520, True)  # by ClasRCDM
 
-        self.Itens_world['InsJoãoTinti'] = t.text(
+        self.Itens_text['InsJoãoTinti'] = t.text(
             self.screen, self.font_set, 'João Tinti-',
             11, v.GREY, v.WIDTH / 2 + 115, 550, True)  # by João Tinti
 
     def World_footer_update(self):
+        # Update footer menu
         t.text(self.screen, self.font_set, '-Desenvolvido por',
                12, v.WHITE, v.WIDTH / 2 - 65, 520, True)  # Developed
-        self.Itens_world['DevClasRCDM'].animation(
+        self.Itens_text['DevClasRCDM'].animation(
             True, 1, 1, '+backforth', 'repeat', 'Touched')
-        self.Itens_world['DevClasRCDM'].draw()
+        self.Itens_text['DevClasRCDM'].draw()
 
         t.text(self.screen, self.font_set, '-Projeto inspirado por',
                11, v.GREY, v.WIDTH / 2 - 75, 550, True)  # Project inspired
-        self.Itens_world['InsJoãoTinti'].animation(
+        self.Itens_text['InsJoãoTinti'].animation(
             True, 1, 1, '-backforth', 'repeat', 'Touched')
-        self.Itens_world['InsJoãoTinti'].draw()
+        self.Itens_text['InsJoãoTinti'].draw()
 
     def World_text_menu(self):
-        # Load/render texts
-        self.Itens_world['Start_text'] = t.text(
+        # Load/render text menu
+        self.Itens_text['Start_text'] = t.text(
             self.screen, self.font_set, v.text_START, 15,
-            v.YELLOW, v.WIDTH / 2, 320, True)  # Press a key to play 
+            v.YELLOW, v.WIDTH / 2, 320, True)  # Press a key to play
 
     def World_text_menu_events(self, ev):
-        self.Itens_world['Start_text'].point(pygame.mouse.get_pos(), ev)
+        # Check events menu
+        self.Itens_text['Start_text'].point(pygame.mouse.get_pos(), ev)
 
     def World_text_menu_update(self):
-        # Update texts
-        self.Itens_world['Start_text'].animation(
+        # Update text menu
+        self.Itens_text['Start_text'].animation(
             True, 1, 2, '-zoon', 'one_click', 'Touched')
-        self.Itens_world['Start_text'].draw()
+        self.Itens_text['Start_text'].draw()
+
+    def World_pacman(self):
+        match self.Itens_world['widget_world']:
+            case 'PlayGame':
+                self.World_pacman_grid()
+
+    def World_pacman_grid(self):
+        for x in range(v.WIDTH // v.WIDTH_CELL):
+            pygame.draw.line(self.screen, v.GREY,
+                             (x * v.WIDTH_CELL, 0),
+                             (x * v.WIDTH_CELL, v.HEIGHT))
+        for x in range(v.HEIGHT // v.HEIGHT_CELL):
+            pygame.draw.line(self.screen, v.GREY,
+                             (0, x * v.HEIGHT_CELL),
+                             (v.WIDTH, x * v.HEIGHT_CELL))
 
     def World_SpritsDraw(self):
         # Add/set draw about sprits

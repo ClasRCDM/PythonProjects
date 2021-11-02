@@ -1,4 +1,4 @@
-from pygame import font, MOUSEBUTTONUP, MOUSEBUTTONDOWN, time
+from pygame import font, MOUSEBUTTONUP, MOUSEBUTTONDOWN
 
 
 class text:  # Texts
@@ -80,13 +80,14 @@ class text:  # Texts
                         'one_click' and self.mouse_input:
                     self.size = anim_val
 
-                if self.size <= (self.size_normal + self.Itens_texts['limit']) and\
-                        self.Itens_texts['animation_constant'] ==\
+                if self.size <= (self.size_normal + self.Itens_texts['limit'])\
+                        and self.Itens_texts['animation_constant'] ==\
                         'one_click' and self.mouse_input:
                     self.size = (self.size_normal + self.Itens_texts['limit'])
 
-                elif self.size >= (self.size_normal + self.Itens_texts['limit']) and\
-                        not self.mouse_input:
+                elif self.size >=\
+                        (self.size_normal + self.Itens_texts['limit'])\
+                        and not self.mouse_input:
                     self.size = self.size_normal
 
             case '-zoon':
@@ -97,13 +98,14 @@ class text:  # Texts
                         'one_click' and self.mouse_input:
                     self.size = -anim_val
 
-                if self.size <= (self.size_normal - self.Itens_texts['limit']) and\
-                        self.Itens_texts['animation_constant'] ==\
+                if self.size <= (self.size_normal - self.Itens_texts['limit'])\
+                        and self.Itens_texts['animation_constant'] ==\
                         'one_click' and self.mouse_input:
                     self.size = (self.size_normal - self.Itens_texts['limit'])
 
-                elif self.size <= (self.size_normal - self.Itens_texts['limit']) and\
-                        not self.mouse_input:
+                elif self.size <=\
+                        (self.size_normal - self.Itens_texts['limit'])\
+                        and not self.mouse_input:
                     self.size = self.size_normal
 
             case '-backforth':
@@ -140,13 +142,15 @@ class text:  # Texts
 
     def point(self, point_mouse, ev):  # Check mouse points
         self.Itens_texts['mouse_action_h'] = \
-            'Hover' if self.Itens_texts['text_rect'].collidepoint(point_mouse) else 'None'
+            'Hover' if\
+            self.Itens_texts['text_rect'].collidepoint(point_mouse) else 'None'
 
         if ev.type == MOUSEBUTTONUP:
             self.mouse_action_t = 'None'
         if ev.type == MOUSEBUTTONDOWN:
             self.mouse_action_t = \
-                'Touched' if self.Itens_texts['text_rect'].collidepoint(point_mouse) else 'None'
+                'Touched' if\
+                self.Itens_texts['text_rect'].collidepoint(point_mouse) else 'None'
 
     def check_point(self, type):
         if type == 'Hover':
