@@ -17,6 +17,14 @@
   pip install pygame
     ```
 
+- ### Libraries being used
+
+* ```sh
+  import pygame
+  from os import path, getcwd
+  from webbrowser import open_new_tab
+    ```
+
 ## Author
 
 Web     | Name
