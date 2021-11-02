@@ -93,6 +93,7 @@ class World:  # A World l
     def World_widget_events(self, ev):
         if self.Itens_world['Game_Start'] and not self.Itens_world['Game']:
             self.World_text_menu_events(ev)
+            self.World_footer_events(ev)
 
     def World_time(self):
         # Time and Space world
@@ -139,7 +140,6 @@ class World:  # A World l
                 v.MUSICS = 'PlayGame_music'
 
             self.World_widget_events(ev)
-            self.World_footer_events(ev)
 
     def World_functions(self):
         if self.Itens_world['Game_Start'] and not self.Itens_world['Game']:
@@ -263,9 +263,8 @@ class World:  # A World l
     def World_text_menu_update(self):
         # Update text menu
         self.Itens_text['Start_text'].animation(
-            True, 1, 2, '-zoon', 'repeat', 'Touched')
+            True, 1, 2, '-zoon', 'one_click', 'Touched')
         self.Itens_text['Start_text'].draw()
-        self.Itens_text['Start_text'].link('https://github.com/ClasRCDM')
 
     def World_pacman(self):
         match self.Itens_world['widget_world']:

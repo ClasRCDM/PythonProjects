@@ -1,5 +1,7 @@
-# /absolute variables of the world\ #
+from pygame.math import Vector2 as vec
+
 #####################################
+# /absolute variables of the world\ #
 
 WIDTH = 560
 HEIGHT = 620
@@ -46,6 +48,9 @@ GREY = (72, 72, 72)
 # $ Collisions $ #
 WIDTH_CELL = WIDTH // 28
 HEIGHT_CELL = HEIGHT // 30
+
+# $ Player $ #
+PLAYER_START = vec(1, 1)
 
 # $ Texts Wold $ #
 text_START = '-Pressione uma tecla para jogar'
