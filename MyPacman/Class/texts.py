@@ -57,7 +57,7 @@ class text:  # Texts
     def animation(self,
                   animation: bool = True, value_move: int = 1, limit: int = 3,
                   type_animation: str = 'None', constant: str = 'repeat',
-                  type: str = 'None', fps: int = 60):  # Animation texts
+                  type: str = 'None', fps: int = 60):  # I add values ​​for animation and check if it will animate
 
         self.Itens_texts['animation_if'] = animation
         self.Itens_texts['animation_constant'] = constant
@@ -72,7 +72,7 @@ class text:  # Texts
             self.type_animation(type_animation, anim_val)
 
     def type_animation(self, type_animation, anim_val):
-        match type_animation:
+        match type_animation:  # Select the animation and make it
             case '+zoon':
                 if self.Itens_texts['animation_constant'] ==\
                         'repeat' and self.mouse_input:
@@ -153,15 +153,15 @@ class text:  # Texts
                 'Touched' if\
                 self.Itens_texts['text_rect'].collidepoint(point_mouse) else 'None'
 
-    def check_point(self, type):
+    def check_point(self, type):  # check for mouse collision on text
         if type == 'Hover':
             self.mouse_input = True if self.mouse_action_h == type else False
         elif type == 'Touched':
             self.mouse_input = True if self.mouse_action_t == type else False
 
-    def link(self, link):
+    def link(self, link):  # opens a web page when clicked
         if self.mouse_input:
             open_new_tab(link)
 
-    def draw(self):
+    def draw(self):  # Render
         self.render()

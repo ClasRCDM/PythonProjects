@@ -41,6 +41,8 @@ class World:  # A World l
         # $ Sprites $ #
         # $ Directories $ #
         # $ Scenes $ #
+        # $$ Player $$ #
+        self.Itens_entities = {}
         # $ WidGets $ #
         self.Itens_world['widget_world'] = 'StartGame'
         # $ Images $ #
@@ -151,18 +153,23 @@ class World:  # A World l
                 exit()
 
             # Init game
-            if ev.type == pygame.KEYUP:
-                self.Itens_world['Game'] = True
-                self.Itens_world['Game_Start'] = False
-                self.Itens_world['widget_world'] = 'PlayGame'
+            match self.Itens_world['widget_world']:
+                case 'StartGame':
+                    if ev.type == pygame.KEYUP:
+                        self.Itens_world['Game'] = True
+                        self.Itens_world['Game_Start'] = False
+                        self.Itens_world['widget_world'] = 'PlayGame'
 
-                self.Itens_text = {}
-                self.Itens_world_images = {}
+                        self.Itens_text = {}
+                        self.Itens_world_images = {}
 
-                self.World_widget()
-                self.World_pacman()
+                        self.World_widget()
+                        self.World_pacman()
 
-                v.MUSICS = 'PlayGame_music'
+                        v.MUSICS = 'PlayGame_music'
+
+                case 'PlayGame':
+                    self.Itens_entities['Pacman'].pacman_movement(ev)
 
             self.World_widget_events(ev)
 
@@ -243,11 +250,11 @@ class World:  # A World l
     def World_footer(self):
         # Load/Render footer menu
         self.Itens_text['DevClasRCDM'] = t.text(
-            self.screen, self.font_set, 'ClasRCDM-',
+            self.screen, self.font_set, v.text_DEV,
             12, v.WHITE, v.WIDTH / 2 + 105, 520, True)  # by ClasRCDM
 
         self.Itens_text['InsJoãoTinti'] = t.text(
-            self.screen, self.font_set, 'João Tinti-',
+            self.screen, self.font_set, v.text_FOR,
             11, v.GREY, v.WIDTH / 2 + 115, 550, True)  # by João Tinti
 
     def World_footer_events(self, ev):
@@ -293,13 +300,15 @@ class World:  # A World l
                     self.Itens_world['dirctrymges'],
                     v.SPRITE_PACMAN['PACMAN_ATTACK'])
 
-                Pacman = p.player_pacman(pacman_sprite)
+                self.Itens_entities['Pacman'] = p.player_pacman(pacman_sprite)
 
                 Background = b.background(
-                    self.Itens_world['directory_background'], self.screen)
-                self.Itens_world['Sprites_world'].add(Background)
+                    self.Itens_world['directory_background'], self.screen,
+                    self.Itens_entities['Pacman'].grid_pos)
 
-                self.Itens_world['Sprites_world'].add(Pacman)
+                self.Itens_world['Sprites_world'].add(Background)
+                self.Itens_world['Sprites_world'].add(
+                    self.Itens_entities['Pacman'])
 
     def World_pacman_update(self):
         pass
