@@ -52,7 +52,8 @@ class World:  # A World l
         #################
 
     def World_init(self):
-        # Set itens world
+        # &###############################& #
+        # /absolute variables of the world\ #
         self.icon = path.join(getcwd(), v.MAIN_FILE, v.FILES[0], v.ICON)
 
         self.screen = pygame.display.set_mode((v.FUllSCREEN))
@@ -62,7 +63,9 @@ class World:  # A World l
 
         self.Run = True
         self.running = True
-
+        # \absolute variables of the world/ #
+        # &###############################& #
+        # /absolute world classes\ #
         self.World_adofle()
 
         self.World_text_menu()
@@ -72,6 +75,8 @@ class World:  # A World l
 
         self.World_widget()
         self.World_objcts()
+        # \absolute world classes/ #
+        # &######################& #
 
     def World_objcts(self):
         # Add in World
@@ -128,7 +133,7 @@ class World:  # A World l
             # \absolute variables of the world/ #
             #####################################
             # /absolute defs of the game\ #
-            self.World_pacman()
+            self.World_pacman_update()
             # \absolute defs of the game/ #
             #####################################
 
@@ -155,6 +160,7 @@ class World:  # A World l
                 self.Itens_world_images = {}
 
                 self.World_widget()
+                self.World_pacman()
 
                 v.MUSICS = 'PlayGame_music'
 
@@ -182,7 +188,8 @@ class World:  # A World l
             getcwd(), v.MAIN_FILE, v.FILES[2])
 
         self.font_set = path.join(self.Itens_world['dirctyfnts'], v.FONT)
-        self.Itens_world['directory_background'] = path.join(self.Itens_world['dirctrymges'], v.MAZE_BACKGROUND)
+        self.Itens_world['directory_background'] = path.join(
+            self.Itens_world['dirctrymges'], v.MAZE_BACKGROUND)
 
     def World_images_update(self):
         # Call/add image
@@ -192,9 +199,6 @@ class World:  # A World l
                     self.Itens_world_images['pacmanlogo'],
                     (self.Itens_world_images['pacmanlogo_rect']))
             case 'PlayGame':
-                '''self.screen.blit(
-                    self.Itens_world_images['background_maze'],
-                    (self.Itens_world_images['background_maze_rect']))'''
                 pass
 
     def World_image_LOGO(self):
@@ -291,9 +295,10 @@ class World:  # A World l
 
                 Pacman = p.player_pacman(pacman_sprite)
 
-                Background = b.background(self.Itens_world['directory_background'], self.screen)
-
+                Background = b.background(
+                    self.Itens_world['directory_background'], self.screen)
                 self.Itens_world['Sprites_world'].add(Background)
+
                 self.Itens_world['Sprites_world'].add(Pacman)
 
     def World_pacman_update(self):
