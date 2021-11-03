@@ -52,6 +52,10 @@ HEIGHT_CELL = HEIGHT // 30
 # $ Player $ #
 PLAYER_START = vec(1, 1)
 
+# $$ Sprites Player $$ #
+SPRITE_PACMAN = {'PACMAN_ATTACK': 'pacman_attack.png',
+                 'PACMAN_RUN': 'pacman_run.png'}
+
 # $ Texts Wold $ #
 text_START = '-Pressione uma tecla para jogar'
 
