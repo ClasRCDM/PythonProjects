@@ -28,15 +28,14 @@ class player_pacman(sprite.Sprite):
         #################################
 
     def update(self):
-        self.pix_pos += self.direction  # Character direction
-        if (self.pix_pos.x // 2) % v.WIDTH_CELL == 1:
-            if self.direction == vec(1, 0) or self.direction == vec(-1, 0):
-                if self.Stored_direction is not None:
-                    self.direction = self.Stored_direction
-        if (self.pix_pos.y // 2) % v.HEIGHT_CELL == 1:
-            if self.direction == vec(0, 1) or self.direction == vec(0, -1):
-                if self.Stored_direction is not None:
-                    self.direction = self.Stored_direction
+        # Character direction
+        self.pix_pos += self.direction
+        if self.time_to_move('x'):
+            if self.Stored_direction is not None:
+                self.direction = self.Stored_direction
+        if self.time_to_move('y'):
+            if self.Stored_direction is not None:
+                self.direction = self.Stored_direction
 
         # Player square
         self.grid_pos[0] = \
@@ -61,6 +60,14 @@ class player_pacman(sprite.Sprite):
 
     def move(self, direction):
         self.Stored_direction = direction
+
+    def time_to_move(self, dirc: str):
+        if (self.pix_pos.x // 2) % v.WIDTH_CELL == 1 and dirc == 'x':
+            if self.direction == vec(1, 0) or self.direction == vec(-1, 0):
+                return True
+        if (self.pix_pos.y // 2) % v.HEIGHT_CELL == 1 and dirc == 'y':
+            if self.direction == vec(0, 1) or self.direction == vec(0, -1):
+                return True
 
     def get_pix_pos(self) -> vec:  # Grid player
         return vec(self.grid_pos.x * v.WIDTH_CELL + 2,

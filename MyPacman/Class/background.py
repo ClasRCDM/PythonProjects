@@ -1,10 +1,11 @@
 from pygame import sprite, draw, image
+from pygame.math import Vector2 as vec
 
 import vars as v
 
 
 class background(sprite.Sprite):
-    def __init__(self, images, screen, grid_pos) -> None:
+    def __init__(self, images, wall, screen, grid_pos) -> None:
         sprite.Sprite.__init__(self)
 
         ###################################
@@ -16,8 +17,13 @@ class background(sprite.Sprite):
 
         self.screen = screen
         self.grid_pos = grid_pos
+
+        self.wall_collision = []
+        self.wall_dirc = wall
         # \​​absolute background variables/ #
         ###################################
+
+        self.wall(self.wall_dirc)
 
     def update(self):
         self.grid(self.screen)
@@ -38,3 +44,11 @@ class background(sprite.Sprite):
                   (grid_pos[0] * v.WIDTH_CELL,
                    grid_pos[1] * v.HEIGHT_CELL,
                    v.WIDTH_CELL, v.HEIGHT_CELL), 1)
+
+    def wall(self, file):
+        with open(file, mode='r') as file:
+            for yidx, line in enumerate(file):
+                for xidx, char in enumerate(line):
+                    if char == '1':
+                        self.wall_collision.append(vec(xidx, yidx))
+        print(len(self.wall_collision))

@@ -16,6 +16,7 @@ TITLE_GAME: str = 'Oh, PACman'
 ICON: str = 'iconPac.png'
 
 BACKGROUND: tuple = (0, 0, 0)
+WALL_BACKGROUND: str = 'walls.txt'
 
 FPS: int | float = 60
 
