@@ -19,7 +19,11 @@ class background(sprite.Sprite):
         self.grid_pos: vec = grid_pos
 
         self.wall_collision: list = []
+        self.wall_visibility: bool = False
         self.wall_dirc: str = wall
+
+        self.coins: list = []
+        self.coins_visibility: bool = False
         # \​​absolute background variables/ #
         ###################################
 
@@ -28,6 +32,7 @@ class background(sprite.Sprite):
     def update(self):
         self.grid(self.screen)
         self.grid_check(self.grid_pos)
+        self.draw_coins(self.screen)
 
     def grid(self, screen):  # General grid
         for x in range(v.WIDTH // v.WIDTH_CELL):
@@ -39,11 +44,18 @@ class background(sprite.Sprite):
                       (0, x * v.HEIGHT_CELL),
                       (v.WIDTH, x * v.HEIGHT_CELL))
 
-        for wall in self.wall_collision:  # Draw the walls
-            draw.rect(
-                screen, v.PURPLE, (
-                    wall.x * v.WIDTH_CELL, wall.y * v.HEIGHT_CELL,
-                    v.WIDTH_CELL, v.HEIGHT_CELL))
+        if self.wall_visibility:
+            for wall in self.wall_collision:  # Draw the walls
+                draw.rect(
+                    screen, v.PURPLE, (
+                        wall.x * v.WIDTH_CELL, wall.y * v.HEIGHT_CELL,
+                        v.WIDTH_CELL, v.HEIGHT_CELL))
+        if self.coins_visibility:
+            for coins in self.coins:  # Draw the coins
+                draw.rect(
+                    screen, v.BLUE, (
+                        coins.x * v.WIDTH_CELL, coins.y * v.HEIGHT_CELL,
+                        v.WIDTH_CELL, v.HEIGHT_CELL))
 
     def grid_check(self, grid_pos):  # Grid where is the player
         draw.rect(self.screen, v.RED,
@@ -57,3 +69,11 @@ class background(sprite.Sprite):
                 for xidx, char in enumerate(line):
                     if char == '1':
                         self.wall_collision.append(vec(xidx, yidx))
+                    elif char == 'C':
+                        self.coins.append(vec(xidx, yidx))
+
+    def draw_coins(self, screen):
+        for coin in self.coins:
+            draw.circle(screen, v.YELLOW,
+                        (int(coin.x * v.WIDTH_CELL) + v.WIDTH_CELL // 2,
+                         int(coin.y * v.HEIGHT_CELL) + v.HEIGHT_CELL // 2), 5)
