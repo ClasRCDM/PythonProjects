@@ -89,7 +89,7 @@ class player_pacman(sprite.Sprite):
             if self.direction == vec(0, 1) or self.direction == vec(0, -1):
                 return True
 
-    def get_pix_pos(self) -> vec:  # Grid player
+    def get_pix_pos(self) -> vec:  # Grid pos player
         return vec(self.grid_pos.x * v.WIDTH_CELL + 2,
                    self.grid_pos.y * v.HEIGHT_CELL + 2)
         print(self.grid_pos, self.pix_pos)

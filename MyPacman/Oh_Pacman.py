@@ -4,8 +4,10 @@ import vars as v
 
 import Class.texts as t
 import Class.sounds as s
+
 import Class.player as p
 import Class.background as b
+import Class.enemies as e
 
 from os import path, getcwd
 from sys import exit
@@ -309,6 +311,9 @@ class World:  # A World l
                     self.Itens_world['directory_background'], wall,
                     self.screen,
                     self.Itens_entities['Pacman'].grid_pos)
+
+                self.Itens_entities['enemies'] = e.enemies(
+                    self.screen, wall)
 
                 self.Itens_world['Sprites_world'].add(
                     self.Itens_entities['Background'])
