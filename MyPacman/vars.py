@@ -46,6 +46,7 @@ YELLOW: tuple = (244, 233, 51)
 WHITE: tuple = (255, 255, 255)
 GREY: tuple = (72, 72, 72)
 RED: tuple = (255, 0, 0)
+PURPLE: tuple = (218, 112, 214)
 
 # $ Collisions $ #
 WIDTH_CELL: int | float = WIDTH // 28

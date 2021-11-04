@@ -57,15 +57,17 @@ class player_pacman(sprite.Sprite):
                 self.move(vec(0, -1))
             if ev.key == pygame.K_DOWN or ev.key == pygame.K_s:
                 self.move(vec(0, 1))
+            if ev.key == pygame.K_f:
+                self.move(vec(0, 0))
 
     def move(self, direction):
         self.Stored_direction = direction
 
     def time_to_move(self, dirc: str):
-        if (self.pix_pos.x // 2) % v.WIDTH_CELL == 1 and dirc == 'x':
+        if (self.pix_pos.x + 40 // 2) % v.WIDTH_CELL == 1 and dirc == 'x':
             if self.direction == vec(1, 0) or self.direction == vec(-1, 0):
                 return True
-        if (self.pix_pos.y // 2) % v.HEIGHT_CELL == 1 and dirc == 'y':
+        if (self.pix_pos.y + 40 // 2) % v.HEIGHT_CELL == 1 and dirc == 'y':
             if self.direction == vec(0, 1) or self.direction == vec(0, -1):
                 return True
 

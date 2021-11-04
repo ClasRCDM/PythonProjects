@@ -38,6 +38,11 @@ class background(sprite.Sprite):
             draw.line(screen, v.GREY,
                       (0, x * v.HEIGHT_CELL),
                       (v.WIDTH, x * v.HEIGHT_CELL))
+        for wall in self.wall_collision:
+            draw.rect(
+                screen, v.PURPLE, (
+                    wall.x * v.WIDTH_CELL, wall.y * v.HEIGHT_CELL,
+                    v.WIDTH_CELL, v.HEIGHT_CELL))
 
     def grid_check(self, grid_pos):  # Grid where is the player
         draw.rect(self.screen, v.RED,
