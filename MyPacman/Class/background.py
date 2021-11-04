@@ -77,3 +77,13 @@ class background(sprite.Sprite):
             draw.circle(screen, v.YELLOW,
                         (int(coin.x * v.WIDTH_CELL) + v.WIDTH_CELL // 2,
                          int(coin.y * v.HEIGHT_CELL) + v.HEIGHT_CELL // 2), 5)
+
+    def on_coin(self, pix_pos, direction) -> bool:
+        if self.grid_pos in self.coins:
+            if (pix_pos.x + 40 // 2) % v.WIDTH_CELL == 1:
+                if direction == vec(1, 0) or direction == vec(-1, 0):
+                    return True
+            if (pix_pos.y + 40 // 2) % v.HEIGHT_CELL == 1:
+                if direction == vec(0, 1) or direction == vec(0, -1):
+                    return True
+        return False

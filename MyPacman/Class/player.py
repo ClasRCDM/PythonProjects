@@ -22,6 +22,7 @@ class player_pacman(sprite.Sprite):
         self.direction = vec(1, 0)
 
         self.pix_pos = self.get_pix_pos()
+        self.move_: bool = False
 
         self.Stored_direction = None
         self.able_to_move: bool = True
@@ -52,6 +53,10 @@ class player_pacman(sprite.Sprite):
                 self.move(vec(0, -1))
             if ev.key == K_DOWN or ev.key == K_s:
                 self.move(vec(0, 1))
+
+    def eat_coin(self, on_coin, coins):
+        if on_coin:
+            coins.remove(self.grid_pos)
 
     def move(self, direction):
         self.Stored_direction = direction

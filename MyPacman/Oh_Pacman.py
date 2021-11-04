@@ -320,6 +320,11 @@ class World:  # A World l
             case 'PlayGame':
                 self.Itens_entities['Pacman'].move_update(
                     self.Itens_entities['Background'].wall_collision)
+                self.Itens_entities['Pacman'].eat_coin(
+                    self.Itens_entities['Background'].on_coin(
+                        self.Itens_entities['Pacman'].pix_pos,
+                        self.Itens_entities['Pacman'].direction),
+                    self.Itens_entities['Background'].coins)
 
     def World_SpritsDraw(self):
         # Add/set draw about sprits
