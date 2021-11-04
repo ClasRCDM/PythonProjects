@@ -1,8 +1,10 @@
 from pygame import sprite
 from pygame.math import Vector2 as vec
+from pygame import KEYDOWN,\
+    K_LEFT, K_a, K_RIGHT, K_d, K_UP, K_w, K_DOWN, K_s
+from pygame import image as img, transform as tfm
 
 import vars as v
-import pygame
 
 
 class player_pacman(sprite.Sprite):
@@ -11,8 +13,8 @@ class player_pacman(sprite.Sprite):
 
         #################################
         # /player's absolute variables\ #
-        self.image = pygame.image.load(image).convert_alpha()
-        self.image = pygame.transform.scale(self.image, (17, 17))
+        self.image = img.load(image).convert_alpha()
+        self.image = tfm.scale(self.image, (17, 17))
 
         self.rect = self.image.get_rect()
 
@@ -20,7 +22,9 @@ class player_pacman(sprite.Sprite):
         self.direction = vec(1, 0)
 
         self.pix_pos = self.get_pix_pos()
+
         self.Stored_direction = None
+        self.able_to_move: bool = True
 
         self.rect[0] = self.pix_pos.x
         self.rect[1] = self.pix_pos.y
@@ -28,15 +32,6 @@ class player_pacman(sprite.Sprite):
         #################################
 
     def update(self):
-        # Character direction
-        self.pix_pos += self.direction
-        if self.time_to_move('x'):
-            if self.Stored_direction is not None:
-                self.direction = self.Stored_direction
-        if self.time_to_move('y'):
-            if self.Stored_direction is not None:
-                self.direction = self.Stored_direction
-
         # Player square
         self.grid_pos[0] = \
             (self.pix_pos[0] + v.WIDTH_CELL // 2) // v.WIDTH_CELL
@@ -48,22 +43,40 @@ class player_pacman(sprite.Sprite):
         self.rect[1] = self.pix_pos.y
 
     def pacman_movement(self, ev):  # Check movement inputs
-        if ev.type == pygame.KEYDOWN:
-            if ev.key == pygame.K_LEFT or ev.key == pygame.K_a:
+        if ev.type == KEYDOWN:
+            if ev.key == K_LEFT or ev.key == K_a:
                 self.move(vec(-1, 0))
-            if ev.key == pygame.K_RIGHT or ev.key == pygame.K_d:
+            if ev.key == K_RIGHT or ev.key == K_d:
                 self.move(vec(1, 0))
-            if ev.key == pygame.K_UP or ev.key == pygame.K_w:
+            if ev.key == K_UP or ev.key == K_w:
                 self.move(vec(0, -1))
-            if ev.key == pygame.K_DOWN or ev.key == pygame.K_s:
+            if ev.key == K_DOWN or ev.key == K_s:
                 self.move(vec(0, 1))
-            if ev.key == pygame.K_f:
-                self.move(vec(0, 0))
 
     def move(self, direction):
         self.Stored_direction = direction
 
-    def time_to_move(self, dirc: str):
+    def move_update(self, wall_collision: list):
+        # Character direction
+        if self.able_to_move:
+            self.pix_pos += self.direction
+
+        if self.time_to_move('x'):
+            if self.Stored_direction is not None:
+                self.direction = self.Stored_direction
+            self.able_to_move = self.can_move(wall_collision)
+        if self.time_to_move('y'):
+            if self.Stored_direction is not None:
+                self.direction = self.Stored_direction
+            self.able_to_move = self.can_move(wall_collision)
+
+    def can_move(self, wall_collision: list) -> bool:
+        for wall in wall_collision:
+            if vec(self.grid_pos + self.direction) == wall:
+                return False
+        return True
+
+    def time_to_move(self, dirc: str) -> bool:
         if (self.pix_pos.x + 40 // 2) % v.WIDTH_CELL == 1 and dirc == 'x':
             if self.direction == vec(1, 0) or self.direction == vec(-1, 0):
                 return True

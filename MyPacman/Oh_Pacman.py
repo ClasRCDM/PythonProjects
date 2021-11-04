@@ -298,23 +298,28 @@ class World:  # A World l
             case 'PlayGame':
                 pacman_sprite = path.join(
                     self.Itens_world['dirctrymges'],
-                    v.SPRITE_PACMAN['PACMAN_ATTACK'])
-
-                self.Itens_entities['Pacman'] = p.player_pacman(pacman_sprite)
-
+                    v.SPRITE_PACMAN['PACMAN_RUN'])
                 wall = path.join(
                     self.Itens_world['dirctrymges'], v.WALL_BACKGROUND)
-                Background = b.background(
+
+                self.Itens_entities['Pacman'] = p.player_pacman(
+                    pacman_sprite)
+
+                self.Itens_entities['Background'] = b.background(
                     self.Itens_world['directory_background'], wall,
                     self.screen,
                     self.Itens_entities['Pacman'].grid_pos)
 
-                self.Itens_world['Sprites_world'].add(Background)
+                self.Itens_world['Sprites_world'].add(
+                    self.Itens_entities['Background'])
                 self.Itens_world['Sprites_world'].add(
                     self.Itens_entities['Pacman'])
 
     def World_pacman_update(self):
-        pass
+        match self.Itens_world['widget_world']:
+            case 'PlayGame':
+                self.Itens_entities['Pacman'].move_update(
+                    self.Itens_entities['Background'].wall_collision)
 
     def World_SpritsDraw(self):
         # Add/set draw about sprits
