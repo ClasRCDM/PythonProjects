@@ -304,6 +304,7 @@ class World:  # A World l
                 wall = path.join(
                     self.Itens_world['dirctrymges'], v.WALL_BACKGROUND)
 
+                # Create the entities of the world
                 self.Entities_world['Pacman'] = p.player_pacman(
                     pacman_sprite)
 
@@ -314,6 +315,7 @@ class World:  # A World l
                     self.screen,
                     self.Entities_world['Pacman'].grid_pos)
 
+                # Add to group sprites world
                 self.Itens_world['Sprites_world'].add(
                     self.Entities_world['Background'])
                 self.Itens_world['Sprites_world'].add(

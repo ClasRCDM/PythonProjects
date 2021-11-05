@@ -1,8 +1,6 @@
 from pygame import sprite
 from pygame import image as img, transform as tfm
 
-import vars as v
-
 
 class enemy(sprite.Sprite):
     def __init__(self, image, x, y) -> None:

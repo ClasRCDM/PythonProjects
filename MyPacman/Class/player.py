@@ -54,7 +54,7 @@ class player_pacman(sprite.Sprite):
             if ev.key == K_DOWN or ev.key == K_s:
                 self.move(vec(0, 1))
 
-    def eat_coin(self, on_coin, coins):
+    def eat_coin(self, on_coin, coins):  # Check and eat the coins
         if on_coin:
             coins.remove(self.grid_pos)
 
@@ -66,22 +66,22 @@ class player_pacman(sprite.Sprite):
         if self.able_to_move:
             self.pix_pos += self.direction
 
-        if self.time_to_move('x'):
+        if self.time_to_move('x'):  # Move back or forward
             if self.Stored_direction is not None:
                 self.direction = self.Stored_direction
             self.able_to_move = self.can_move(wall_collision)
-        if self.time_to_move('y'):
+        if self.time_to_move('y'):  # Move up or down
             if self.Stored_direction is not None:
                 self.direction = self.Stored_direction
             self.able_to_move = self.can_move(wall_collision)
 
-    def can_move(self, wall_collision: list) -> bool:
+    def can_move(self, wall_collision: list) -> bool:  # Makes the collision with the wall
         for wall in wall_collision:
             if vec(self.grid_pos + self.direction) == wall:
                 return False
         return True
 
-    def time_to_move(self, dirc: str) -> bool:
+    def time_to_move(self, dirc: str) -> bool:  # Check if the player can move
         if (self.pix_pos.x + 40 // 2) % v.WIDTH_CELL == 1 and dirc == 'x':
             if self.direction == vec(1, 0) or self.direction == vec(-1, 0):
                 return True

@@ -29,7 +29,7 @@ class background(sprite.Sprite):
 
         self.wall(self.wall_dirc)
 
-    def update(self):
+    def update(self):  # Update elements
         self.grid(self.screen)
         self.grid_check(self.grid_pos)
         self.draw_coins(self.screen)
@@ -63,22 +63,22 @@ class background(sprite.Sprite):
                    grid_pos[1] * v.HEIGHT_CELL,
                    v.WIDTH_CELL, v.HEIGHT_CELL), 1)
 
-    def wall(self, file):  # Create the walls
+    def wall(self, file):
         with open(file, mode='r') as file:
             for yidx, line in enumerate(file):
                 for xidx, char in enumerate(line):
-                    if char == '1':
+                    if char == '1':  # Create the walls
                         self.wall_collision.append(vec(xidx, yidx))
-                    elif char == 'C':
+                    elif char == 'C':  # creates the spawn path for the coins
                         self.coins.append(vec(xidx, yidx))
 
-    def draw_coins(self, screen):
+    def draw_coins(self, screen):  # Create the coins
         for coin in self.coins:
             draw.circle(screen, v.YELLOW,
                         (int(coin.x * v.WIDTH_CELL) + v.WIDTH_CELL // 2,
                          int(coin.y * v.HEIGHT_CELL) + v.HEIGHT_CELL // 2), 5)
 
-    def on_coin(self, pix_pos, direction) -> bool:
+    def on_coin(self, pix_pos, direction) -> bool:  # Create the coins on the grid
         if self.grid_pos in self.coins:
             if (pix_pos.x + 40 // 2) % v.WIDTH_CELL == 1:
                 if direction == vec(1, 0) or direction == vec(-1, 0):
