@@ -69,6 +69,12 @@ with open(wall, mode='r') as file:
 SPRITE_PACMAN: dict = {'PACMAN_ATTACK': 'pacman_attack.png',
                        'PACMAN_RUN': 'pacman_run.png'}
 
+# $ Enemies $ #
+SPRITE_ENEMIES: dict = {'Enemy_1': 'enemy_0.png',
+                        'Enemy_2': 'enemy_1.png',
+                        'Enemy_3': 'enemy_2.png',
+                        'Enemy_4': 'enemy_3.png'}
+
 # $ Texts Wold $ #
 text_START: str = '-Pressione uma tecla para jogar'
 text_DEV: str = 'ClasRCDM'

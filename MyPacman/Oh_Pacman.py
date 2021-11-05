@@ -1,5 +1,4 @@
 import pygame
-
 import vars as v
 
 import Class.texts as t
@@ -7,7 +6,7 @@ import Class.sounds as s
 
 import Class.player as p
 import Class.background as b
-import Class.enemies as e
+import Class.enemy as e
 
 from os import path, getcwd
 from sys import exit
@@ -44,13 +43,13 @@ class World:  # A World l
         # $ Directories $ #
         # $ Scenes $ #
         # $$ Player $$ #
-        self.Itens_entities = {}
+        self.Entities_world = {}
         # $ WidGets $ #
         self.Itens_world['widget_world'] = 'StartGame'
         # $ Images $ #
-        self.Itens_world_images = {}
+        self.Images_world = {}
         # $ Texts $ #
-        self.Itens_text = {}
+        self.Text_world = {}
 
         # \Itens World/ #
         #################
@@ -162,8 +161,8 @@ class World:  # A World l
                         self.Itens_world['Game_Start'] = False
                         self.Itens_world['widget_world'] = 'PlayGame'
 
-                        self.Itens_text = {}
-                        self.Itens_world_images = {}
+                        self.Text_world = {}
+                        self.Images_world = {}
 
                         self.World_widget()
                         self.World_pacman()
@@ -171,7 +170,7 @@ class World:  # A World l
                         v.MUSICS = 'PlayGame_music'
 
                 case 'PlayGame':
-                    self.Itens_entities['Pacman'].pacman_movement(ev)
+                    self.Entities_world['Pacman'].pacman_movement(ev)
 
             self.World_widget_events(ev)
 
@@ -205,19 +204,19 @@ class World:  # A World l
         match self.Itens_world['widget_world']:
             case 'StartGame':
                 self.screen.blit(
-                    self.Itens_world_images['pacmanlogo'],
-                    (self.Itens_world_images['pacmanlogo_rect']))
+                    self.Images_world['pacmanlogo'],
+                    (self.Images_world['pacmanlogo_rect']))
             case 'PlayGame':
                 pass
 
     def World_image_LOGO(self):
         pacmanlogo = path.join(
             self.Itens_world['dirctrymges'], v.LOGO_PACMAN)
-        self.Itens_world_images['pacmanlogo'] = pygame.image.load(
+        self.Images_world['pacmanlogo'] = pygame.image.load(
             pacmanlogo).convert_alpha()
-        self.Itens_world_images['pacmanlogo_rect'] =\
-            self.Itens_world_images['pacmanlogo'].get_rect()
-        self.Itens_world_images['pacmanlogo_rect'].center =\
+        self.Images_world['pacmanlogo_rect'] =\
+            self.Images_world['pacmanlogo'].get_rect()
+        self.Images_world['pacmanlogo_rect'].center =\
             (v.WIDTH / 2, v.HEIGHT / 4)
 
     def World_sounds(self):
@@ -251,49 +250,49 @@ class World:  # A World l
 
     def World_footer(self):
         # Load/Render footer menu
-        self.Itens_text['DevClasRCDM'] = t.text(
+        self.Text_world['DevClasRCDM'] = t.text(
             self.screen, self.font_set, v.text_DEV,
             12, v.WHITE, v.WIDTH / 2 + 105, 520, True)  # by ClasRCDM
 
-        self.Itens_text['InsJoãoTinti'] = t.text(
+        self.Text_world['InsJoãoTinti'] = t.text(
             self.screen, self.font_set, v.text_FOR,
             11, v.GREY, v.WIDTH / 2 + 115, 550, True)  # by João Tinti
 
     def World_footer_events(self, ev):
-        self.Itens_text['DevClasRCDM'].point(pygame.mouse.get_pos(), ev)
-        self.Itens_text['InsJoãoTinti'].point(pygame.mouse.get_pos(), ev)
+        self.Text_world['DevClasRCDM'].point(pygame.mouse.get_pos(), ev)
+        self.Text_world['InsJoãoTinti'].point(pygame.mouse.get_pos(), ev)
 
     def World_footer_update(self):
         # Update footer menu
         t.text(self.screen, self.font_set, '-Desenvolvido por',
                12, v.WHITE, v.WIDTH / 2 - 65, 520, True)  # Developed
-        self.Itens_text['DevClasRCDM'].animation(
+        self.Text_world['DevClasRCDM'].animation(
             True, 1, 1, '+backforth', 'repeat', 'Touched')
-        self.Itens_text['DevClasRCDM'].draw()
-        self.Itens_text['DevClasRCDM'].link('https://github.com/ClasRCDM')
+        self.Text_world['DevClasRCDM'].draw()
+        self.Text_world['DevClasRCDM'].link('https://github.com/ClasRCDM')
 
         t.text(self.screen, self.font_set, '-Projeto inspirado por',
                11, v.GREY, v.WIDTH / 2 - 75, 550, True)  # Project inspired
-        self.Itens_text['InsJoãoTinti'].animation(
+        self.Text_world['InsJoãoTinti'].animation(
             True, 1, 1, '-backforth', 'repeat', 'Touched')
-        self.Itens_text['InsJoãoTinti'].draw()
-        self.Itens_text['InsJoãoTinti'].link('https://github.com/joaotinti75')
+        self.Text_world['InsJoãoTinti'].draw()
+        self.Text_world['InsJoãoTinti'].link('https://github.com/joaotinti75')
 
     def World_text_menu(self):
         # Load/render text menu
-        self.Itens_text['Start_text'] = t.text(
+        self.Text_world['Start_text'] = t.text(
             self.screen, self.font_set, v.text_START, 15,
             v.YELLOW, v.WIDTH / 2, 320, True)  # Press a key to play
 
     def World_text_menu_events(self, ev):
         # Check events menu
-        self.Itens_text['Start_text'].point(pygame.mouse.get_pos(), ev)
+        self.Text_world['Start_text'].point(pygame.mouse.get_pos(), ev)
 
     def World_text_menu_update(self):
         # Update text menu
-        self.Itens_text['Start_text'].animation(
+        self.Text_world['Start_text'].animation(
             True, 1, 2, '-zoon', 'one_click', 'Touched')
-        self.Itens_text['Start_text'].draw()
+        self.Text_world['Start_text'].draw()
 
     def World_pacman(self):
         match self.Itens_world['widget_world']:
@@ -301,35 +300,42 @@ class World:  # A World l
                 pacman_sprite = path.join(
                     self.Itens_world['dirctrymges'],
                     v.SPRITE_PACMAN['PACMAN_RUN'])
+
+                enemy_sprite = path.join(
+                    self.Itens_world['dirctrymges'],
+                    v.SPRITE_ENEMIES['Enemy_1'])
+
                 wall = path.join(
                     self.Itens_world['dirctrymges'], v.WALL_BACKGROUND)
 
-                self.Itens_entities['Pacman'] = p.player_pacman(
+                self.Entities_world['Pacman'] = p.player_pacman(
                     pacman_sprite)
 
-                self.Itens_entities['Background'] = b.background(
+                self.Entities_world['Enemy1'] = e.enemy(enemy_sprite, 100, 100)
+
+                self.Entities_world['Background'] = b.background(
                     self.Itens_world['directory_background'], wall,
                     self.screen,
-                    self.Itens_entities['Pacman'].grid_pos)
-
-                self.Itens_entities['enemies'] = e.enemies(
-                    self.screen, wall)
+                    self.Entities_world['Pacman'].grid_pos)
 
                 self.Itens_world['Sprites_world'].add(
-                    self.Itens_entities['Background'])
+                    self.Entities_world['Background'])
                 self.Itens_world['Sprites_world'].add(
-                    self.Itens_entities['Pacman'])
+                    self.Entities_world['Pacman'])
+                self.Itens_world['Sprites_world'].add(
+                    self.Entities_world['Enemy1'])
 
     def World_pacman_update(self):
         match self.Itens_world['widget_world']:
             case 'PlayGame':
-                self.Itens_entities['Pacman'].move_update(
-                    self.Itens_entities['Background'].wall_collision)
-                self.Itens_entities['Pacman'].eat_coin(
-                    self.Itens_entities['Background'].on_coin(
-                        self.Itens_entities['Pacman'].pix_pos,
-                        self.Itens_entities['Pacman'].direction),
-                    self.Itens_entities['Background'].coins)
+                self.Entities_world['Pacman'].move_update(
+                    self.Entities_world['Background'].wall_collision)
+
+                self.Entities_world['Pacman'].eat_coin(
+                    self.Entities_world['Background'].on_coin(
+                        self.Entities_world['Pacman'].pix_pos,
+                        self.Entities_world['Pacman'].direction),
+                    self.Entities_world['Background'].coins)
 
     def World_SpritsDraw(self):
         # Add/set draw about sprits
