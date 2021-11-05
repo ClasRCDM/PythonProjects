@@ -6,7 +6,7 @@ import Class.sounds as s
 
 import Class.player as p
 import Class.background as b
-import Class.enemy as e
+import Class.enemies as e
 
 from os import path, getcwd
 from sys import exit
@@ -301,17 +301,13 @@ class World:  # A World l
                     self.Itens_world['dirctrymges'],
                     v.SPRITE_PACMAN['PACMAN_RUN'])
 
-                enemy_sprite = path.join(
-                    self.Itens_world['dirctrymges'],
-                    v.SPRITE_ENEMIES['Enemy_1'])
-
                 wall = path.join(
                     self.Itens_world['dirctrymges'], v.WALL_BACKGROUND)
 
                 self.Entities_world['Pacman'] = p.player_pacman(
                     pacman_sprite)
 
-                self.Entities_world['Enemy1'] = e.enemy(enemy_sprite, 100, 100)
+                self.Entities_world['Enemies'] = e.spawn_enemies(wall)
 
                 self.Entities_world['Background'] = b.background(
                     self.Itens_world['directory_background'], wall,
@@ -322,8 +318,6 @@ class World:  # A World l
                     self.Entities_world['Background'])
                 self.Itens_world['Sprites_world'].add(
                     self.Entities_world['Pacman'])
-                self.Itens_world['Sprites_world'].add(
-                    self.Entities_world['Enemy1'])
 
     def World_pacman_update(self):
         match self.Itens_world['widget_world']:
@@ -336,6 +330,8 @@ class World:  # A World l
                         self.Entities_world['Pacman'].pix_pos,
                         self.Entities_world['Pacman'].direction),
                     self.Entities_world['Background'].coins)
+
+                self.Entities_world['Enemies'].draw(self.screen)
 
     def World_SpritsDraw(self):
         # Add/set draw about sprits
