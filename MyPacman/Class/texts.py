@@ -1,167 +1,60 @@
-from pygame import font, MOUSEBUTTONUP, MOUSEBUTTONDOWN
-from webbrowser import open_new_tab
+import Class.text as t  # Set Text
+import vars as v  # Variables
+
+from pygame import mouse
 
 
-class text:  # Texts
-    def __init__(self, screen, directory: str,
-                 txt: str, size: int, color,
-                 x: int = 0, y: int = 0,
-                 pixel: bool = False):
+class menu_start():
+    def __init__(self):
+        pass
 
-        # Create/Add texts
-        font.init()
+    def World_text_menu(self, screen, text_world, font_set):
+        # Load/render text menu
+        text_world['Start_text'] = t.text(
+            screen, font_set, v.text_START, 15,
+            v.YELLOW, v.WIDTH / 2, 320, True)  # Press a key to play
 
-        # &#########################& #
-        self.size: int = size
-        self.size_normal: int = size
+    def World_text_menu_events(self, text_world, ev):
+        # Check events menu
+        text_world['Start_text'].point(mouse.get_pos(), ev)
 
-        self.txt: str = txt
-        self.pixel: bool = pixel
-        self.color = color
+    def World_text_menu_update(self, text_world):
+        # Update text menu
+        text_world['Start_text'].animation(
+            True, 1, 2, '-zoon', 'one_click', 'Touched')
+        text_world['Start_text'].draw()
 
-        self.x: int = x
-        self.y: int = y
 
-        self.screen = screen
-        self.directory: str = directory
+class footer():
+    def __init__(self):
+        pass
 
-        # &#########################& #
+    def World_footer(self, screen, text_world, font_set):
+        # Load/Render footer menu
+        text_world['DevClasRCDM'] = t.text(
+            screen, font_set, v.text_DEV,
+            12, v.WHITE, v.WIDTH / 2 + 105, 520, True)  # by ClasRCDM
 
-        #################
-        # \Itens Texts/ #
+        text_world['InsJoãoTinti'] = t.text(
+            screen, font_set, v.text_FOR,
+            11, v.GREY, v.WIDTH / 2 + 115, 550, True)  # by João Tinti
 
-        self.Itens_texts = {}
+    def World_footer_events(self, text_world, ev):
+        text_world['DevClasRCDM'].point(mouse.get_pos(), ev)
+        text_world['InsJoãoTinti'].point(mouse.get_pos(), ev)
 
-        # $ Animation $ #
-        self.Itens_texts['FPS'] = 60
-        # $ Mouse Point $ #
-        self.mouse_action_t: str = 'None'
-        self.Itens_texts['state'] = 'None'
-        # $ To create $ #
+    def World_footer_update(self, screen, text_world, font_set):
+        # Update footer menu
+        t.text(screen, font_set, '-Desenvolvido por',
+            12, v.WHITE, v.WIDTH / 2 - 65, 520, True)  # Developed
+        text_world['DevClasRCDM'].animation(
+            True, 1, 1, '+backforth', 'repeat', 'Touched')
+        text_world['DevClasRCDM'].draw()
+        text_world['DevClasRCDM'].link('https://github.com/ClasRCDM')
 
-        # \Itens Texts/ #
-        #################
-
-        self.render()
-
-    def render(self):
-        # $ To create $ #
-        text_font = font.Font(self.directory, self.size)
-        text_render = text_font.render(self.txt, self.pixel, self.color)
-
-        self.Itens_texts['text_rect'] = text_render.get_rect()
-        self.Itens_texts['text_rect'].midtop = (self.x, self.y)
-
-        self.screen.blit(text_render, self.Itens_texts['text_rect'])
-
-    def animation(self,
-                  animation: bool = True, value_move: int = 1, limit: int = 3,
-                  type_animation: str = 'None', constant: str = 'repeat',
-                  type: str = 'None', fps: int = 60):  # I add values ​​for animation and check if it will animate
-
-        self.Itens_texts['animation_if'] = animation
-        self.Itens_texts['animation_constant'] = constant
-        self.Itens_texts['limit'] = limit
-        self.Itens_texts['FPS'] = fps
-
-        anim_val = value_move
-
-        self.check_point(type)
-
-        if self.Itens_texts['animation_if']:
-            self.type_animation(type_animation, anim_val)
-
-    def type_animation(self, type_animation, anim_val):
-        match type_animation:  # Select the animation and make it
-            case '+zoon':
-                if self.Itens_texts['animation_constant'] ==\
-                        'repeat' and self.mouse_input:
-                    self.size += anim_val
-                elif self.Itens_texts['animation_constant'] ==\
-                        'one_click' and self.mouse_input:
-                    self.size = anim_val
-
-                if self.size <= (self.size_normal + self.Itens_texts['limit'])\
-                        and self.Itens_texts['animation_constant'] ==\
-                        'one_click' and self.mouse_input:
-                    self.size = (self.size_normal + self.Itens_texts['limit'])
-
-                elif self.size >=\
-                        (self.size_normal + self.Itens_texts['limit'])\
-                        and not self.mouse_input:
-                    self.size = self.size_normal
-
-            case '-zoon':
-                if self.Itens_texts['animation_constant'] ==\
-                        'repeat' and self.mouse_input:
-                    self.size -= anim_val
-                elif self.Itens_texts['animation_constant'] ==\
-                        'one_click' and self.mouse_input:
-                    self.size = -anim_val
-
-                if self.size <= (self.size_normal - self.Itens_texts['limit'])\
-                        and self.Itens_texts['animation_constant'] ==\
-                        'one_click' and self.mouse_input:
-                    self.size = (self.size_normal - self.Itens_texts['limit'])
-
-                elif self.size <=\
-                        (self.size_normal - self.Itens_texts['limit'])\
-                        and not self.mouse_input:
-                    self.size = self.size_normal
-
-            case '-backforth':
-                self.Itens_texts['state'] == 'down'
-                if self.Itens_texts['animation_constant'] == 'repeat' and\
-                        self.Itens_texts['state'] == 'down':
-                    self.size -= anim_val
-                if self.Itens_texts['animation_constant'] == 'repeat' and\
-                        self.Itens_texts['state'] == 'up':
-                    self.size += anim_val
-
-                if self.size <= (self.size_normal - self.Itens_texts['limit']):
-                    # self.size = self.size_normal
-                    self.Itens_texts['state'] = 'up'
-                if self.size >= self.size_normal:
-                    # self.size = self.size_normal
-                    self.Itens_texts['state'] = 'down'
-
-            case '+backforth':
-                self.Itens_texts['state'] == 'up'
-                if self.Itens_texts['animation_constant'] == 'repeat' and\
-                        self.Itens_texts['state'] == 'down':
-                    self.size -= anim_val
-                if self.Itens_texts['animation_constant'] == 'repeat' and\
-                        self.Itens_texts['state'] == 'up':
-                    self.size += anim_val
-
-                if self.size >= (self.size_normal + self.Itens_texts['limit']):
-                    # self.size = self.size_normal
-                    self.Itens_texts['state'] = 'down'
-                if self.size <= self.size_normal:
-                    # self.size = self.size_normal
-                    self.Itens_texts['state'] = 'up'
-
-    def point(self, point_mouse, ev):  # Check mouse points
-        self.Itens_texts['mouse_action_h'] = \
-            'Hover' if\
-            self.Itens_texts['text_rect'].collidepoint(point_mouse) else 'None'
-
-        if ev.type == MOUSEBUTTONUP:
-            self.mouse_action_t = 'None'
-        if ev.type == MOUSEBUTTONDOWN:
-            self.mouse_action_t = \
-                'Touched' if\
-                self.Itens_texts['text_rect'].collidepoint(point_mouse) else 'None'
-
-    def check_point(self, type):  # check for mouse collision on text
-        if type == 'Hover':
-            self.mouse_input = True if self.mouse_action_h == type else False
-        elif type == 'Touched':
-            self.mouse_input = True if self.mouse_action_t == type else False
-
-    def link(self, link):  # opens a web page when clicked
-        if self.mouse_input:
-            open_new_tab(link)
-
-    def draw(self):  # Render
-        self.render()
+        t.text(screen, font_set, '-Projeto inspirado por',
+            11, v.GREY, v.WIDTH / 2 - 75, 550, True)  # Project inspired
+        text_world['InsJoãoTinti'].animation(
+            True, 1, 1, '-backforth', 'repeat', 'Touched')
+        text_world['InsJoãoTinti'].draw()
+        text_world['InsJoãoTinti'].link('https://github.com/joaotinti75')

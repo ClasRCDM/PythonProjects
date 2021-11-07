@@ -1,16 +1,18 @@
+# & /Imports World\ & #
 import pygame
-from pygame.sprite import groupcollide
-import vars as v
+import vars as v  # Variables
 
-import Class.texts as t
-import Class.sounds as s
+import Class.texts as ts  # Set Texts
+import Class.text as t  # Create Text
+import Class.sounds as s  # Add sound
 
-import Class.player as p
-import Class.background as b
-import Class.enemies as e
+import Class.player as p  # Add player
+import Class.background as b  # Add background
+import Class.enemies as e  # Spawn Enemies
 
-from os import path, getcwd
-from sys import exit
+from os import path, getcwd  # Get files
+from sys import exit  # QUIT system
+# & \Imports World/ & #
 
 
 ########################
@@ -72,9 +74,6 @@ class World:  # A World l
         # /absolute world classes\ #
         self.World_adofle()
 
-        self.World_text_menu()
-        self.World_footer()
-
         self.World_scenes()
 
         self.World_widget()
@@ -100,8 +99,6 @@ class World:  # A World l
     def World_widget_update(self):
         match self.Itens_world['widget_world']:
             case 'StartGame':
-                self.World_text_menu_update()
-                self.World_footer_update()
                 self.World_sounds()
 
                 v.FPS = 7
@@ -116,8 +113,7 @@ class World:  # A World l
 
     def World_widget_events(self, ev):
         if self.Itens_world['Game_Start'] and not self.Itens_world['Game']:
-            self.World_text_menu_events(ev)
-            self.World_footer_events(ev)
+            pass
 
     def World_time(self):
         # Time and Space world
@@ -251,52 +247,6 @@ class World:  # A World l
     def World_sprits_update(self):
         # Set/Update sprits/draw
         self.Itens_world['Sprites_world'].update()
-
-    def World_footer(self):
-        # Load/Render footer menu
-        self.Text_world['DevClasRCDM'] = t.text(
-            self.screen, self.font_set, v.text_DEV,
-            12, v.WHITE, v.WIDTH / 2 + 105, 520, True)  # by ClasRCDM
-
-        self.Text_world['InsJoãoTinti'] = t.text(
-            self.screen, self.font_set, v.text_FOR,
-            11, v.GREY, v.WIDTH / 2 + 115, 550, True)  # by João Tinti
-
-    def World_footer_events(self, ev):
-        self.Text_world['DevClasRCDM'].point(pygame.mouse.get_pos(), ev)
-        self.Text_world['InsJoãoTinti'].point(pygame.mouse.get_pos(), ev)
-
-    def World_footer_update(self):
-        # Update footer menu
-        t.text(self.screen, self.font_set, '-Desenvolvido por',
-               12, v.WHITE, v.WIDTH / 2 - 65, 520, True)  # Developed
-        self.Text_world['DevClasRCDM'].animation(
-            True, 1, 1, '+backforth', 'repeat', 'Touched')
-        self.Text_world['DevClasRCDM'].draw()
-        self.Text_world['DevClasRCDM'].link('https://github.com/ClasRCDM')
-
-        t.text(self.screen, self.font_set, '-Projeto inspirado por',
-               11, v.GREY, v.WIDTH / 2 - 75, 550, True)  # Project inspired
-        self.Text_world['InsJoãoTinti'].animation(
-            True, 1, 1, '-backforth', 'repeat', 'Touched')
-        self.Text_world['InsJoãoTinti'].draw()
-        self.Text_world['InsJoãoTinti'].link('https://github.com/joaotinti75')
-
-    def World_text_menu(self):
-        # Load/render text menu
-        self.Text_world['Start_text'] = t.text(
-            self.screen, self.font_set, v.text_START, 15,
-            v.YELLOW, v.WIDTH / 2, 320, True)  # Press a key to play
-
-    def World_text_menu_events(self, ev):
-        # Check events menu
-        self.Text_world['Start_text'].point(pygame.mouse.get_pos(), ev)
-
-    def World_text_menu_update(self):
-        # Update text menu
-        self.Text_world['Start_text'].animation(
-            True, 1, 2, '-zoon', 'one_click', 'Touched')
-        self.Text_world['Start_text'].draw()
 
     def World_pacman(self):
         match self.Itens_world['widget_world']:
