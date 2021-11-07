@@ -70,10 +70,10 @@ SPRITE_PACMAN: dict = {'PACMAN_ATTACK': 'pacman_attack.png',
                        'PACMAN_RUN': 'pacman_run.png'}
 
 # $ Enemies $ #
-SPRITE_ENEMIES: dict = {'Enemy_1': 'enemy_0.png',
-                        'Enemy_2': 'enemy_1.png',
-                        'Enemy_3': 'enemy_2.png',
-                        'Enemy_4': 'enemy_3.png'}
+SPRITE_ENEMIES: list = ['enemy_0.png',
+                        'enemy_1.png',
+                        'enemy_2.png',
+                        'enemy_3.png']
 
 # $ Texts Wold $ #
 text_START: str = '-Pressione uma tecla para jogar'

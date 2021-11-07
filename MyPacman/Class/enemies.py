@@ -15,8 +15,9 @@ class spawn_enemies:
         self.pix_pos_enemies: list = []
         self.grid_pos_enemies: list = []
 
+        self.value_sprite: int = 0
         self.directory = path.join(getcwd(), v.MAIN_FILE, v.FILES[0])
-        self.sprite = path.join(self.directory, v.SPRITE_ENEMIES['Enemy_1'])
+
         self.get_location(self.wall_dirc)
 
         for value in self.grid_pos_enemies:
@@ -40,4 +41,6 @@ class spawn_enemies:
 
     def set_enemies(self):
         for pos in self.pix_pos_enemies:
+            self.sprite = path.join(self.directory, v.SPRITE_ENEMIES[self.value_sprite])
+            self.value_sprite += 1
             self.enemies.add(e.enemy(self.sprite, pos.x, pos.y))
