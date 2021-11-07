@@ -1,4 +1,4 @@
-from pygame import sprite, image, draw
+from pygame import sprite, image, draw, mask
 from pygame.math import Vector2 as vec
 
 import vars as v
@@ -10,7 +10,9 @@ class background(sprite.Sprite):
 
         ###################################
         # /​​absolute background variables\ #
-        self.image = image.load(images).convert()
+        self.image = image.load(images).convert_alpha()
+
+        self.mask = mask.from_surface(self.image)
 
         self.rect = self.image.get_rect()
         self.rect.center = (v.WIDTH / 2, v.HEIGHT / 2)

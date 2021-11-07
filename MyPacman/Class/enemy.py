@@ -19,9 +19,6 @@ class enemy(sprite.Sprite):
 
         self.rect = self.image.get_rect()
         self.pix_pos = self.get_pix_pos()
-
-        self.rect[0] = self.pix_pos.x
-        self.rect[1] = self.pix_pos.y
         # \player's absolute variables/ #
         #################################
 

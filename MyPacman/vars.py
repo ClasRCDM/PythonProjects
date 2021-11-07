@@ -55,7 +55,7 @@ WIDTH_CELL: int | float = WIDTH // 28
 HEIGHT_CELL: int | float = HEIGHT // 30
 
 # $ Player $ #
-PLAYER_START_POS: vec = vec(-1, 1)
+PLAYER_START_POS: vec = vec(1, 1)
 ENEMY_START_POS: vec = vec(1, 1)
 
 # %% Player location %% #

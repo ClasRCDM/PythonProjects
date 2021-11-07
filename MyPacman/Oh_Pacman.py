@@ -1,4 +1,5 @@
 import pygame
+from pygame.sprite import groupcollide
 import vars as v
 
 import Class.texts as t
@@ -84,6 +85,7 @@ class World:  # A World l
     def World_objcts(self):
         # Add in World
         self.Itens_world['Sprites_world'] = pygame.sprite.Group()
+        self.Itens_world['Background_world'] = pygame.sprite.Group()
 
         self.World_time()
 
@@ -139,6 +141,8 @@ class World:  # A World l
             self.World_pacman_update()
             # \absolute defs of the game/ #
             #####################################
+
+            self.Itens_world['Background_world'].update()
 
             pygame.display.flip()
             pygame.display.update()
@@ -317,7 +321,7 @@ class World:  # A World l
                     wall, self.Entities_world['Background'].wall_collision)
 
                 # Add to group sprites world
-                self.Itens_world['Sprites_world'].add(
+                self.Itens_world['Background_world'].add(
                     self.Entities_world['Background'])
                 self.Itens_world['Sprites_world'].add(
                     self.Entities_world['Pacman'])
@@ -327,8 +331,6 @@ class World:  # A World l
     def World_pacman_update(self):
         match self.Itens_world['widget_world']:
             case 'PlayGame':
-                self.Entities_world['Pacman'].move_update(
-                    self.Entities_world['Background'].wall_collision)
 
                 self.Entities_world['Pacman'].eat_coin(
                     self.Entities_world['Background'].on_coin(
@@ -336,10 +338,19 @@ class World:  # A World l
                         self.Entities_world['Pacman'].direction),
                     self.Entities_world['Background'].coins)
 
+                if pygame.sprite.groupcollide(
+                    self.Itens_world['Background_world'],
+                    self.Itens_world['Sprites_world'],
+                        False, False, pygame.sprite.collide_mask):
+                    self.Entities_world['Pacman'].togle_to_move = False
+                else:
+                    self.Entities_world['Pacman'].togle_to_move = True
+
     def World_SpritsDraw(self):
         # Add/set draw about sprits
         self.screen.fill(v.BACKGROUND)
         self.Itens_world['Sprites_world'].draw(self.screen)
+        self.Itens_world['Background_world'].draw(self.screen)
 
 
 ###################
