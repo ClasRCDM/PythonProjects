@@ -109,7 +109,7 @@ class World:  # A World l
                        v.GREY, v.WIDTH - 60, 10, False)
                 self.World_sounds()
 
-                v.FPS = 60
+                v.FPS = 120
 
     def World_widget_events(self, ev):
         if self.Itens_world['Game_Start'] and not self.Itens_world['Game']:
