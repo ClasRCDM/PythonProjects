@@ -18,8 +18,8 @@ class player_pacman(sprite.Sprite):
 
         self.rect = self.image.get_rect()
 
-        self.grid_pos = v.PLAYER_START_POS
-        self.direction = vec(1, 0)
+        self.grid_pos: vec = v.PLAYER_START_POS
+        self.direction: vec = vec(-1, 0)
 
         self.pix_pos = self.get_pix_pos()
         self.move_: bool = False
@@ -75,8 +75,8 @@ class player_pacman(sprite.Sprite):
                 self.direction = self.Stored_direction
             self.able_to_move = self.can_move(wall_collision)
 
-    def can_move(self, wall_collision: list) -> bool:  # Makes the collision with the wall
-        for wall in wall_collision:
+    def can_move(self, wall_collision: list) -> bool:
+        for wall in wall_collision:  # Makes the collision with the wall
             if vec(self.grid_pos + self.direction) == wall:
                 return False
         return True
