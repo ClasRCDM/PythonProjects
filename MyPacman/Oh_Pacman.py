@@ -174,7 +174,7 @@ class World:  # A World l
                         v.MUSICS = 'PlayGame_music'
 
                 case 'PlayGame':
-                    self.Entities_world['Pacman'].pacman_movement(ev)
+                    pass
 
             self.World_widget_events(ev)
 
@@ -301,50 +301,12 @@ class World:  # A World l
     def World_pacman(self):
         match self.Itens_world['widget_world']:
             case 'PlayGame':
-                pacman_sprite = path.join(
-                    self.Itens_world['dirctrymges'],
-                    v.SPRITE_PACMAN['PACMAN_RUN'])
-
-                wall = path.join(
-                    self.Itens_world['dirctrymges'], v.WALL_BACKGROUND)
-
-                # Create the entities of the world
-                self.Entities_world['Pacman'] = p.player_pacman(
-                    pacman_sprite)
-
-                self.Entities_world['Background'] = b.background(
-                    self.Itens_world['directory_background'], wall,
-                    self.screen,
-                    self.Entities_world['Pacman'].grid_pos)
-
-                self.Entities_world['Enemies'] = e.spawn_enemies(
-                    wall, self.Entities_world['Background'].wall_collision)
-
-                # Add to group sprites world
-                self.Itens_world['Background_world'].add(
-                    self.Entities_world['Background'])
-                self.Itens_world['Sprites_world'].add(
-                    self.Entities_world['Pacman'])
-                self.Itens_world['Sprites_world'].add(
-                    self.Entities_world['Enemies'].group())
+                pass
 
     def World_pacman_update(self):
         match self.Itens_world['widget_world']:
             case 'PlayGame':
-
-                self.Entities_world['Pacman'].eat_coin(
-                    self.Entities_world['Background'].on_coin(
-                        self.Entities_world['Pacman'].pix_pos,
-                        self.Entities_world['Pacman'].direction),
-                    self.Entities_world['Background'].coins)
-
-                if pygame.sprite.groupcollide(
-                    self.Itens_world['Background_world'],
-                    self.Itens_world['Sprites_world'],
-                        False, False, pygame.sprite.collide_mask):
-                    self.Entities_world['Pacman'].togle_to_move = False
-                else:
-                    self.Entities_world['Pacman'].togle_to_move = True
+                pass
 
     def World_SpritsDraw(self):
         # Add/set draw about sprits
