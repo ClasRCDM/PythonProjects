@@ -1,7 +1,7 @@
 import Class.text as t  # Set Text
 import vars as v  # Variables
 
-from pygame import mouse
+from pygame import mouse, event
 
 
 class menu_start():
@@ -26,35 +26,39 @@ class menu_start():
 
 
 class footer():
-    def __init__(self):
-        pass
+    def __init__(self, screen, font_set: str):
+        self.screen = screen
 
-    def World_footer(self, screen, text_world, font_set):
+        self.font_set: str = font_set
+
+    def text_dev(self):
         # Load/Render footer menu
-        text_world['DevClasRCDM'] = t.text(
-            screen, font_set, v.text_DEV,
+        return t.text(
+            self.screen, self.font_set, v.text_DEV,
             12, v.WHITE, v.WIDTH / 2 + 105, 520, True)  # by ClasRCDM
 
-        text_world['InsJoãoTinti'] = t.text(
-            screen, font_set, v.text_FOR,
+    def text_for(self):
+        return t.text(
+            self.screen, self.font_set, v.text_FOR,
             11, v.GREY, v.WIDTH / 2 + 115, 550, True)  # by João Tinti
 
-    def World_footer_events(self, text_world, ev):
-        text_world['DevClasRCDM'].point(mouse.get_pos(), ev)
-        text_world['InsJoãoTinti'].point(mouse.get_pos(), ev)
+    def events(self, ev, text_dev, text_for):
+        text_dev.point(mouse.get_pos(), ev)
+        text_for.point(mouse.get_pos(), ev)
 
-    def World_footer_update(self, screen, text_world, font_set):
+    def update(self, text_dev, text_for):
         # Update footer menu
-        t.text(screen, font_set, '-Desenvolvido por',
-            12, v.WHITE, v.WIDTH / 2 - 65, 520, True)  # Developed
-        text_world['DevClasRCDM'].animation(
-            True, 1, 1, '+backforth', 'repeat', 'Touched')
-        text_world['DevClasRCDM'].draw()
-        text_world['DevClasRCDM'].link('https://github.com/ClasRCDM')
+        t.text(self.screen, self.font_set, '-Desenvolvido por',
+               12, v.WHITE, v.WIDTH / 2 - 65, 520, True)  # Developed
 
-        t.text(screen, font_set, '-Projeto inspirado por',
-            11, v.GREY, v.WIDTH / 2 - 75, 550, True)  # Project inspired
-        text_world['InsJoãoTinti'].animation(
+        text_dev.animation(
+            True, 1, 1, '+backforth', 'repeat', 'Touched')
+        text_dev.draw()
+        text_dev.link('https://github.com/ClasRCDM')
+
+        t.text(self.screen, self.font_set, '-Projeto inspirado por',
+               11, v.GREY, v.WIDTH / 2 - 75, 550, True)  # Project inspired
+        text_for.animation(
             True, 1, 1, '-backforth', 'repeat', 'Touched')
-        text_world['InsJoãoTinti'].draw()
-        text_world['InsJoãoTinti'].link('https://github.com/joaotinti75')
+        text_for.draw()
+        text_for.link('https://github.com/joaotinti75')

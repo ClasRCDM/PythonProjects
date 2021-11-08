@@ -48,7 +48,7 @@ class World:  # A World l
         # $$ Player $$ #
         self.Entities_world = {}
         # $ WidGets $ #
-        self.Itens_world['widget_world'] = 'StartGame'
+        self.Itens_world['Scenes'] = 'StartGame'
         # $ Images $ #
         self.Images_world = {}
         # $ Texts $ #
@@ -89,17 +89,26 @@ class World:  # A World l
         self.World_time()
 
     def World_widget(self):
-        match self.Itens_world['widget_world']:
+        match self.Itens_world['Scenes']:
             case 'StartGame':
                 self.World_image_LOGO()
+                self.Itens_world['text_footer'] = \
+                    ts.footer(self.screen, self.font_set)
+                self.Text_world['DevClasRCDM'] = \
+                    self.Itens_world['text_footer'].text_dev()
+                self.Text_world['InsJoãoTinti'] = \
+                    self.Itens_world['text_footer'].text_for()
 
             case 'PlayGame':
                 pass
 
     def World_widget_update(self):
-        match self.Itens_world['widget_world']:
+        match self.Itens_world['Scenes']:
             case 'StartGame':
                 self.World_sounds()
+                self.Itens_world['text_footer'].update(
+                    self.Text_world['DevClasRCDM'],
+                    self.Text_world['InsJoãoTinti'])
 
                 v.FPS = 7
 
@@ -134,7 +143,7 @@ class World:  # A World l
             # \absolute variables of the world/ #
             #####################################
             # /absolute defs of the game\ #
-            self.World_pacman_update()
+            # self.World_pacman()
             # \absolute defs of the game/ #
             #####################################
 
@@ -154,36 +163,37 @@ class World:  # A World l
                 exit()
 
             # Init game
-            match self.Itens_world['widget_world']:
+            match self.Itens_world['Scenes']:
                 case 'StartGame':
+                    self.Itens_world['text_footer'].events(
+                        ev,
+                        self.Text_world['DevClasRCDM'],
+                        self.Text_world['InsJoãoTinti'])
+
                     if ev.type == pygame.KEYUP:
                         self.Itens_world['Game'] = True
                         self.Itens_world['Game_Start'] = False
-                        self.Itens_world['widget_world'] = 'PlayGame'
+                        self.Itens_world['Scenes'] = 'PlayGame'
 
                         self.Text_world = {}
                         self.Images_world = {}
 
                         self.World_widget()
-                        self.World_pacman()
 
                         v.MUSICS = 'PlayGame_music'
 
                 case 'PlayGame':
                     pass
 
-            self.World_widget_events(ev)
-
     def World_functions(self):
         if self.Itens_world['Game_Start'] and not self.Itens_world['Game']:
-            self.Itens_world['widget_world'] = 'StartGame'
+            self.Itens_world['Scenes'] = 'StartGame'
         elif self.Itens_world['Game'] and not self.Itens_world['Game_Start']:
-            self.Itens_world['widget_world'] = 'PlayGame'
+            self.Itens_world['Scenes'] = 'PlayGame'
 
     def World_scenes(self):
         # Manage the scenes
         self.Itens_world['Game_Start'] = v.game_start
-
         self.Itens_world['Game'] = v.game
 
     def World_adofle(self):
@@ -201,13 +211,11 @@ class World:  # A World l
 
     def World_images_update(self):
         # Call/add image
-        match self.Itens_world['widget_world']:
+        match self.Itens_world['Scenes']:
             case 'StartGame':
                 self.screen.blit(
                     self.Images_world['pacmanlogo'],
                     (self.Images_world['pacmanlogo_rect']))
-            case 'PlayGame':
-                pass
 
     def World_image_LOGO(self):
         pacmanlogo = path.join(
@@ -247,16 +255,6 @@ class World:  # A World l
     def World_sprits_update(self):
         # Set/Update sprits/draw
         self.Itens_world['Sprites_world'].update()
-
-    def World_pacman(self):
-        match self.Itens_world['widget_world']:
-            case 'PlayGame':
-                pass
-
-    def World_pacman_update(self):
-        match self.Itens_world['widget_world']:
-            case 'PlayGame':
-                pass
 
     def World_SpritsDraw(self):
         # Add/set draw about sprits
