@@ -1,4 +1,4 @@
-from pygame import sprite, mask
+from pygame import sprite
 from pygame.math import Vector2 as vec
 from pygame import KEYDOWN,\
     K_LEFT, K_a, K_RIGHT, K_d, K_UP, K_w, K_DOWN, K_s
@@ -8,7 +8,11 @@ import vars as v
 
 
 class pacman(sprite.Sprite):
-    def __init__(self, image, walls, coins, cell_width, cell_height, file_wall) -> None:
+    def __init__(self, image: str,
+                 walls: list, coins: list,
+                 cell_width: int | float, cell_height: int | float,
+                 file_wall: str) -> None:
+
         sprite.Sprite.__init__(self)
 
         #################################
@@ -20,27 +24,27 @@ class pacman(sprite.Sprite):
         self.togle_to_move = True
 
         # $ Movement cell size $ #
-        self.cell_width = cell_width
-        self.cell_height = cell_height
+        self.cell_width: int | float = cell_width
+        self.cell_height: int | float = cell_height
 
         # $ Location/ Start and End$ #
         self.grid_pos: vec = self.get_location(file_wall)
-        self.pix_pos = self.get_pix_pos()
+        self.pix_pos: vec = self.get_pix_pos()
 
         self.direction: vec = vec(1, 0)
 
         # $ Get location walls and coins $ #
-        self.walls = walls
-        self.coins = coins
+        self.walls: list = walls
+        self.coins: list = coins
 
         # $ Wall variables $ #
         self.stored_direction = None
         self.able_to_move: bool = True
 
         # $ Lives, velocity and Points $ #
-        self.current_score = 0
-        self.speed = 2
-        self.lives = 1
+        self.current_score: int = 0
+        self.speed: int | float = 2
+        self.lives: int = 1
         # \player's absolute variables/ #
         #################################
 

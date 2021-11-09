@@ -43,20 +43,20 @@ class World:  # A World l
         #################
         # \Itens World/ #
 
-        self.Itens_world = {}
+        self.Itens_world: dict = {}
 
         # $ Sprites $ #
         # $ Directories $ #
-        self.Directory_world = {}
+        self.Directory_world: dict = {}
         # $ Scenes $ #
         # $$ Player $$ #
-        self.Entities_world = {}
+        self.Entities_world: dict = {}
         # $ WidGets $ #
         self.Itens_world['Scenes'] = 'StartGame'
         # $ Images $ #
-        self.Images_world = {}
+        self.Images_world: dict = {}
         # $ Texts $ #
-        self.Text_world = {}
+        self.Text_world: dict = {}
 
         # \Itens World/ #
         #################
@@ -71,13 +71,13 @@ class World:  # A World l
 
         self.Fps = pygame.time.Clock()
 
-        self.Run = True
-        self.running = True
+        self.Run: bool = True
+        self.running: bool = True
 
         self.Itens_world['directory'] = {}
 
-        self.cell_width = v.MAZE_WIDTH // v.COLS
-        self.cell_height = v.MAZE_HEIGHT // v.ROWS
+        self.cell_width: int | float = v.MAZE_WIDTH // v.COLS
+        self.cell_height: int | float = v.MAZE_HEIGHT // v.ROWS
         # \absolute variables of the world/ #
         # &###############################& #
         # /absolute world classes\ #
