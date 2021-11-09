@@ -16,8 +16,6 @@ class player_pacman(sprite.Sprite):
         self.image = img.load(image).convert()
         self.image = tfm.scale(self.image, (17, 17))
 
-        self.mask = mask.from_surface(self.image)
-
         self.rect = self.image.get_rect()
 
         self.grid_pos: vec = v.PLAYER_START_POS

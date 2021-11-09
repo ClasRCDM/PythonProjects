@@ -1,5 +1,5 @@
 from pygame.math import Vector2 as vec
-from os import path, getcwd
+from os import path, getcwd  # Get files
 
 #####################################
 # /absolute variables of the world\ #
@@ -68,7 +68,7 @@ wall = path.join(getcwd(), MAIN_FILE, FILES[0], WALL_BACKGROUND)
 with open(wall, mode='r') as file:
     for yidx, line in enumerate(file):
         for xidx, char in enumerate(line):
-            if char == 'P':
+            if char == '1':
                 PLAYER_START_POS = vec(xidx, yidx)
 
 # $$ Sprites Player $$ #
@@ -82,7 +82,7 @@ SPRITE_ENEMIES: list = ['enemy_0.png',
                         'enemy_3.png']
 
 # $ Texts Wold $ #
-text_START: str = '-Pressione uma tecla para jogar'
+text_START: str = '-Pressione espaço para jogar'
 text_DEV: str = 'ClasRCDM'
 text_FOR: str = 'João Tinti'
 

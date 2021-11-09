@@ -85,7 +85,7 @@ class World:  # A World l
 
         self.World_scenes()
 
-        self.World_widget()
+        self.Scene_global()
         self.World_objcts()
         # \absolute world classes/ #
         # &######################& #
@@ -97,34 +97,74 @@ class World:  # A World l
 
         self.World_time()
 
-    def World_widget(self):
+    def Scene_global(self):
         match self.Itens_world['Scenes']:
             case 'StartGame':
+                ###############################
+                # /absolute commands in Menu\ #
+                # $(Images)$ #
                 self.World_image_LOGO()
+
+                # $(Texts)$ #
+                # $$(Footer)$$ #
                 self.Itens_world['text_footer'] = \
-                    ts.footer(self.screen, self.Directory_world['font_set'])
+                    ts.footer(self.screen,
+                              self.Directory_world['font_set'])
                 self.Text_world['DevClasRCDM'] = \
-                    self.Itens_world['text_footer'].text_dev()
+                    self.Itens_world['text_footer'].dev()
                 self.Text_world['InsJoãoTinti'] = \
-                    self.Itens_world['text_footer'].text_for()
+                    self.Itens_world['text_footer'].forj()
+
+                # $$(Start Menu)$$ #
+                self.Itens_world['text_startmenu'] = \
+                    ts.start_menu(self.screen,
+                                  self.Directory_world['font_set'])
+                self.Text_world['StartMenu'] = \
+                    self.Itens_world['text_startmenu'].start()
+                # $(Texts)$ ##
+                # \absolute commands in Menu/ #
+                ###############################
 
             case 'PlayGame':
+                ###############################
+                # /absolute commands in Game\ #
+                # $(Background/Map)$ #
                 self.Itens_world['Background'] = b.background(
-                    self.Directory_world['diry_bck_img'], self.Directory_world['diry_bck_txt'],
+                    self.Directory_world['diry_bck_img'],
+                    self.Directory_world['diry_bck_txt'],
                     self.screen, self.cell_width, self.cell_height)
-                self.Itens_world['Background_world'].add(self.Itens_world['Background'])
 
-    def World_widget_update(self):
+                # $(Add in world)$ #
+                self.Itens_world['Background_world'].add(
+                    self.Itens_world['Background'])
+                # \absolute commands in Game/ #
+                ###############################
+
+    def Scene_global_update(self):
         match self.Itens_world['Scenes']:
             case 'StartGame':
+                ###############################
+                # /absolute commands in Menu\ #
+                # $(Sounds)$ #
                 self.World_sounds()
+
+                # $(Texts)$ #
+                # $$(Footer)$$ #
                 self.Itens_world['text_footer'].update(
                     self.Text_world['DevClasRCDM'],
                     self.Text_world['InsJoãoTinti'])
+                # $$(Start Menu)$$ #
+                self.Itens_world['text_startmenu'].update(
+                    self.Text_world['StartMenu'])
 
                 v.FPS = 7
+                # \absolute commands in Menu/ #
+                ###############################
 
             case 'PlayGame':
+                ###############################
+                # /absolute commands in Game\ #
+                # $(Texts)$ #
                 t.text(self.screen, self.Directory_world['font_set'],
                        f'FPS: {self.Fps.get_fps():.2f}', 10,
                        v.GREY, v.WIDTH - 60, 10, False)
@@ -132,9 +172,8 @@ class World:  # A World l
 
                 v.FPS = 120
 
-    def World_widget_events(self, ev):
-        if self.Itens_world['Game_Start'] and not self.Itens_world['Game']:
-            pass
+                # \absolute commands in Game/ #
+                ###############################
 
     def World_time(self):
         # Time and Space world
@@ -142,7 +181,7 @@ class World:  # A World l
 
             self.point_mouse = pygame.mouse.get_pos()
 
-            #####################################
+            ################################
             # /absolute defs of the world\ #
             self.World_events()
             self.World_functions()
@@ -151,13 +190,14 @@ class World:  # A World l
             self.World_sprits_update()
 
             self.World_images_update()
-            self.World_widget_update()
-            # \absolute variables of the world/ #
-            #####################################
+
+            self.Scene_global_update()
+            # \absolute defs of the world/ #
+            ################################
             # /absolute defs of the game\ #
             # self.World_pacman()
             # \absolute defs of the game/ #
-            #####################################
+            ###############################
 
             self.Itens_world['Background_world'].update()
 
@@ -182,17 +222,25 @@ class World:  # A World l
                         self.Text_world['DevClasRCDM'],
                         self.Text_world['InsJoãoTinti'])
 
+                    self.Itens_world['text_startmenu'].events(
+                        ev,
+                        self.Text_world['StartMenu'])
+
                     if ev.type == pygame.KEYUP:
-                        self.Itens_world['Game'] = True
-                        self.Itens_world['Game_Start'] = False
-                        self.Itens_world['Scenes'] = 'PlayGame'
+                        if ev.key == pygame.K_SPACE:
+                            self.Itens_world['Game'] = True
+                            self.Itens_world['Game_Start'] = False
+                            self.Itens_world['Scenes'] = 'PlayGame'
 
-                        self.Text_world = {}
-                        self.Images_world = {}
+                            self.Text_world = {}
+                            self.Images_world = {}
 
-                        self.World_widget()
+                            del self.Itens_world['text_footer']
+                            del self.Itens_world['text_startmenu']
 
-                        v.MUSICS = 'PlayGame_music'
+                            self.Scene_global()
+
+                            v.MUSICS = 'PlayGame_music'
 
                 case 'PlayGame':
                     pass

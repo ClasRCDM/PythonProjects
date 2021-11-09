@@ -4,25 +4,27 @@ import vars as v  # Variables
 from pygame import mouse, event
 
 
-class menu_start():
-    def __init__(self):
-        pass
+class start_menu():
+    def __init__(self, screen, font_set: str):
+        self.screen = screen
 
-    def World_text_menu(self, screen, text_world, font_set):
+        self.font_set: str = font_set
+
+    def start(self):
         # Load/render text menu
-        text_world['Start_text'] = t.text(
-            screen, font_set, v.text_START, 15,
+        return t.text(
+            self.screen, self.font_set, v.text_START, 15,
             v.YELLOW, v.WIDTH / 2, 320, True)  # Press a key to play
 
-    def World_text_menu_events(self, text_world, ev):
-        # Check events menu
-        text_world['Start_text'].point(mouse.get_pos(), ev)
-
-    def World_text_menu_update(self, text_world):
+    def update(self, text_startmenu):
         # Update text menu
-        text_world['Start_text'].animation(
+        text_startmenu.animation(
             True, 1, 2, '-zoon', 'one_click', 'Touched')
-        text_world['Start_text'].draw()
+        text_startmenu.draw()
+
+    def events(self, ev, text_startmenu):
+        # Check events menu
+        text_startmenu.point(mouse.get_pos(), ev)
 
 
 class footer():
@@ -31,13 +33,13 @@ class footer():
 
         self.font_set: str = font_set
 
-    def text_dev(self):
+    def dev(self):
         # Load/Render footer menu
         return t.text(
             self.screen, self.font_set, v.text_DEV,
             12, v.WHITE, v.WIDTH / 2 + 105, 520, True)  # by ClasRCDM
 
-    def text_for(self):
+    def forj(self):
         return t.text(
             self.screen, self.font_set, v.text_FOR,
             11, v.GREY, v.WIDTH / 2 + 115, 550, True)  # by João Tinti
