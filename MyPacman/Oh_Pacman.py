@@ -35,6 +35,9 @@ class World:  # A World l
         self.running = None
 
         self.point_mouse = None
+
+        self.cell_width = None
+        self.cell_height = None
         # &#########################& #
 
         #################
@@ -44,6 +47,7 @@ class World:  # A World l
 
         # $ Sprites $ #
         # $ Directories $ #
+        self.Directory_world = {}
         # $ Scenes $ #
         # $$ Player $$ #
         self.Entities_world = {}
@@ -69,6 +73,11 @@ class World:  # A World l
 
         self.Run = True
         self.running = True
+
+        self.Itens_world['directory'] = {}
+
+        self.cell_width = v.MAZE_WIDTH // v.COLS
+        self.cell_height = v.MAZE_HEIGHT // v.ROWS
         # \absolute variables of the world/ #
         # &###############################& #
         # /absolute world classes\ #
@@ -93,14 +102,17 @@ class World:  # A World l
             case 'StartGame':
                 self.World_image_LOGO()
                 self.Itens_world['text_footer'] = \
-                    ts.footer(self.screen, self.font_set)
+                    ts.footer(self.screen, self.Directory_world['font_set'])
                 self.Text_world['DevClasRCDM'] = \
                     self.Itens_world['text_footer'].text_dev()
                 self.Text_world['InsJoãoTinti'] = \
                     self.Itens_world['text_footer'].text_for()
 
             case 'PlayGame':
-                pass
+                self.Itens_world['Background'] = b.background(
+                    self.Directory_world['diry_bck_img'], self.Directory_world['diry_bck_txt'],
+                    self.screen, self.cell_width, self.cell_height)
+                self.Itens_world['Background_world'].add(self.Itens_world['Background'])
 
     def World_widget_update(self):
         match self.Itens_world['Scenes']:
@@ -113,7 +125,7 @@ class World:  # A World l
                 v.FPS = 7
 
             case 'PlayGame':
-                t.text(self.screen, self.font_set,
+                t.text(self.screen, self.Directory_world['font_set'],
                        f'FPS: {self.Fps.get_fps():.2f}', 10,
                        v.GREY, v.WIDTH - 60, 10, False)
                 self.World_sounds()
@@ -205,9 +217,13 @@ class World:  # A World l
         self.Itens_world['dirctyfnts'] = path.join(
             getcwd(), v.MAIN_FILE, v.FILES[2])
 
-        self.font_set = path.join(self.Itens_world['dirctyfnts'], v.FONT)
-        self.Itens_world['directory_background'] = path.join(
+        self.Directory_world['font_set'] = path.join(
+            self.Itens_world['dirctyfnts'], v.FONT)
+
+        self.Directory_world['diry_bck_img'] = path.join(
             self.Itens_world['dirctrymges'], v.MAZE_BACKGROUND)
+        self.Directory_world['diry_bck_txt'] = path.join(
+            self.Itens_world['dirctrymges'], v.WALL_BACKGROUND)
 
     def World_images_update(self):
         # Call/add image

@@ -4,8 +4,8 @@ from os import path, getcwd
 #####################################
 # /absolute variables of the world\ #
 
-WIDTH: int = 560
-HEIGHT: int = 620
+WIDTH: int = 610
+HEIGHT: int = 670
 
 FUllSCREEN: tuple = (WIDTH, HEIGHT)
 
@@ -17,9 +17,11 @@ TITLE_GAME: str = 'Oh, PACman'
 ICON: str = 'iconPac.png'
 
 BACKGROUND: tuple = (0, 0, 0)
-WALL_BACKGROUND: str = 'walls.txt'
 
 FPS: int | float = 60
+
+TOP_BOTTOM_BUFFER = 50
+MAZE_WIDTH, MAZE_HEIGHT = WIDTH-TOP_BOTTOM_BUFFER, HEIGHT-TOP_BOTTOM_BUFFER
 
 FONT: str = 'PressStart2P.ttf'
 
@@ -36,6 +38,9 @@ MUSICS: str = 'StartGame_music'
 # $ Images $ #
 LOGO_PACMAN: str = 'PACMANLOGO.png'
 MAZE_BACKGROUND: str = 'maze.png'
+
+# $ TXT $ #
+WALL_BACKGROUND: str = 'walls.txt'
 
 # $ Sounds $ #
 music_START: str = 'intermission.wav'
@@ -83,3 +88,6 @@ text_FOR: str = 'João Tinti'
 
 # \global variables/ #
 #####################################
+
+ROWS = 30
+COLS = 28
