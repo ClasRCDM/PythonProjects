@@ -7,41 +7,73 @@ from pygame import image as img, transform as tfm
 import vars as v
 
 
-class player_pacman(sprite.Sprite):
-    def __init__(self, image) -> None:
+class pacman(sprite.Sprite):
+    def __init__(self, image, walls, coins, cell_width, cell_height, file_wall) -> None:
         sprite.Sprite.__init__(self)
 
         #################################
         # /player's absolute variables\ #
-        self.image = img.load(image).convert()
-        self.image = tfm.scale(self.image, (17, 17))
+        self.image = img.load(image).convert_alpha()
+        self.image = tfm.scale(self.image, (16, 16))
 
         self.rect = self.image.get_rect()
+        self.togle_to_move = True
 
-        self.grid_pos: vec = v.PLAYER_START_POS
+        # $ Movement cell size $ #
+        self.cell_width = cell_width
+        self.cell_height = cell_height
+
+        # $ Location/ Start and End$ #
+        self.grid_pos: vec = self.get_location(file_wall)
         self.pix_pos = self.get_pix_pos()
 
         self.direction: vec = vec(1, 0)
 
-        self.Stored_direction = None
+        # $ Get location walls and coins $ #
+        self.walls = walls
+        self.coins = coins
+
+        # $ Wall variables $ #
+        self.stored_direction = None
         self.able_to_move: bool = True
-        self.togle_to_move = True
+
+        # $ Lives, velocity and Points $ #
+        self.current_score = 0
+        self.speed = 2
+        self.lives = 1
         # \player's absolute variables/ #
         #################################
 
     def update(self):
-        # Player square
-        self.grid_pos[0] = \
-            (self.pix_pos[0] + v.WIDTH_CELL // 2) // v.WIDTH_CELL
-        self.grid_pos[1] = \
-            (self.pix_pos[1] + v.WIDTH_CELL // 2) // v.WIDTH_CELL
+        if self.able_to_move:  # Add movement player
+            self.pix_pos += self.direction * self.speed
 
-        # Add current player position
-        self.move_update()
-        self.rect[0] = self.pix_pos.x
-        self.rect[1] = self.pix_pos.y
+        if self.time_to_move():  # Check if you can move
+            if self.stored_direction is not None:
+                self.direction = self.stored_direction
+            self.able_to_move = self.can_move()
 
-    def pacman_movement(self, ev):  # Check movement inputs
+        # Setting grid position in reference to pix pos
+        self.grid_pos[0] = (self.pix_pos[0] - v.TOP_BOTTOM_BUFFER +
+                            self.cell_width // 2) // self.cell_width + 1
+        self.grid_pos[1] = (self.pix_pos[1] - v.TOP_BOTTOM_BUFFER +
+                            self.cell_height // 2) // self.cell_height + 1
+
+        if self.on_coin():  # Eat coins
+            self.eat_coin(self.coins)
+
+        # Set position global player
+        self.rect[0] = self.pix_pos.x - int(v.TOP_BOTTOM_BUFFER / 5.5)
+        self.rect[1] = self.pix_pos.y - int(v.TOP_BOTTOM_BUFFER / 6)
+
+    def get_location(self, file):  # Set loocation player
+        with open(file, mode='r') as file:
+            for yidx, line in enumerate(file):
+                for xidx, char in enumerate(line):
+                    if char == 'P':
+                        return vec(xidx, yidx)
+
+    def movement(self, ev):  # Check movement inputs
         if ev.type == KEYDOWN:
             if ev.key == K_LEFT or ev.key == K_a:
                 self.move(vec(-1, 0))
@@ -52,33 +84,40 @@ class player_pacman(sprite.Sprite):
             if ev.key == K_DOWN or ev.key == K_s:
                 self.move(vec(0, 1))
 
-    def eat_coin(self, on_coin, coins):  # Check and eat the coins
-        if on_coin:
-            coins.remove(self.grid_pos)
+    def eat_coin(self, coins):  # Check and eat the coins
+        coins.remove(self.grid_pos)
 
-    def move(self, direction):
-        self.Stored_direction = direction
+    def on_coin(self) -> bool:  # Check if it collided with a coin
+        if self.grid_pos in self.coins:
+            if int(self.pix_pos.x + v.TOP_BOTTOM_BUFFER // 2) % self.cell_width == 0:
+                if self.direction == vec(1, 0) or self.direction == vec(-1, 0):
+                    return True
+            if int(self.pix_pos.y + v.TOP_BOTTOM_BUFFER // 2) % self.cell_height == 0:
+                if self.direction == vec(0, 1) or self.direction == vec(0, -1):
+                    return True
+        return False
 
-    def move_update(self):
-        # Character direction
-        if self.togle_to_move:
-            self.pix_pos += self.direction
-        else:
-            self.move(vec(0, 1))
+    def move(self, direction):  # move! k
+        self.stored_direction: vec = direction
 
-        self.time_to_move()
+    def can_move(self) -> bool:  # Check if it collided with the wall
+        for wall in self.walls:
+            if vec(self.grid_pos + self.direction) == wall:
+                return False
+        return True
 
-    def time_to_move(self):  # Check if the player can move
-        if (self.pix_pos.x + 40 // 2) % v.WIDTH_CELL == 1:
-            if self.direction == vec(1, 0) or self.direction == vec(-1, 0):
-                if self.Stored_direction is not None:
-                    self.direction = self.Stored_direction
-        if (self.pix_pos.y + 40 // 2) % v.HEIGHT_CELL == 1:
-            if self.direction == vec(0, 1) or self.direction == vec(0, -1):
-                if self.Stored_direction is not None:
-                    self.direction = self.Stored_direction
+    def time_to_move(self) -> bool:  # Check if it is able to move
+        if int(self.pix_pos.x + v.TOP_BOTTOM_BUFFER // 2) % self.cell_width == 0:
+            if self.direction == vec(1, 0) or self.direction == vec(-1, 0) or self.direction == vec(0, 0):
+                return True
+        if int(self.pix_pos.y + v.TOP_BOTTOM_BUFFER // 2) % self.cell_height == 0:
+            if self.direction == vec(0, 1) or self.direction == vec(0, -1) or self.direction == vec(0, 0):
+                return True
 
-    def get_pix_pos(self) -> vec:  # Grid pos player
-        return vec(self.grid_pos.x * v.WIDTH_CELL + 2,
-                   self.grid_pos.y * v.HEIGHT_CELL + 2)
-        print(self.grid_pos, self.pix_pos)
+    def get_pix_pos(self) -> vec:  # Get and add player position
+        return vec((self.grid_pos[0] * self.cell_width)
+                   + v.TOP_BOTTOM_BUFFER // 2
+                   + self.cell_width // 2,
+                   (self.grid_pos[1] * self.cell_height)
+                   + v.TOP_BOTTOM_BUFFER // 2
+                   + self.cell_height // 2)

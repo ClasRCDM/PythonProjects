@@ -28,7 +28,7 @@ class text:  # Texts
         # &#########################& #
 
         #################
-        # \Itens Texts/ #
+        # /Itens Texts\ #
 
         self.Itens_texts = {}
 

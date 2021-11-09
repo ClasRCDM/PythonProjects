@@ -59,18 +59,6 @@ BLUE: tuple = (30, 144, 255)
 WIDTH_CELL: int | float = WIDTH // 28
 HEIGHT_CELL: int | float = HEIGHT // 30
 
-# $ Player $ #
-PLAYER_START_POS: vec = vec(1, 1)
-ENEMY_START_POS: vec = vec(1, 1)
-
-# %% Player location %% #
-wall = path.join(getcwd(), MAIN_FILE, FILES[0], WALL_BACKGROUND)
-with open(wall, mode='r') as file:
-    for yidx, line in enumerate(file):
-        for xidx, char in enumerate(line):
-            if char == '1':
-                PLAYER_START_POS = vec(xidx, yidx)
-
 # $$ Sprites Player $$ #
 SPRITE_PACMAN: dict = {'PACMAN_ATTACK': 'pacman_attack.png',
                        'PACMAN_RUN': 'pacman_run.png'}

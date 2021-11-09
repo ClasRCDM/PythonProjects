@@ -134,9 +134,19 @@ class World:  # A World l
                     self.Directory_world['diry_bck_txt'],
                     self.screen, self.cell_width, self.cell_height)
 
+                self.Entities_world['Pacman'] = \
+                    p.pacman(
+                        self.Directory_world['sprite_pacman'],
+                        self.Itens_world['Background'].wall_collision,
+                        self.Itens_world['Background'].coins,
+                        self.cell_width, self.cell_height,
+                        self.Directory_world['diry_bck_txt'])
+
                 # $(Add in world)$ #
                 self.Itens_world['Background_world'].add(
                     self.Itens_world['Background'])
+                self.Itens_world['Background_world'].add(
+                    self.Entities_world['Pacman'])
                 # \absolute commands in Game/ #
                 ###############################
 
@@ -243,7 +253,7 @@ class World:  # A World l
                             v.MUSICS = 'PlayGame_music'
 
                 case 'PlayGame':
-                    pass
+                    self.Entities_world['Pacman'].movement(ev)
 
     def World_functions(self):
         if self.Itens_world['Game_Start'] and not self.Itens_world['Game']:
@@ -272,6 +282,9 @@ class World:  # A World l
             self.Itens_world['dirctrymges'], v.MAZE_BACKGROUND)
         self.Directory_world['diry_bck_txt'] = path.join(
             self.Itens_world['dirctrymges'], v.WALL_BACKGROUND)
+
+        self.Directory_world['sprite_pacman'] = path.join(
+            self.Itens_world['dirctrymges'], v.SPRITE_PACMAN['PACMAN_RUN'])
 
     def World_images_update(self):
         # Call/add image
