@@ -180,7 +180,7 @@ class World:  # A World l
                        v.GREY, v.WIDTH - 60, 10, False)
                 self.World_sounds()
 
-                v.FPS = 120
+                v.FPS = 60
 
                 # \absolute commands in Game/ #
                 ###############################
