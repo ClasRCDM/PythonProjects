@@ -8,7 +8,7 @@ import Class.sounds as s  # Add sound
 
 import Class.player as p  # Add player
 import Class.background as b  # Add background
-import Class.enemies as e  # Spawn Enemies
+# import Class.enemies as e  # Spawn Enemies
 
 from os import path, getcwd  # Get files
 from sys import exit  # QUIT system

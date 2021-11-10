@@ -93,10 +93,12 @@ class pacman(sprite.Sprite):
 
     def on_coin(self) -> bool:  # Check if it collided with a coin
         if self.grid_pos in self.coins:
-            if int(self.pix_pos.x + v.TOP_BOTTOM_BUFFER // 2) % self.cell_width == 0:
+            if int(self.pix_pos.x + v.TOP_BOTTOM_BUFFER // 2) %\
+                    self.cell_width == 0:
                 if self.direction == vec(1, 0) or self.direction == vec(-1, 0):
                     return True
-            if int(self.pix_pos.y + v.TOP_BOTTOM_BUFFER // 2) % self.cell_height == 0:
+            if int(self.pix_pos.y + v.TOP_BOTTOM_BUFFER // 2) %\
+                    self.cell_height == 0:
                 if self.direction == vec(0, 1) or self.direction == vec(0, -1):
                     return True
         return False
@@ -111,11 +113,17 @@ class pacman(sprite.Sprite):
         return True
 
     def time_to_move(self) -> bool:  # Check if it is able to move
-        if int(self.pix_pos.x + v.TOP_BOTTOM_BUFFER // 2) % self.cell_width == 0:
-            if self.direction == vec(1, 0) or self.direction == vec(-1, 0) or self.direction == vec(0, 0):
+        if int(self.pix_pos.x + v.TOP_BOTTOM_BUFFER // 2) %\
+                self.cell_width == 0:
+            if self.direction == vec(1, 0) or\
+                    self.direction == vec(-1, 0) or\
+                    self.direction == vec(0, 0):
                 return True
-        if int(self.pix_pos.y + v.TOP_BOTTOM_BUFFER // 2) % self.cell_height == 0:
-            if self.direction == vec(0, 1) or self.direction == vec(0, -1) or self.direction == vec(0, 0):
+        if int(self.pix_pos.y + v.TOP_BOTTOM_BUFFER // 2) %\
+                self.cell_height == 0:
+            if self.direction == vec(0, 1) or\
+                    self.direction == vec(0, -1) or\
+                    self.direction == vec(0, 0):
                 return True
 
     def get_pix_pos(self) -> vec:  # Get and add player position

@@ -1,7 +1,7 @@
 import Class.text as t  # Set Text
 import vars as v  # Variables
 
-from pygame import mouse, event
+from pygame import mouse
 
 
 class start_menu():

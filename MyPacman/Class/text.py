@@ -57,8 +57,8 @@ class text:  # Texts
     def animation(self,
                   animation: bool = True, value_move: int = 1, limit: int = 3,
                   type_animation: str = 'None', constant: str = 'repeat',
-                  type: str = 'None', fps: int = 60):  # I add values ​​for animation and check if it will animate
-
+                  type: str = 'None', fps: int = 60):
+        # I add values ​​for animation and check if it will animate
         self.Itens_texts['animation_if'] = animation
         self.Itens_texts['animation_constant'] = constant
         self.Itens_texts['limit'] = limit
@@ -151,7 +151,8 @@ class text:  # Texts
         if ev.type == MOUSEBUTTONDOWN:
             self.mouse_action_t = \
                 'Touched' if\
-                self.Itens_texts['text_rect'].collidepoint(point_mouse) else 'None'
+                self.Itens_texts['text_rect'].collidepoint(
+                    point_mouse) else 'None'
 
     def check_point(self, type):  # check for mouse collision on text
         if type == 'Hover':

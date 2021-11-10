@@ -1,5 +1,4 @@
 from pygame.math import Vector2 as vec
-from os import path, getcwd  # Get files
 
 #####################################
 # /absolute variables of the world\ #

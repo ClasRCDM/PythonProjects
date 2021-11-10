@@ -1,4 +1,4 @@
-from pygame import sprite, image, draw, mask
+from pygame import sprite, image, draw
 from pygame.math import Vector2 as vec
 
 import vars as v
@@ -64,12 +64,6 @@ class background(sprite.Sprite):
                         coins.x * v.WIDTH_CELL, coins.y * v.HEIGHT_CELL,
                         v.WIDTH_CELL, v.HEIGHT_CELL))
 
-    '''def grid_check(self, grid_pos):  # Grid where is the player
-        draw.rect(self.screen, v.RED,
-                  (grid_pos[0] * v.WIDTH_CELL,
-                   grid_pos[1] * v.HEIGHT_CELL,
-                   v.WIDTH_CELL, v.HEIGHT_CELL), 1)'''
-
     def wall(self, file):
         with open(file, mode='r') as file:
             for yidx, line in enumerate(file):
@@ -92,11 +86,11 @@ class background(sprite.Sprite):
                  + v.TOP_BOTTOM_BUFFER // 2), 5)
 
     def on_coin(self, pix_pos, direction) -> bool:
-        if self.grid_pos in self.coins:  # Create the coins on the grid
-            if (pix_pos.x + 40 // 2) % v.WIDTH_CELL == 1:
-                if direction == vec(1, 0) or direction == vec(-1, 0):
-                    return True
-            if (pix_pos.y + 40 // 2) % v.HEIGHT_CELL == 1:
-                if direction == vec(0, 1) or direction == vec(0, -1):
-                    return True
+        # Create the coins on the grid
+        if (pix_pos.x + 40 // 2) % v.WIDTH_CELL == 1:
+            if direction == vec(1, 0) or direction == vec(-1, 0):
+                return True
+        if (pix_pos.y + 40 // 2) % v.HEIGHT_CELL == 1:
+            if direction == vec(0, 1) or direction == vec(0, -1):
+                return True
         return False
