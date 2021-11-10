@@ -6,9 +6,8 @@ import vars as v
 
 class background(sprite.Sprite):
     def __init__(self, images: str,
-                 wall_dirc: str,
-                 screen,
-                 cell_width: int | float, cell_height: int | float) -> None:
+                 wall_dirc: str, screen,
+                 cell_width: int, cell_height: int) -> None:
 
         sprite.Sprite.__init__(self)
 
@@ -22,8 +21,8 @@ class background(sprite.Sprite):
         self.screen = screen
         # self.grid_pos: vec = grid_pos
 
-        self.cell_width: int | float = cell_width
-        self.cell_height: int | float = cell_height
+        self.cell_width: int = cell_width
+        self.cell_height: int = cell_height
 
         self.wall_collision: list = []
         self.wall_visibility: bool = False

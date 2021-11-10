@@ -6,7 +6,7 @@ HEIGHT: int = 670
 
 FUllSCREEN: tuple = (WIDTH, HEIGHT)
 
-MAIN_FILE: str = 'MyPacman'
+MAIN_FILE: str = 'MyPacman_PYGAME'
 FILES = ('images', 'sounds', 'fonts')
 
 TITLE_GAME: str = 'Oh, PACman'

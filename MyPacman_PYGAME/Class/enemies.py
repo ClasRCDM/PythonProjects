@@ -6,11 +6,16 @@ import vars as v
 
 
 class spawn_enemies:
-    def __init__(self, wall, walls):
+    def __init__(self,
+                 wall_dirc: str, walls: list,
+                 cell_height: int, cell_width: int):
         self.enemies: list = []
 
-        self.wall_dirc: str = wall
-        self.walls = walls
+        self.wall_dirc: str = wall_dirc
+        self.walls: list = walls
+
+        self.cell_height: int = cell_height
+        self.cell_width: int = cell_width
 
         self.grid_pos_enemies: list = []
 
@@ -21,9 +26,6 @@ class spawn_enemies:
 
         self.set_enemies()
 
-    def draw(self, screen):
-        self.enemies.draw(screen)
-
     def get_location(self, file):
         with open(file, mode='r') as file:
             for yidx, line in enumerate(file):
@@ -33,9 +35,13 @@ class spawn_enemies:
 
     def set_enemies(self):
         for pos in self.grid_pos_enemies:
-            sprite = path.join(self.directory, v.SPRITE_ENEMIES[self.value_sprite])
+            sprite = path.join(
+                self.directory, v.SPRITE_ENEMIES[self.value_sprite])
             self.value_sprite += 1
-            self.enemies.append(e.enemy(sprite, pos, 0, self.walls))
+            self.enemies.append(e.enemy(sprite, pos,
+                                        self.value_sprite,
+                                        self.cell_height, self.cell_width,
+                                        self.walls))
 
     def group(self):
         return self.enemies
