@@ -1,5 +1,3 @@
-from pygame.math import Vector2 as vec
-
 #####################################
 # /absolute variables of the world\ #
 
