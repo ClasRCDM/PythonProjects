@@ -24,8 +24,7 @@ class pacman(sprite.Sprite):
         self.togle_to_move = True
 
         # $ Movement cell size $ #
-        self.cell_width: int | float = cell_width
-        self.cell_height: int | float = cell_height
+        self.cell_width, self.cell_height = cell_width, cell_height
 
         # $ Location/ Start and End$ #
         self.grid_pos: vec = self.get_location(file_wall)
@@ -34,17 +33,13 @@ class pacman(sprite.Sprite):
         self.direction: vec = vec(1, 0)
 
         # $ Get location walls and coins $ #
-        self.walls: list = walls
-        self.coins: list = coins
+        self.walls, self.coins = walls, coins
 
         # $ Wall variables $ #
-        self.stored_direction = None
-        self.able_to_move: bool = True
+        self.stored_direction, self.able_to_move = None, True
 
         # $ Lives, velocity and Points $ #
-        self.current_score: int = 0
-        self.speed: int | float = 2
-        self.lives: int = 1
+        self.current_score, self.speed, self.lives = 0, 2, 1
         # \player's absolute variables/ #
         #################################
 
@@ -76,6 +71,7 @@ class pacman(sprite.Sprite):
                 for xidx, char in enumerate(line):
                     if char == 'P':
                         return vec(xidx, yidx)
+            print(set(enumerate(file)) & set(enumerate(file)))
 
     def movement(self, ev):  # Check movement inputs
         if ev.type == KEYDOWN:

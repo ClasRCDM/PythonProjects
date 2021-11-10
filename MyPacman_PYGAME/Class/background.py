@@ -19,16 +19,14 @@ class background(sprite.Sprite):
         self.rect.center = (v.WIDTH / 2, v.HEIGHT / 2)
 
         self.screen = screen
-        # self.grid_pos: vec = grid_pos
 
-        self.cell_width: int = cell_width
-        self.cell_height: int = cell_height
+        self.cell_height, self.cell_width = cell_height, cell_width
 
-        self.wall_collision: list = []
+        self.wall_collision: list[int] = []
         self.wall_visibility: bool = False
         self.wall_dirc: str = wall_dirc
 
-        self.coins: list = []
+        self.coins: list[int] = []
         self.coins_visibility: bool = False
         # \​​absolute background variables/ #
         ###################################
@@ -86,10 +84,10 @@ class background(sprite.Sprite):
 
     def on_coin(self, pix_pos, direction) -> bool:
         # Create the coins on the grid
-        if (pix_pos.x + 40 // 2) % v.WIDTH_CELL == 1:
+        if sum((pix_pos.x + 40 // 2) % v.WIDTH_CELL) == 1:
             if direction == vec(1, 0) or direction == vec(-1, 0):
                 return True
-        if (pix_pos.y + 40 // 2) % v.HEIGHT_CELL == 1:
+        if sum((pix_pos.y + 40 // 2) % v.HEIGHT_CELL) == 1:
             if direction == vec(0, 1) or direction == vec(0, -1):
                 return True
         return False

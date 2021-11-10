@@ -1,5 +1,6 @@
 # & /Imports World\ & #
 import pygame
+import functools
 import vars as v  # Variables
 
 import Class.texts as ts  # Set Texts
@@ -18,6 +19,7 @@ from sys import exit  # QUIT system
 ########################
 # Configuring my World #
 ########################
+
 class World:  # A World l
     def __init__(self, title):
         super().__init__()
@@ -194,7 +196,7 @@ class World:  # A World l
 
     def World_time(self):
         # Time and Space world
-        while self.Run:
+        while 1:
 
             self.point_mouse = pygame.mouse.get_pos()
 
@@ -221,6 +223,8 @@ class World:  # A World l
             pygame.display.flip()
             pygame.display.update()
             self.Fps.tick(v.FPS)
+
+            if not self.Run: break
 
     def World_events(self):
         # Add/Create events

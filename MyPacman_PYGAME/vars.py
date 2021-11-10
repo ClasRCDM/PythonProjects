@@ -1,8 +1,7 @@
 #####################################
 # /absolute variables of the world\ #
 
-WIDTH: int = 610
-HEIGHT: int = 670
+WIDTH, HEIGHT = 610, 670
 
 FUllSCREEN: tuple = (WIDTH, HEIGHT)
 
@@ -27,14 +26,12 @@ FONT: str = 'PressStart2P.ttf'
 # /global variables\ #
 
 # Scenes #
-game_start: bool = True
-game: bool = False
+game_start, game = True, False
 
 MUSICS: str = 'StartGame_music'
 
 # $ Images $ #
-LOGO_PACMAN: str = 'PACMANLOGO.png'
-MAZE_BACKGROUND: str = 'maze.png'
+LOGO_PACMAN, MAZE_BACKGROUND = 'PACMANLOGO.png', 'maze.png'
 
 # $ TXT $ #
 WALL_BACKGROUND: str = 'walls.txt'
@@ -53,18 +50,18 @@ PURPLE: tuple = (218, 112, 214)
 BLUE: tuple = (30, 144, 255)
 
 # $ Collisions $ #
-WIDTH_CELL: int | float = WIDTH // 28
-HEIGHT_CELL: int | float = HEIGHT // 30
+WIDTH_CELL, HEIGHT_CELL = WIDTH // 28, HEIGHT // 30
 
 # $$ Sprites Player $$ #
 SPRITE_PACMAN: dict = {'PACMAN_ATTACK': 'pacman_attack.png',
                        'PACMAN_RUN': 'pacman_run.png'}
 
 # $ Enemies $ #
-SPRITE_ENEMIES: list = ['enemy_0.png',
-                        'enemy_1.png',
-                        'enemy_2.png',
-                        'enemy_3.png']
+SPRITE_ENEMIES = list[str]()
+SPRITE_ENEMIES = ['enemy_0.png',
+                  'enemy_1.png',
+                  'enemy_2.png',
+                  'enemy_3.png']
 
 # $ Texts Wold $ #
 text_START: str = '-Pressione espaço para jogar'
@@ -74,5 +71,4 @@ text_FOR: str = 'João Tinti'
 # \global variables/ #
 #####################################
 
-ROWS = 30
-COLS = 28
+ROWS, COLS = 30, 28

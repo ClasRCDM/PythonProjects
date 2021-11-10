@@ -14,8 +14,7 @@ class spawn_enemies:
         self.wall_dirc: str = wall_dirc
         self.walls: list = walls
 
-        self.cell_height: int = cell_height
-        self.cell_width: int = cell_width
+        self.cell_height, self.cell_width = cell_height, cell_width
 
         self.grid_pos_enemies: list = []
 

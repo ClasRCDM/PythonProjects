@@ -18,8 +18,7 @@ class enemy(sprite.Sprite):
         self.image = img.load(image).convert_alpha()
         self.image = tfm.scale(self.image, (17, 17))
 
-        self.cell_height: int = cell_height
-        self.cell_width: int = cell_width
+        self.cell_height, self.cell_width = cell_height, cell_width
 
         self.grid_pos: vec = grid_pos
 
@@ -30,7 +29,7 @@ class enemy(sprite.Sprite):
 
         self.direction: vec = vec(0, 0)
 
-        self.walls: list = walls
+        self.walls: list[int] = walls
 
         self.personality: str = self.set_personality()
         self.target = None
