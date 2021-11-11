@@ -1,6 +1,5 @@
 # & /Imports World\ & #
 import pygame
-import functools
 import vars as v  # Variables
 
 import Class.texts as ts  # Set Texts
@@ -28,18 +27,16 @@ class World:  # A World l
         pygame.display.set_caption(title)
 
         # &#########################& #
-        self.screen = None
-        self.icon = None
+        self.screen = pygame.display.set_mode((v.FUllSCREEN))
+        self.icon = path.join(getcwd(), v.MAIN_FILE, v.FILES[0], v.ICON)
 
         self.Fps = None
 
-        self.Run = None
-        self.running = None
+        self.Run = self.running = None
 
         self.point_mouse = None
 
-        self.cell_width = None
-        self.cell_height = None
+        self.cell_width = self.cell_height = None
         # &#########################& #
 
         #################
@@ -66,20 +63,16 @@ class World:  # A World l
     def World_init(self):
         # &###############################& #
         # /absolute variables of the world\ #
-        self.icon = path.join(getcwd(), v.MAIN_FILE, v.FILES[0], v.ICON)
-
-        self.screen = pygame.display.set_mode((v.FUllSCREEN))
         pygame.display.set_icon(pygame.image.load(self.icon))
 
         self.Fps = pygame.time.Clock()
 
-        self.Run: bool = True
-        self.running: bool = True
+        self.Run = self.running = True
 
         self.Itens_world['directory'] = {}
 
-        self.cell_width: int | float = v.MAZE_WIDTH // v.COLS
-        self.cell_height: int | float = v.MAZE_HEIGHT // v.ROWS
+        self.cell_width: int = v.MAZE_WIDTH // v.COLS
+        self.cell_height: int = v.MAZE_HEIGHT // v.ROWS
         # \absolute variables of the world/ #
         # &###############################& #
         # /absolute world classes\ #
@@ -94,8 +87,9 @@ class World:  # A World l
 
     def World_objcts(self):
         # Add in World
-        self.Itens_world['Sprites_world'] = pygame.sprite.Group()
-        self.Itens_world['Background_world'] = pygame.sprite.Group()
+        self.Itens_world[
+            'Sprites_world'] = self.Itens_world[
+                'Background_world'] = pygame.sprite.Group()
 
         self.World_time()
 
@@ -141,6 +135,7 @@ class World:  # A World l
                         self.Directory_world['sprite_pacman'],
                         self.Itens_world['Background'].wall_collision,
                         self.Itens_world['Background'].coins,
+                        self.Itens_world['Background'].big_coins,
                         self.cell_width, self.cell_height,
                         self.Directory_world['diry_bck_txt'])
 
@@ -253,8 +248,7 @@ class World:  # A World l
                             self.Itens_world['Game_Start'] = False
                             self.Itens_world['Scenes'] = 'PlayGame'
 
-                            self.Text_world = {}
-                            self.Images_world = {}
+                            self.Text_world = self.Images_world = {}
 
                             del self.Itens_world['text_footer']
                             del self.Itens_world['text_startmenu']
@@ -355,5 +349,6 @@ class World:  # A World l
 #  Init my World  #
 ###################
 
-MyWorld = World(v.TITLE_GAME)
-MyWorld.World_init()
+if __name__ == '__main__':
+    MyWorld = World(v.TITLE_GAME)
+    MyWorld.World_init()

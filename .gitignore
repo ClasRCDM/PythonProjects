@@ -1,6 +1,5 @@
 #useless
 **/.mypy_cache
 **/venv
-**/MyPacman/__pycache__
-**/MyPacman/Class/__pycache__
-**/pacman-with-python
+**/MyPacman_PYGAME/__pycache__
+**/MyPacman_PYGAME/Class/__pycache__

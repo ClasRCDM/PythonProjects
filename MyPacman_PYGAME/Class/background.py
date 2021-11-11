@@ -27,6 +27,7 @@ class background(sprite.Sprite):
         self.wall_dirc: str = wall_dirc
 
         self.coins: list[int] = []
+        self.big_coins: list[int] = []
         self.coins_visibility: bool = False
         # \​​absolute background variables/ #
         ###################################
@@ -67,20 +68,28 @@ class background(sprite.Sprite):
                 for xidx, char in enumerate(line):
                     if char == '1':  # Create the walls
                         self.wall_collision.append(vec(xidx, yidx))
-                    elif char == 'C':  # creates the spawn path for the coins
+                    elif char == 'c':  # creates the spawn path for the coins
                         self.coins.append(vec(xidx, yidx))
+                    elif char == 'C':  # creates the spawn path for the big coins
+                        self.big_coins.append(vec(xidx, yidx))
 
     def draw_coins(self, screen):  # Create the coins
         for coin in self.coins:
-            draw.circle(
-                screen,
-                (124, 123, 7),
-                (int(coin.x * self.cell_width)
-                 + self.cell_width // 2
-                 + v.TOP_BOTTOM_BUFFER // 2,
-                 int(coin.y * self.cell_height)
-                 + self.cell_height // 2
-                 + v.TOP_BOTTOM_BUFFER // 2), 5)
+            draw.circle(screen, v.YELLOW_DARK,
+                        (int(coin.x * self.cell_width)
+                         + self.cell_width // 2
+                         + v.TOP_BOTTOM_BUFFER // 2,
+                         int(coin.y * self.cell_height)
+                         + self.cell_height // 2
+                         + v.TOP_BOTTOM_BUFFER // 2), 2)
+        for coin in self.big_coins:
+            draw.circle(screen, v.YELLOW_DARK,
+                        (int(coin.x * self.cell_width)
+                         + self.cell_width // 2
+                         + v.TOP_BOTTOM_BUFFER // 2,
+                         int(coin.y * self.cell_height)
+                         + self.cell_height // 2
+                         + v.TOP_BOTTOM_BUFFER // 2), 4)
 
     def on_coin(self, pix_pos, direction) -> bool:
         # Create the coins on the grid

@@ -9,7 +9,7 @@ import vars as v
 
 class pacman(sprite.Sprite):
     def __init__(self, image: str,
-                 walls: list, coins: list,
+                 walls: list, coins: list, big_coins: list,
                  cell_width: int | float, cell_height: int | float,
                  file_wall: str) -> None:
 
@@ -33,7 +33,7 @@ class pacman(sprite.Sprite):
         self.direction: vec = vec(1, 0)
 
         # $ Get location walls and coins $ #
-        self.walls, self.coins = walls, coins
+        self.walls, self.coins, self.big_coins = walls, coins, big_coins
 
         # $ Wall variables $ #
         self.stored_direction, self.able_to_move = None, True
@@ -60,6 +60,8 @@ class pacman(sprite.Sprite):
 
         if self.on_coin():  # Eat coins
             self.eat_coin(self.coins)
+        elif self.on_big_coin():  # Eat big coins
+            self.eat_big_coin(self.big_coins)
 
         # Set position global player
         self.rect[0] = self.pix_pos.x - int(v.TOP_BOTTOM_BUFFER / 5.5)
@@ -87,8 +89,23 @@ class pacman(sprite.Sprite):
     def eat_coin(self, coins):  # Check and eat the coins
         coins.remove(self.grid_pos)
 
+    def eat_big_coin(self, big_coins):  # Check and eat the big coins
+        big_coins.remove(self.grid_pos)
+
     def on_coin(self) -> bool:  # Check if it collided with a coin
         if self.grid_pos in self.coins:
+            if int(self.pix_pos.x + v.TOP_BOTTOM_BUFFER // 2) %\
+                    self.cell_width == 0:
+                if self.direction == vec(1, 0) or self.direction == vec(-1, 0):
+                    return True
+            if int(self.pix_pos.y + v.TOP_BOTTOM_BUFFER // 2) %\
+                    self.cell_height == 0:
+                if self.direction == vec(0, 1) or self.direction == vec(0, -1):
+                    return True
+        return False
+
+    def on_big_coin(self) -> bool:  # Check if it collided with a coin
+        if self.grid_pos in self.big_coins:
             if int(self.pix_pos.x + v.TOP_BOTTOM_BUFFER // 2) %\
                     self.cell_width == 0:
                 if self.direction == vec(1, 0) or self.direction == vec(-1, 0):

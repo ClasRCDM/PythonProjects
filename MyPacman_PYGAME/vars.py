@@ -43,6 +43,7 @@ music_BACKGROUND: str = 'songs/ManThemeRemix_arsenic1987.mp3'
 
 # $ Colors $ #
 YELLOW: tuple = (244, 233, 51)
+YELLOW_DARK: tuple = (124, 123, 7)
 WHITE: tuple = (255, 255, 255)
 GREY: tuple = (72, 72, 72)
 RED: tuple = (255, 0, 0)
