@@ -1,4 +1,4 @@
-from pygame import sprite
+from pygame import Surface, sprite
 from pygame.math import Vector2 as vec
 from pygame import KEYDOWN,\
     K_LEFT, K_a, K_RIGHT, K_d, K_UP, K_w, K_DOWN, K_s
@@ -17,11 +17,13 @@ class pacman(sprite.Sprite):
 
         #################################
         # /player's absolute variables\ #
-        self.image = img.load(image).convert_alpha()
-        self.image = tfm.scale(self.image, (16, 16))
+        self.pacman = img.load(image)
+
+        self.image = img.load(image)
+        self.set_sprite(0)
 
         self.rect = self.image.get_rect()
-        self.togle_to_move = True
+        self.togle_to_move: bool = True
 
         # $ Movement cell size $ #
         self.cell_width, self.cell_height = cell_width, cell_height
@@ -40,10 +42,6 @@ class pacman(sprite.Sprite):
 
         # $ Lives, velocity and Points $ #
         self.current_score, self.speed, self.lives = 0, 2, 1
-
-        self.direction: list[str] = ['right', 'None']
-        self.direction_y_current: int = 90
-        self.direction_y: list[int] = [90, -90, 180, -180]
         # \player's absolute variables/ #
         #################################
 
@@ -79,16 +77,33 @@ class pacman(sprite.Sprite):
                         return vec(xidx, yidx)
             print(set(enumerate(file)) & set(enumerate(file)))
 
+    def get_sprite(self, frame: int):
+        surface = Surface(
+            (v.WIDHT_PACMAN, v.HEIGHT_PACMAN)).convert_alpha()
+        surface.blit(self.pacman,
+                     (0, 0),
+                     ((frame * v.WIDHT_PACMAN), 0,
+                      v.WIDHT_PACMAN, v.HEIGHT_PACMAN))
+        surface.set_colorkey((0, 0, 0))
+        return surface
+
+    def set_sprite(self, direction):
+        self.image = self.get_sprite(direction)
+
     def movement(self, ev):  # Check movement inputs
         if ev.type == KEYDOWN:
             if ev.key == K_LEFT or ev.key == K_a:
-                self.move(vec(-1, 0), self.direction)
+                self.move(vec(-1, 0))
+                self.set_sprite(1)
             if ev.key == K_RIGHT or ev.key == K_d:
-                self.move(vec(1, 0), self.direction)
+                self.move(vec(1, 0))
+                self.set_sprite(0)
             if ev.key == K_UP or ev.key == K_w:
-                self.move(vec(0, -1), self.direction)
+                self.move(vec(0, -1))
+                self.set_sprite(3)
             if ev.key == K_DOWN or ev.key == K_s:
-                self.move(vec(0, 1), self.direction)
+                self.move(vec(0, 1))
+                self.set_sprite(2)
 
     def eat_coin(self, coins):  # Check and eat the coins
         coins.remove(self.grid_pos)
@@ -124,94 +139,8 @@ class pacman(sprite.Sprite):
                     return True
         return False
 
-    def move(self, direction_mov, direction):  # move! k
+    def move(self, direction_mov):  # move! k
         self.stored_direction: vec = direction_mov
-        print(f'Antes[{self.direction_y_current}]')
-
-        if direction_mov == vec(-1, 0) and direction[0] != 'left':
-            self.image = tfm.flip(self.image, True, False)
-
-            if self.direction_y_current == 180 and direction[1] == 'up':
-                self.image = tfm.rotate(self.image, self.direction_y[0])
-                self.direction_y_current = 90
-            elif self.direction_y_current == -180 and direction[1] == 'up':
-                self.image = tfm.rotate(self.image, self.direction_y[0])
-                self.direction_y_current = 90
-            elif self.direction_y_current == 90 and direction[1] == 'up':
-                self.image = tfm.rotate(self.image, self.direction_y[0])
-                self.direction_y_current = 90
-            if self.direction_y_current == 180 and direction[1] == 'down':
-                self.image = tfm.rotate(self.image, self.direction_y[1])
-                self.direction_y_current = -90
-            elif self.direction_y_current == 90:
-                self.direction_y_current = -90
-
-            direction[1] = 'None'
-            self.direction[0] = 'left'
-        elif direction_mov == vec(1, 0) and direction[0] != 'right':
-            self.image = tfm.flip(self.image, True, False)
-
-            if self.direction_y_current == 180 and direction[1] == 'up':
-                self.image = tfm.rotate(self.image, self.direction_y[1])
-                self.direction_y_current = -90
-            elif self.direction_y_current == -180 and direction[1] == 'up':
-                self.image = tfm.rotate(self.image, self.direction_y[1])
-                self.direction_y_current = -90
-            elif self.direction_y_current == 90 and direction[1] == 'up':
-                self.image = tfm.rotate(self.image, self.direction_y[1])
-                self.direction_y_current = -90
-            if self.direction_y_current == 180 and direction[1] == 'down':
-                self.image = tfm.rotate(self.image, self.direction_y[0])
-                self.direction_y_current = 90
-            elif self.direction_y_current == 90:
-                self.direction_y_current = -90
-
-            direction[1] = 'None'
-            self.direction[0] = 'right'
-
-        if direction_mov == vec(0, -1) and direction[1] != 'up':
-            if self.direction[0] == 'right' and self.direction_y_current == 90:
-                self.image = tfm.rotate(self.image, self.direction_y[0])
-                self.direction_y_current = 180
-            elif self.direction[0] == 'right' and self.direction_y_current == 180:
-                self.image = tfm.rotate(self.image, self.direction_y[2])
-                self.direction_y_current = 180
-            elif self.direction[0] == 'right' and self.direction_y_current == -90:
-                self.image = tfm.rotate(self.image, self.direction_y[0])
-                self.direction_y_current = 90
-
-            if self.direction[0] == 'left' and self.direction_y_current == -90:
-                self.image = tfm.rotate(self.image, self.direction_y[1])
-                self.direction_y_current = -180
-            elif self.direction[0] == 'left' and self.direction_y_current == -180:
-                self.image = tfm.rotate(self.image, self.direction_y[3])
-                self.direction_y_current = -180
-            elif self.direction[0] == 'left' and self.direction_y_current == 90:
-                self.image = tfm.rotate(self.image, self.direction_y[1])
-                self.direction_y_current = -90
-
-            self.direction[0] = 'None'
-            self.direction[1] = 'up'
-
-        elif direction_mov == vec(0, 1) and direction[1] != 'down':
-            if self.direction[0] == 'right' and self.direction_y_current == 90:
-                self.image = tfm.rotate(self.image, self.direction_y[1])
-                self.direction_y_current = 180
-            elif self.direction[0] == 'right' and self.direction_y_current == 180:
-                self.image = tfm.rotate(self.image, self.direction_y[3])
-                self.direction_y_current = 180
-
-            if self.direction[0] == 'left' and self.direction_y_current == -90:
-                self.image = tfm.rotate(self.image, self.direction_y[0])
-                self.direction_y_current = -180
-            elif self.direction[0] == 'left' and self.direction_y_current == -180:
-                self.image = tfm.rotate(self.image, self.direction_y[2])
-                self.direction_y_current = -180
-
-            self.direction[0] = 'None'
-            self.direction[1] = 'down'
-
-        print(f'Depois[{self.direction_y_current}]')
 
     def can_move(self) -> bool:  # Check if it collided with the wall
         for wall in self.walls:

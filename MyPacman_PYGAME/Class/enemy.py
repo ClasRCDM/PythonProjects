@@ -16,7 +16,6 @@ class enemy(sprite.Sprite):
         #################################
         # /player's absolute variables\ #
         self.image = img.load(image).convert_alpha()
-        self.image = tfm.scale(self.image, (17, 17))
 
         self.cell_height, self.cell_width = cell_height, cell_width
 
