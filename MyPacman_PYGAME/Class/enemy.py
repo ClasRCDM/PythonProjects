@@ -1,9 +1,9 @@
 from pygame import sprite
 from pygame.math import Vector2 as vec
-from pygame import image as img, transform as tfm
+from pygame import image as img
+from random import randint
 
 import vars as v
-import random
 
 
 class enemy(sprite.Sprite):
@@ -56,12 +56,6 @@ class enemy(sprite.Sprite):
     def move(self):
         if self.personality == "random":
             self.direction = self.get_random_direction()
-        if self.personality == "slow":
-            self.direction = self.get_random_direction()
-        if self.personality == "speedy":
-            self.direction = self.get_random_direction()
-        if self.personality == "scared":
-            self.direction = self.get_random_direction()
 
     def time_to_move(self):
         if int(self.pix_pos.x + v.TOP_BOTTOM_BUFFER // 2) %\
@@ -87,7 +81,7 @@ class enemy(sprite.Sprite):
 
     def get_random_direction(self) -> vec:
         while True:
-            number = random.randint(-2, 1)
+            number = randint(-2, 1)
             if number == -2:
                 x_dir, y_dir = 1, 0
             elif number == -1:
@@ -110,9 +104,9 @@ class enemy(sprite.Sprite):
 
     def set_personality(self) -> str:
         if self.number == 0:
-            return "speedy"
+            return "random"
         elif self.number == 1:
-            return "slow"
+            return "random"
         elif self.number == 2:
             return "random"
         else:
