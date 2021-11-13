@@ -33,6 +33,7 @@ class pacman(sprite.Sprite):
         self.pix_pos: vec = self.get_pix_pos()
 
         self.direction_mov: vec = vec(1, 0)
+        self.direction_pos: vec = self.direction_mov
 
         # $ Get location walls and coins $ #
         self.walls, self.coins, self.big_coins = walls, coins, big_coins
@@ -41,7 +42,7 @@ class pacman(sprite.Sprite):
         self.stored_direction, self.able_to_move = None, True
 
         # $ Lives, velocity and Points $ #
-        self.current_score, self.speed, self.lives = 0, 1, 1
+        self.current_score, self.speed, self.lives = 0, 2, 1
         # \player's absolute variables/ #
         #################################
 
@@ -75,7 +76,6 @@ class pacman(sprite.Sprite):
                 for xidx, char in enumerate(line):
                     if char == 'P':
                         return vec(xidx, yidx)
-            print(set(enumerate(file)) & set(enumerate(file)))
 
     def get_sprite(self, frame: int):
         surface = Surface(

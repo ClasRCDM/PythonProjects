@@ -138,6 +138,7 @@ class World:  # A World l
                         self.Directory_world['diry_bck_txt'])
 
                 self.Entities_world['Enemies'] = e.spawn_enemies(
+                    self.Entities_world['Pacman'].pix_pos, self.screen,
                     self.Directory_world['diry_bck_txt'],
                     self.Itens_world['Background'].wall_collision,
                     self.cell_width, self.cell_height)
@@ -147,8 +148,8 @@ class World:  # A World l
                     self.Itens_world['Background'])
                 self.Itens_world['Background_world'].add(
                     self.Entities_world['Pacman'])
-                self.Itens_world['Background_world'].add(
-                    self.Entities_world['Enemies'].group())
+                '''self.Itens_world['Background_world'].add(
+                    self.Entities_world['Enemies'].group())'''
                 # \absolute commands in Game/ #
                 ###############################
 
@@ -182,7 +183,7 @@ class World:  # A World l
                        v.GREY, v.WIDTH - 60, 10, False)
                 self.World_sounds()
 
-                v.FPS = 120
+                v.FPS = 60
 
                 # \absolute commands in Game/ #
                 ###############################
