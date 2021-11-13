@@ -93,10 +93,10 @@ class background(sprite.Sprite):
 
     def on_coin(self, pix_pos, direction) -> bool:
         # Create the coins on the grid
-        if sum((pix_pos.x + 40 // 2) % v.WIDTH_CELL) == 1:
+        if sum((pix_pos.x + 40 // 2) % v.WIDTH_CELL) == 0:
             if direction == vec(1, 0) or direction == vec(-1, 0):
                 return True
-        if sum((pix_pos.y + 40 // 2) % v.HEIGHT_CELL) == 1:
+        if sum((pix_pos.y + 40 // 2) % v.HEIGHT_CELL) == 0:
             if direction == vec(0, 1) or direction == vec(0, -1):
                 return True
         return False

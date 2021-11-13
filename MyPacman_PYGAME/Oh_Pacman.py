@@ -34,8 +34,6 @@ class World:  # A World l
 
         self.Run = self.running = None
 
-        self.point_mouse = None
-
         self.cell_width = self.cell_height = None
         # &#########################& #
 
@@ -184,7 +182,7 @@ class World:  # A World l
                        v.GREY, v.WIDTH - 60, 10, False)
                 self.World_sounds()
 
-                v.FPS = 60
+                v.FPS = 120
 
                 # \absolute commands in Game/ #
                 ###############################
@@ -192,8 +190,6 @@ class World:  # A World l
     def World_time(self):
         # Time and Space world
         while 1:
-
-            self.point_mouse = pygame.mouse.get_pos()
 
             ################################
             # /absolute defs of the world\ #
@@ -219,7 +215,8 @@ class World:  # A World l
             pygame.display.update()
             self.Fps.tick(v.FPS)
 
-            if not self.Run: break
+            if not self.Run:
+                break
 
     def World_events(self):
         # Add/Create events
@@ -289,7 +286,7 @@ class World:  # A World l
             self.Itens_world['dirctrymges'], v.WALL_BACKGROUND)
 
         self.Directory_world['sprite_pacman'] = path.join(
-            self.Itens_world['dirctrymges'], v.SPRITE_PACMAN['PACMAN_RUN'])
+            self.Itens_world['dirctrymges'], v.SPRITE_PACMAN)
 
     def World_images_update(self):
         # Call/add image

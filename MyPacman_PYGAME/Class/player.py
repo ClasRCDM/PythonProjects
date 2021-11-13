@@ -2,7 +2,7 @@ from pygame import Surface, sprite
 from pygame.math import Vector2 as vec
 from pygame import KEYDOWN,\
     K_LEFT, K_a, K_RIGHT, K_d, K_UP, K_w, K_DOWN, K_s
-from pygame import image as img, transform as tfm
+from pygame import image as img
 
 import vars as v
 
@@ -41,7 +41,7 @@ class pacman(sprite.Sprite):
         self.stored_direction, self.able_to_move = None, True
 
         # $ Lives, velocity and Points $ #
-        self.current_score, self.speed, self.lives = 0, 2, 1
+        self.current_score, self.speed, self.lives = 0, 1, 1
         # \player's absolute variables/ #
         #################################
 

@@ -55,11 +55,10 @@ WIDTH_CELL, HEIGHT_CELL = WIDTH // 28, HEIGHT // 30
 
 # $ Player $ #
 WIDHT_PACMAN = 19
-HEIGHT_PACMAN = 20
+HEIGHT_PACMAN = 19
 
 # $$ Sprites Player $$ #
-SPRITE_PACMAN: dict = {'PACMAN_ATTACK': 'pacman_attack.png',
-                       'PACMAN_RUN': 'pacman_run.png'}
+SPRITE_PACMAN: str = 'pacman.png'
 
 # $ Enemies $ #
 SPRITE_ENEMIES = list[str]()

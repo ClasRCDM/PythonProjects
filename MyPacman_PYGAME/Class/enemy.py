@@ -110,4 +110,4 @@ class enemy(sprite.Sprite):
         elif self.number == 2:
             return "random"
         else:
-            return "scared"
+            return "random"
