@@ -52,7 +52,7 @@ class background(sprite.Sprite):
                 for xidx, char in enumerate(line):
                     if char == '1':  # Create the walls
                         self.wall_collision.append(vec(xidx, yidx))
-                    elif char == 'c':  # creates the spawn path for the coins
+                    elif char in ['c', 'D']:  # creates the spawn path for the coins
                         self.coins.append(vec(xidx, yidx))
                     elif char == 'C':  # creates the spawn path for the big coins
                         self.big_coins.append(vec(xidx, yidx))
