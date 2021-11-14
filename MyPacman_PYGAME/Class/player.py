@@ -32,32 +32,44 @@ class pacman(sprite.Sprite):
         self.grid_pos: vec = self.get_location(file_wall)
         self.pix_pos: vec = self.get_pix_pos()
 
-        self.direction_mov: vec = vec(1, 0)
-        self.direction_pos: vec = self.direction_mov
+        self.direction_mov: vec = vec(0, 0)
 
         # $ Get location walls and coins $ #
         self.walls, self.coins, self.big_coins = walls, coins, big_coins
 
         # $ Wall variables $ #
         self.stored_direction, self.able_to_move = None, True
-        self.current_x = True
-        self.current_y = False
+        self.capsule_mov: list = []
 
         # $ Lives, velocity and Points $ #
         self.speed, self.lives = 2, 1
         # \player's absolute variables/ #
         #################################
 
+        self.get_capsule_move(file_wall)
+
     def update(self):
         if self.able_to_move:  # Add movement player
             self.pix_pos += self.direction_mov * self.speed
-        if not self.can_move():
+        if not self.break_move() or not self.can_move():
+            self.current_x = True
             self.current_y = True
-        else: self.current_y = False
+        else:
+            if self.direction_mov == vec(0, 1) or\
+                    self.direction_mov == vec(0, -1) or\
+                    self.direction_mov == vec(0, 0):
+                self.current_y = True
+                self.current_x = False
+            if self.direction_mov == vec(1, 0) or\
+                    self.direction_mov == vec(-1, 0) or\
+                    self.direction_mov == vec(0, 0):
+                self.current_x = True
+                self.current_y = False
+
         if self.check_capsule():  # Check if you can move
             if self.stored_direction is not None:
                 self.direction_mov = self.stored_direction
-            self.able_to_move = self.can_move()
+            self.able_to_move = self.break_move()
 
         # Setting grid position in reference to pix pos
         self.grid_pos[0] = (self.pix_pos[0] - v.TOP_BOTTOM_BUFFER +
@@ -80,6 +92,13 @@ class pacman(sprite.Sprite):
                 for xidx, char in enumerate(line):
                     if char == 'P':
                         return vec(xidx, yidx)
+
+    def get_capsule_move(self, file):  # Set loocation player
+        with open(file, mode='r') as file:
+            for yidx, line in enumerate(file):
+                for xidx, char in enumerate(line):
+                    if char == 'D':
+                        self.capsule_mov.append(vec(xidx, yidx))
 
     def get_sprite(self, frame: int):
         surface = Surface(
@@ -122,9 +141,15 @@ class pacman(sprite.Sprite):
             elif ev.key == K_DOWN or ev.key == K_s and self.current_y:
                 self.move(vec(0, 1), 2)
 
-    def can_move(self) -> bool:  # Check if it collided with the wall
+    def break_move(self) -> bool:  # Check if it collided with the wall
         for wall in self.walls:
             if vec(self.grid_pos + self.direction_mov) == wall:
+                return False
+        return True
+
+    def can_move(self) -> bool:  # Check if it collided with the wall
+        for capsule in self.capsule_mov:
+            if self.grid_pos == capsule:
                 return False
         return True
 
