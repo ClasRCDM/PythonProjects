@@ -131,6 +131,7 @@ class World:  # A World l
                 self.Entities_world['Pacman'] = \
                     p.pacman(
                         self.Directory_world['sprite_pacman'],
+                        self.screen,
                         self.Itens_world['Background'].wall_collision,
                         self.Itens_world['Background'].coins,
                         self.Itens_world['Background'].big_coins,
