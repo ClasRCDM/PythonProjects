@@ -338,7 +338,7 @@ class World:  # A World l
 
     def World_SpritsDraw(self):
         # Add/set draw about sprits
-        self.screen.fill(v.BACKGROUND)
+        self.screen.fill(v.BLACK)
         self.Itens_world['Sprites_world'].draw(self.screen)
         self.Itens_world['Background_world'].draw(self.screen)
 

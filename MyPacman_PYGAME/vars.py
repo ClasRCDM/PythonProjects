@@ -12,8 +12,6 @@ TITLE_GAME: str = 'Oh, PACman'
 
 ICON: str = 'iconPac.png'
 
-BACKGROUND: tuple = (0, 0, 0)
-
 FPS: int | float = 60
 
 TOP_BOTTOM_BUFFER = 50
@@ -42,6 +40,7 @@ music_PLAY: str = 'munch_1.wav'
 music_BACKGROUND: str = 'songs/ManThemeRemix_arsenic1987.mp3'
 
 # $ Colors $ #
+BLACK: tuple = (0, 0, 0)
 YELLOW: tuple = (244, 233, 51)
 YELLOW_DARK: tuple = (124, 123, 7)
 WHITE: tuple = (255, 255, 255)
@@ -51,7 +50,8 @@ PURPLE: tuple = (218, 112, 214)
 BLUE: tuple = (30, 144, 255)
 
 # $ Collisions $ #
-WIDTH_CELL, HEIGHT_CELL = WIDTH // 28, HEIGHT // 30
+ROWS, COLS = 30, 28
+WIDTH_CELL, HEIGHT_CELL = WIDTH // COLS, HEIGHT // ROWS
 
 # $ Player $ #
 WIDHT_PACMAN = 19
@@ -74,5 +74,3 @@ text_FOR: str = 'João Tinti'
 
 # \global variables/ #
 #####################################
-
-ROWS, COLS = 30, 28

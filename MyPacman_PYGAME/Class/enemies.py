@@ -25,17 +25,12 @@ class spawn_enemies:
 
         self.get_location(self.wall_dirc)
 
-        self.set_enemies()
-
     def get_location(self, file):
         with open(file, mode='r') as file:
             for yidx, line in enumerate(file):
                 for xidx, char in enumerate(line):
                     if char in ['2', '3', '4', '5']:
                         self.grid_pos_enemies.append(vec(xidx, yidx))
-
-    def set_enemies(self):
-        print(self.grid_pos_enemies)
 
     def group(self):
         return self.enemies

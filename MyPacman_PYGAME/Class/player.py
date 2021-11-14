@@ -40,17 +40,21 @@ class pacman(sprite.Sprite):
 
         # $ Wall variables $ #
         self.stored_direction, self.able_to_move = None, True
+        self.current_x = True
+        self.current_y = False
 
         # $ Lives, velocity and Points $ #
-        self.current_score, self.speed, self.lives = 0, 2, 1
+        self.speed, self.lives = 2, 1
         # \player's absolute variables/ #
         #################################
 
     def update(self):
         if self.able_to_move:  # Add movement player
             self.pix_pos += self.direction_mov * self.speed
-
-        if self.time_to_move():  # Check if you can move
+        if not self.can_move():
+            self.current_y = True
+        else: self.current_y = False
+        if self.check_capsule():  # Check if you can move
             if self.stored_direction is not None:
                 self.direction_mov = self.stored_direction
             self.able_to_move = self.can_move()
@@ -84,26 +88,11 @@ class pacman(sprite.Sprite):
                      (0, 0),
                      ((frame * v.WIDHT_PACMAN), 0,
                       v.WIDHT_PACMAN, v.HEIGHT_PACMAN))
-        surface.set_colorkey((0, 0, 0))
+        surface.set_colorkey(v.BLACK)
         return surface
 
     def set_sprite(self, direction):
         self.image = self.get_sprite(direction)
-
-    def movement(self, ev):  # Check movement inputs
-        if ev.type == KEYDOWN:
-            if ev.key == K_LEFT or ev.key == K_a:
-                self.move(vec(-1, 0))
-                self.set_sprite(1)
-            if ev.key == K_RIGHT or ev.key == K_d:
-                self.move(vec(1, 0))
-                self.set_sprite(0)
-            if ev.key == K_UP or ev.key == K_w:
-                self.move(vec(0, -1))
-                self.set_sprite(3)
-            if ev.key == K_DOWN or ev.key == K_s:
-                self.move(vec(0, 1))
-                self.set_sprite(2)
 
     def eat_coin(self, coins):  # Check and eat the coins
         coins.remove(self.grid_pos)
@@ -112,35 +101,26 @@ class pacman(sprite.Sprite):
         big_coins.remove(self.grid_pos)
 
     def on_coin(self) -> bool:  # Check if it collided with a coin
-        if self.grid_pos in self.coins:
-            if int(self.pix_pos.x + v.TOP_BOTTOM_BUFFER // 2) %\
-                    self.cell_width == 0:
-                if self.direction_mov == vec(1, 0) \
-                        or self.direction_mov == vec(-1, 0):
-                    return True
-            if int(self.pix_pos.y + v.TOP_BOTTOM_BUFFER // 2) %\
-                    self.cell_height == 0:
-                if self.direction_mov == vec(0, 1) \
-                        or self.direction_mov == vec(0, -1):
-                    return True
-        return False
+        # if self.grid_pos in self.coins:
+        return self.check_capsule() if self.grid_pos in self.coins else False
 
     def on_big_coin(self) -> bool:  # Check if it collided with a coin
-        if self.grid_pos in self.big_coins:
-            if int(self.pix_pos.x + v.TOP_BOTTOM_BUFFER // 2) %\
-                    self.cell_width == 0:
-                if self.direction_mov == vec(1, 0) \
-                        or self.direction_mov == vec(-1, 0):
-                    return True
-            if int(self.pix_pos.y + v.TOP_BOTTOM_BUFFER // 2) %\
-                    self.cell_height == 0:
-                if self.direction_mov == vec(0, 1) \
-                        or self.direction_mov == vec(0, -1):
-                    return True
-        return False
+        return self.check_capsule() if self.grid_pos in self.big_coins else False
 
-    def move(self, direction_mov):  # move! k
+    def move(self, direction_mov, sprite):  # move! k
         self.stored_direction: vec = direction_mov
+        self.set_sprite(sprite)  # pix_pos
+
+    def movement(self, ev):  # Check movement inputs
+        if ev.type == KEYDOWN:
+            if ev.key == K_LEFT or ev.key == K_a and self.current_x:
+                self.move(vec(-1, 0), 1)
+            elif ev.key == K_RIGHT or ev.key == K_d and self.current_x:
+                self.move(vec(1, 0), 0)
+            if ev.key == K_UP or ev.key == K_w and self.current_y:
+                self.move(vec(0, -1), 3)
+            elif ev.key == K_DOWN or ev.key == K_s and self.current_y:
+                self.move(vec(0, 1), 2)
 
     def can_move(self) -> bool:  # Check if it collided with the wall
         for wall in self.walls:
@@ -148,7 +128,7 @@ class pacman(sprite.Sprite):
                 return False
         return True
 
-    def time_to_move(self) -> bool:  # Check if it is able to move
+    def check_capsule(self):
         if int(self.pix_pos.x + v.TOP_BOTTOM_BUFFER // 2) %\
                 self.cell_width == 0:
             if self.direction_mov == vec(1, 0) or\
