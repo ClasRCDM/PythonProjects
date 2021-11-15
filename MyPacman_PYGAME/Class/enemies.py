@@ -1,7 +1,7 @@
 from pygame.math import Vector2 as vec
 from os import path, getcwd
 
-import Class.enemy as e
+# import Class.enemy as e
 import vars as v
 
 
@@ -9,7 +9,6 @@ class spawn_enemies:
     def __init__(self, pacman_loc, screen,
                  wall_dirc: str, walls: list,
                  cell_height: int, cell_width: int):
-        self.enemies: list = []
         self.pacman_loc = pacman_loc
 
         self.screen = screen
@@ -19,7 +18,7 @@ class spawn_enemies:
 
         self.cell_height, self.cell_width = cell_height, cell_width
 
-        self.grid_pos_enemies: list = []
+        self.grid_pos_enemies, self.enemies = [], []
 
         self.directory = path.join(getcwd(), v.MAIN_FILE, v.FILES[0])
 

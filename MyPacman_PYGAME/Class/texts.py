@@ -7,7 +7,6 @@ from pygame import mouse
 class start_menu():
     def __init__(self, screen, font_set: str):
         self.screen = screen
-
         self.font_set: str = font_set
 
     def start(self):
@@ -30,7 +29,6 @@ class start_menu():
 class footer():
     def __init__(self, screen, font_set: str):
         self.screen = screen
-
         self.font_set: str = font_set
 
     def dev(self):

@@ -22,19 +22,17 @@ class background(sprite.Sprite):
 
         self.cell_height, self.cell_width = cell_height, cell_width
 
-        self.wall_collision: list[int] = []
         self.wall_dirc: str = wall_dirc
 
-        self.coins: list[int] = []
-        self.big_coins: list[int] = []
+        self.coins, self.big_coins, self.wall_collision = list[int](), list[int](), list[int]()
         # \​​absolute background variables/ #
         ###################################
 
         self.wall(self.wall_dirc)
 
     def update(self):  # Update elements
-        self.grid()
-        self.draw_coins(self.screen)
+        if not self.coins == []:
+            self.draw_coins(self.screen)
 
     def grid(self):  # General grid
         for x in range(v.WIDTH // self.cell_width):
@@ -50,11 +48,11 @@ class background(sprite.Sprite):
         with open(file, mode='r') as file:
             for yidx, line in enumerate(file):
                 for xidx, char in enumerate(line):
-                    if char == '1':  # Create the walls
+                    if char in '1':  # Create the walls
                         self.wall_collision.append(vec(xidx, yidx))
                     elif char in ['c', 'D']:  # creates the spawn path for the coins
                         self.coins.append(vec(xidx, yidx))
-                    elif char == 'C':  # creates the spawn path for the big coins
+                    elif char in 'C':  # creates the spawn path for the big coins
                         self.big_coins.append(vec(xidx, yidx))
 
     def draw_coins(self, screen):  # Create the coins

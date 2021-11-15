@@ -1,4 +1,4 @@
-from pygame import Surface, sprite
+from pygame import Surface, sprite, event
 from pygame.math import Vector2 as vec
 from pygame import KEYDOWN, K_a, K_d, K_w, K_s
 from pygame import image as img
@@ -7,12 +7,13 @@ import vars as v
 
 
 class pacman(sprite.Sprite):
-    def __init__(self, image: str, screen,
-                 walls: list, coins: list, big_coins: list,
-                 cell_width: int | float, cell_height: int | float,
+    def __init__(self, image: str, walls: list,
+                 coins: list, big_coins: list,
+                 cell_width: int, cell_height: int,
                  file_wall: str) -> None:
 
         sprite.Sprite.__init__(self)
+        event.set_allowed([KEYDOWN, K_a, K_d, K_w, K_s])
 
         #################################
         # /player's absolute variables\ #
@@ -79,14 +80,14 @@ class pacman(sprite.Sprite):
         with open(file, mode='r') as file:
             for yidx, line in enumerate(file):
                 for xidx, char in enumerate(line):
-                    if char == 'P':
+                    if char in 'P':
                         return vec(xidx, yidx)
 
     def get_capsule_move(self, file):  # Set loocation player
         with open(file, mode='r') as file:
             for yidx, line in enumerate(file):
                 for xidx, char in enumerate(line):
-                    if char == 'D':
+                    if char in 'D':
                         self.capsule_mov.append(vec(xidx, yidx))
         return self.capsule_mov
 
@@ -121,7 +122,7 @@ class pacman(sprite.Sprite):
         self.set_sprite(sprite)
 
     def inputs(self, ev, input):
-        if ev.key == input:
+        if ev.key is input:
             return True
 
     def break_move(self) -> bool:  # Check if it collided with the wall
@@ -160,15 +161,13 @@ class pacman(sprite.Sprite):
     def set_driving_state(self):
         if not self.break_move() or not self.can_move():
             self.move(self.direction_pos[0], self.direction_pos[1])
-            self.current_x = True
-            self.current_y = True
         else:
-            if self.get_direction((vec(0, 1), vec(0, -1))):
-                self.current_y = True
-                self.current_x = False
             if self.get_direction((vec(1, 0), vec(-1, 0))):
                 self.current_x = True
                 self.current_y = False
+            elif self.get_direction((vec(0, 1), vec(0, -1))):
+                self.current_y = True
+                self.current_x = False
 
     def movement(self, ev):  # Check movement inputs
         if ev.type == KEYDOWN:

@@ -1,5 +1,4 @@
 # & /Imports World\ & #
-import pygame
 import vars as v  # Variables
 
 import Class.texts as ts  # Set Texts
@@ -9,6 +8,10 @@ import Class.sounds as s  # Add sound
 import Class.player as p  # Add player
 import Class.background as b  # Add background
 import Class.enemies as e  # Spawn Enemies
+
+from pygame import init, display, mixer, time
+from pygame import sprite, event, image
+from pygame import QUIT, KEYUP, K_SPACE
 
 from os import path, getcwd  # Get files
 from sys import exit  # QUIT system
@@ -23,11 +26,12 @@ class World:  # A World l
     def __init__(self, title):
         super().__init__()
         # Build game
-        pygame.init()
-        pygame.display.set_caption(title)
+        init()
+        display.set_caption(title)
 
         # &#########################& #
-        self.screen = pygame.display.set_mode((v.FUllSCREEN))
+        # self.screen = pygame.display.set_mode(resolution, flags, 16)
+        self.screen = display.set_mode((v.FUllSCREEN), depth=32)
         self.icon = path.join(getcwd(), v.MAIN_FILE, v.FILES[0], v.ICON)
 
         self.Fps = None
@@ -61,9 +65,10 @@ class World:  # A World l
     def World_init(self):
         # &###############################& #
         # /absolute variables of the world\ #
-        pygame.display.set_icon(pygame.image.load(self.icon))
+        mixer.pre_init(44100, 16, 2, 4096)
+        display.set_icon(image.load(self.icon))
 
-        self.Fps = pygame.time.Clock()
+        self.Fps = time.Clock()
 
         self.Run = self.running = True
 
@@ -85,9 +90,8 @@ class World:  # A World l
 
     def World_objcts(self):
         # Add in World
-        self.Itens_world[
-            'Sprites_world'] = self.Itens_world[
-                'Background_world'] = pygame.sprite.Group()
+        self.Itens_world['Sprites_world'] = self.Itens_world[
+            'Background_world'] = sprite.Group()
 
         self.World_time()
 
@@ -128,15 +132,14 @@ class World:  # A World l
                     self.Directory_world['diry_bck_txt'],
                     self.screen, self.cell_width, self.cell_height)
 
-                self.Entities_world['Pacman'] = \
-                    p.pacman(
-                        self.Directory_world['sprite_pacman'],
-                        self.screen,
-                        self.Itens_world['Background'].wall_collision,
-                        self.Itens_world['Background'].coins,
-                        self.Itens_world['Background'].big_coins,
-                        self.cell_width, self.cell_height,
-                        self.Directory_world['diry_bck_txt'])
+                # $(Background/Map)$ $$ (Entities) #
+                self.Entities_world['Pacman'] = p.pacman(
+                    self.Directory_world['sprite_pacman'],
+                    self.Itens_world['Background'].wall_collision,
+                    self.Itens_world['Background'].coins,
+                    self.Itens_world['Background'].big_coins,
+                    self.cell_width, self.cell_height,
+                    self.Directory_world['diry_bck_txt'])
 
                 self.Entities_world['Enemies'] = e.spawn_enemies(
                     self.Entities_world['Pacman'].pix_pos, self.screen,
@@ -213,8 +216,8 @@ class World:  # A World l
 
             self.Itens_world['Background_world'].update()
 
-            pygame.display.flip()
-            pygame.display.update()
+            display.flip()
+
             self.Fps.tick(v.FPS)
 
             if not self.Run:
@@ -222,9 +225,9 @@ class World:  # A World l
 
     def World_events(self):
         # Add/Create events
-        for ev in pygame.event.get():
+        for ev in event.get():
             # Exit to game
-            if ev.type == pygame.QUIT and self.Run:
+            if ev.type == QUIT and self.Run:
                 self.Run, self.running = False
 
                 exit()
@@ -241,20 +244,19 @@ class World:  # A World l
                         ev,
                         self.Text_world['StartMenu'])
 
-                    if ev.type == pygame.KEYUP:
-                        if ev.key == pygame.K_SPACE:
-                            self.Itens_world['Game'] = True
-                            self.Itens_world['Game_Start'] = False
-                            self.Itens_world['Scenes'] = 'PlayGame'
+                    if ev.type == KEYUP and ev.key is K_SPACE:
+                        self.Itens_world['Game'] = True
+                        self.Itens_world['Game_Start'] = False
+                        self.Itens_world['Scenes'] = 'PlayGame'
 
-                            self.Text_world = self.Images_world = {}
+                        self.Text_world = self.Images_world = {}
 
-                            del self.Itens_world['text_footer']
-                            del self.Itens_world['text_startmenu']
+                        del self.Itens_world['text_footer']
+                        del self.Itens_world['text_startmenu']
 
-                            self.Scene_global()
+                        self.Scene_global()
 
-                            v.MUSICS = 'PlayGame_music'
+                        v.MUSICS = 'PlayGame_music'
 
                 case 'PlayGame':
                     self.Entities_world['Pacman'].movement(ev)
@@ -267,8 +269,7 @@ class World:  # A World l
 
     def World_scenes(self):
         # Manage the scenes
-        self.Itens_world['Game_Start'] = v.game_start
-        self.Itens_world['Game'] = v.game
+        self.Itens_world['Game_Start'], self.Itens_world['Game'] = v.game_start, v.game
 
     def World_adofle(self):
         # Load files, and audios
@@ -294,14 +295,13 @@ class World:  # A World l
         # Call/add image
         match self.Itens_world['Scenes']:
             case 'StartGame':
-                self.screen.blit(
-                    self.Images_world['pacmanlogo'],
-                    (self.Images_world['pacmanlogo_rect']))
+                self.screen.blit(self.Images_world['pacmanlogo'],
+                                 (self.Images_world['pacmanlogo_rect']))
 
     def World_image_LOGO(self):
         pacmanlogo = path.join(
             self.Itens_world['dirctrymges'], v.LOGO_PACMAN)
-        self.Images_world['pacmanlogo'] = pygame.image.load(
+        self.Images_world['pacmanlogo'] = image.load(
             pacmanlogo).convert_alpha()
         self.Images_world['pacmanlogo_rect'] =\
             self.Images_world['pacmanlogo'].get_rect()
@@ -321,7 +321,7 @@ class World:  # A World l
             case 'PlayGame_music':
                 play = path.join(self.Itens_world['dirctyudo'], v.music_PLAY)
                 s.sound(play, play=True)
-                pygame.mixer.fadeout(500)
+                mixer.fadeout(500)
 
                 v.MUSICS = 'Background_music'
 

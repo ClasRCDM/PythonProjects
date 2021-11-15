@@ -11,9 +11,8 @@ class sound:  # Sounds
         mixer.init()
 
         self.directory: str = directory
-        self.play: bool = play
+        self.play, self.loop = play, loop
         self.volume: float = volume
-        self.loop: bool = loop
 
         # $ To create $ #
         start = mixer.Sound(self.directory)

@@ -12,15 +12,13 @@ class text:  # Texts
         font.init()
 
         # &#########################& #
-        self.size: int = size
-        self.size_normal: int = size
+        self.size, self.size_normal = size, size
 
         self.txt: str = txt
         self.pixel: bool = pixel
         self.color = color
 
-        self.x: int = x
-        self.y: int = y
+        self.x, self.y = x, y
 
         self.screen = screen
         self.directory: str = directory
@@ -66,7 +64,7 @@ class text:  # Texts
 
         anim_val = value_move
 
-        self.check_point(type)
+        self.action(type)
 
         if self.Itens_texts['animation_if']:
             self.type_animation(type_animation, anim_val)
@@ -74,11 +72,9 @@ class text:  # Texts
     def type_animation(self, type_animation, anim_val):
         match type_animation:  # Select the animation and make it
             case '+zoon':
-                if self.Itens_texts['animation_constant'] ==\
-                        'repeat' and self.mouse_input:
+                if self.chack_animation_zoon('repeat'):
                     self.size += anim_val
-                elif self.Itens_texts['animation_constant'] ==\
-                        'one_click' and self.mouse_input:
+                elif self.chack_animation_zoon('one_click'):
                     self.size = anim_val
 
                 if self.size <= (self.size_normal + self.Itens_texts['limit'])\
@@ -86,17 +82,14 @@ class text:  # Texts
                         'one_click' and self.mouse_input:
                     self.size = (self.size_normal + self.Itens_texts['limit'])
 
-                elif self.size >=\
-                        (self.size_normal + self.Itens_texts['limit'])\
+                elif self.size >= (self.size_normal + self.Itens_texts['limit'])\
                         and not self.mouse_input:
                     self.size = self.size_normal
 
             case '-zoon':
-                if self.Itens_texts['animation_constant'] ==\
-                        'repeat' and self.mouse_input:
+                if self.chack_animation_zoon('repeat'):
                     self.size -= anim_val
-                elif self.Itens_texts['animation_constant'] ==\
-                        'one_click' and self.mouse_input:
+                elif self.chack_animation_zoon('one_click'):
                     self.size = -anim_val
 
                 if self.size <= (self.size_normal - self.Itens_texts['limit'])\
@@ -110,13 +103,7 @@ class text:  # Texts
                     self.size = self.size_normal
 
             case '-backforth':
-                self.Itens_texts['state'] == 'down'
-                if self.Itens_texts['animation_constant'] == 'repeat' and\
-                        self.Itens_texts['state'] == 'down':
-                    self.size -= anim_val
-                if self.Itens_texts['animation_constant'] == 'repeat' and\
-                        self.Itens_texts['state'] == 'up':
-                    self.size += anim_val
+                self.animation_backforth('down', 'repeat', anim_val,)
 
                 if self.size <= (self.size_normal - self.Itens_texts['limit']):
                     # self.size = self.size_normal
@@ -126,13 +113,7 @@ class text:  # Texts
                     self.Itens_texts['state'] = 'down'
 
             case '+backforth':
-                self.Itens_texts['state'] == 'up'
-                if self.Itens_texts['animation_constant'] == 'repeat' and\
-                        self.Itens_texts['state'] == 'down':
-                    self.size -= anim_val
-                if self.Itens_texts['animation_constant'] == 'repeat' and\
-                        self.Itens_texts['state'] == 'up':
-                    self.size += anim_val
+                self.animation_backforth('up', 'repeat', anim_val,)
 
                 if self.size >= (self.size_normal + self.Itens_texts['limit']):
                     # self.size = self.size_normal
@@ -141,24 +122,42 @@ class text:  # Texts
                     # self.size = self.size_normal
                     self.Itens_texts['state'] = 'up'
 
+    def animation_backforth(self, state, type, value):
+        self.Itens_texts['state'] == state
+        if self.chack_animation_backforth(type, 'down'):
+            self.size -= value
+        if self.chack_animation_backforth(type, 'up'):
+            self.size += value
+
+    def chack_animation_backforth(self, type, move):
+        if self.Itens_texts['animation_constant'] == type and\
+                self.Itens_texts['state'] == move:
+            return True
+
+    def chack_animation_zoon(self, type):
+        if self.Itens_texts['animation_constant'] ==\
+                type and self.mouse_input:
+            return True
+
     def point(self, point_mouse, ev):  # Check mouse points
         self.Itens_texts['mouse_action_h'] = \
-            'Hover' if\
-            self.Itens_texts['text_rect'].collidepoint(point_mouse) else 'None'
+            'Hover' if self.Itens_texts['text_rect'].collidepoint(
+                point_mouse) else 'None'
 
         if ev.type == MOUSEBUTTONUP:
             self.mouse_action_t = 'None'
         if ev.type == MOUSEBUTTONDOWN:
             self.mouse_action_t = \
-                'Touched' if\
-                self.Itens_texts['text_rect'].collidepoint(
+                'Touched' if self.Itens_texts['text_rect'].collidepoint(
                     point_mouse) else 'None'
 
-    def check_point(self, type):  # check for mouse collision on text
-        if type == 'Hover':
-            self.mouse_input = True if self.mouse_action_h == type else False
-        elif type == 'Touched':
-            self.mouse_input = True if self.mouse_action_t == type else False
+    def action(self, type):
+        self.check_point(type, 'Hover', self.mouse_action_t)
+        self.check_point(type, 'Touched', self.mouse_action_t)
+
+    def check_point(self, type, action, event):
+        if type == action:  # check for mouse collision on text
+            self.mouse_input = True if event == type else False
 
     def link(self, link):  # opens a web page when clicked
         if self.mouse_input:
