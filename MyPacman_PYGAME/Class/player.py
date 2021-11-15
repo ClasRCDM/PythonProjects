@@ -1,7 +1,6 @@
-from pygame import Surface, sprite, draw
+from pygame import Surface, sprite
 from pygame.math import Vector2 as vec
-from pygame import KEYDOWN,\
-    K_LEFT, K_a, K_RIGHT, K_d, K_UP, K_w, K_DOWN, K_s
+from pygame import KEYDOWN, K_a, K_d, K_w, K_s
 from pygame import image as img
 
 import vars as v
@@ -40,14 +39,15 @@ class pacman(sprite.Sprite):
 
         # $ Wall variables $ #
         self.stored_direction, self.able_to_move = None, True
-        self.capsule_mov: list = []
+        self.capsule_mov = list[int]()
+        self.capsule_mov = self.get_capsule_move(file_wall)
 
         # $ Lives, velocity and Points $ #
         self.speed, self.lives = 2, 1
         # \player's absolute variables/ #
         #################################
 
-        self.get_capsule_move(file_wall)
+        # self.get_capsule_move(file_wall)
 
     def update(self):
         if self.able_to_move:  # Add movement player
@@ -88,6 +88,7 @@ class pacman(sprite.Sprite):
                 for xidx, char in enumerate(line):
                     if char == 'D':
                         self.capsule_mov.append(vec(xidx, yidx))
+        return self.capsule_mov
 
     def get_sprite(self, frame: int):
         surface = Surface(
@@ -101,19 +102,6 @@ class pacman(sprite.Sprite):
 
     def set_sprite(self, direction):
         self.image = self.get_sprite(direction)
-
-    def set_driving_state(self):
-        if not self.break_move() or not self.can_move():
-            self.move(self.direction_pos[0], self.direction_pos[1])
-            self.current_x = True
-            self.current_y = True
-        else:
-            if self.get_direction((vec(0, 1), vec(0, -1))):
-                self.current_y = True
-                self.current_x = False
-            if self.get_direction((vec(1, 0), vec(-1, 0))):
-                self.current_x = True
-                self.current_y = False
 
     def eat_coin(self, coins):  # Check and eat the coins
         coins.remove(self.grid_pos)
@@ -135,26 +123,6 @@ class pacman(sprite.Sprite):
     def inputs(self, ev, input):
         if ev.key == input:
             return True
-
-    def movement(self, ev):  # Check movement inputs
-        if ev.type == KEYDOWN:
-            if self.inputs(ev, K_a) and self.current_x:
-                self.move(vec(-1, 0), 1)
-            elif self.inputs(ev, K_d) and self.current_x:
-                self.move(vec(1, 0), 0)
-            if self.inputs(ev, K_w) and self.current_y:
-                self.move(vec(0, -1), 3)
-            elif self.inputs(ev, K_s) and self.current_y:
-                self.move(vec(0, 1), 2)
-
-            if self.inputs(ev, K_w):
-                self.direction_pos = (vec(0, -1), 3)
-            elif self.inputs(ev, K_s):
-                self.direction_pos = (vec(0, 1), 2)
-            if self.inputs(ev, K_a):
-                self.direction_pos = (vec(-1, 0), 1)
-            elif self.inputs(ev, K_d):
-                self.direction_pos = (vec(1, 0), 0)
 
     def break_move(self) -> bool:  # Check if it collided with the wall
         return self.get_objects(self.walls, vec(self.grid_pos + self.direction_mov))
@@ -188,3 +156,36 @@ class pacman(sprite.Sprite):
                    (self.grid_pos[1] * self.cell_height)
                    + v.TOP_BOTTOM_BUFFER // 2
                    + self.cell_height // 2)
+
+    def set_driving_state(self):
+        if not self.break_move() or not self.can_move():
+            self.move(self.direction_pos[0], self.direction_pos[1])
+            self.current_x = True
+            self.current_y = True
+        else:
+            if self.get_direction((vec(0, 1), vec(0, -1))):
+                self.current_y = True
+                self.current_x = False
+            if self.get_direction((vec(1, 0), vec(-1, 0))):
+                self.current_x = True
+                self.current_y = False
+
+    def movement(self, ev):  # Check movement inputs
+        if ev.type == KEYDOWN:
+            if self.inputs(ev, K_a) and self.current_x:
+                self.move(vec(-1, 0), 1)
+            elif self.inputs(ev, K_d) and self.current_x:
+                self.move(vec(1, 0), 0)
+            if self.inputs(ev, K_w) and self.current_y:
+                self.move(vec(0, -1), 3)
+            elif self.inputs(ev, K_s) and self.current_y:
+                self.move(vec(0, 1), 2)
+
+            if self.inputs(ev, K_w):
+                self.direction_pos = (vec(0, -1), 3)
+            elif self.inputs(ev, K_s):
+                self.direction_pos = (vec(0, 1), 2)
+            if self.inputs(ev, K_a):
+                self.direction_pos = (vec(-1, 0), 1)
+            elif self.inputs(ev, K_d):
+                self.direction_pos = (vec(1, 0), 0)
