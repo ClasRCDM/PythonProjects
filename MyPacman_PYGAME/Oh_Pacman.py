@@ -7,11 +7,11 @@ import Class.sounds as s  # Add sound
 
 import Class.player as p  # Add player
 import Class.background as b  # Add background
-import Class.enemies as e  # Spawn Enemies
+# import Class.enemies as e  # Spawn Enemies
 
-from pygame import init, display, mixer, time
-from pygame import sprite, event, image
-from pygame import QUIT, KEYUP, K_SPACE
+from pygame import init, display, mixer, time  # Events
+from pygame import sprite, event, image  # Actions
+from pygame import QUIT, KEYUP, K_SPACE  # Keys
 
 from os import path, getcwd  # Get files
 from sys import exit  # QUIT system
@@ -141,19 +141,11 @@ class World:  # A World l
                     self.cell_width, self.cell_height,
                     self.Directory_world['diry_bck_txt'])
 
-                self.Entities_world['Enemies'] = e.spawn_enemies(
-                    self.Entities_world['Pacman'].pix_pos, self.screen,
-                    self.Directory_world['diry_bck_txt'],
-                    self.Itens_world['Background'].wall_collision,
-                    self.cell_width, self.cell_height)
-
                 # $(Add in world)$ #
                 self.Itens_world['Background_world'].add(
                     self.Itens_world['Background'])
                 self.Itens_world['Background_world'].add(
                     self.Entities_world['Pacman'])
-                '''self.Itens_world['Background_world'].add(
-                    self.Entities_world['Enemies'].group())'''
                 # \absolute commands in Game/ #
                 ###############################
 
@@ -174,7 +166,7 @@ class World:  # A World l
                 self.Itens_world['text_startmenu'].update(
                     self.Text_world['StartMenu'])
 
-                v.FPS = 7
+                v.FPS = 8
                 # \absolute commands in Menu/ #
                 ###############################
 
@@ -269,7 +261,7 @@ class World:  # A World l
 
     def World_scenes(self):
         # Manage the scenes
-        self.Itens_world['Game_Start'], self.Itens_world['Game'] = v.game_start, v.game
+        self.Itens_world['Game_Start'], self.Itens_world['Game'] = v.GAME_START, v.GAME_INIT
 
     def World_adofle(self):
         # Load files, and audios
@@ -310,28 +302,28 @@ class World:  # A World l
 
     def World_sounds(self):
         # Call/add sound
-        match v.MUSICS:
+        match v.GAME_SOUNDS:
             case 'StartGame_music':
                 start_dirc = path.join(
                     self.Itens_world['dirctyudo'], v.music_START)
-                s.sound(start_dirc, 0.1, True)
+                s.sound(start_dirc, v.VOLUME, True)
 
-                v.MUSICS = ''
+                v.GAME_SOUNDS = ''
 
             case 'PlayGame_music':
                 play = path.join(self.Itens_world['dirctyudo'], v.music_PLAY)
                 s.sound(play, play=True)
                 mixer.fadeout(500)
 
-                v.MUSICS = 'Background_music'
+                v.GAME_SOUNDS = 'Background_music'
 
             case 'Background_music':
                 background_music_dirc = path.join(
                     self.Itens_world['dirctyudo'], v.music_BACKGROUND)
 
-                s.sound(background_music_dirc, 0.5, play=True, loop=True)
+                s.sound(background_music_dirc, v.VOLUME, play=True, loop=True)
 
-                v.MUSICS = ''
+                v.GAME_SOUNDS = ''
 
     def World_sprits_update(self):
         # Set/Update sprits/draw
@@ -347,7 +339,3 @@ class World:  # A World l
 ###################
 #  Init my World  #
 ###################
-
-if __name__ == '__main__':
-    MyWorld = World(v.TITLE_GAME)
-    MyWorld.World_init()

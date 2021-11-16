@@ -3,10 +3,10 @@
 
 WIDTH, HEIGHT = 610, 670
 
-FUllSCREEN: tuple = (WIDTH, HEIGHT)
+FUllSCREEN: tuple[int, int] = (WIDTH, HEIGHT)
 
 MAIN_FILE: str = 'MyPacman_PYGAME'
-FILES = ('images', 'sounds', 'fonts')
+FILES: tuple[str, str, str] = ('images', 'sounds', 'fonts')
 
 TITLE_GAME: str = 'Oh, PACman'
 
@@ -24,9 +24,8 @@ FONT: str = 'PressStart2P.ttf'
 # /global variables\ #
 
 # Scenes #
-game_start, game = True, False
-
-MUSICS: str = 'StartGame_music'
+GAME_START, GAME_INIT = True, False
+GAME_SOUNDS = 'StartGame_music'
 
 # $ Images $ #
 LOGO_PACMAN, MAZE_BACKGROUND = 'PACMANLOGO.png', 'maze.png'
@@ -38,6 +37,8 @@ WALL_BACKGROUND: str = 'walls.txt'
 music_START: str = 'intermission.wav'
 music_PLAY: str = 'munch_1.wav'
 music_BACKGROUND: str = 'songs/ManThemeRemix_arsenic1987.mp3'
+
+VOLUME = 0
 
 # $ Colors $ #
 BLACK: tuple = (0, 0, 0)
@@ -54,18 +55,16 @@ ROWS, COLS = 30, 28
 WIDTH_CELL, HEIGHT_CELL = WIDTH // COLS, HEIGHT // ROWS
 
 # $ Player $ #
-WIDHT_PACMAN = 19
-HEIGHT_PACMAN = 19
+WIDTH_PACMAN, HEIGHT_PACMAN = 19, 19
 
 # $$ Sprites Player $$ #
 SPRITE_PACMAN: str = 'pacman.png'
 
 # $ Enemies $ #
-SPRITE_ENEMIES = list[str]()
-SPRITE_ENEMIES = ['enemy_0.png',
-                  'enemy_1.png',
-                  'enemy_2.png',
-                  'enemy_3.png']
+SPRITE_ENEMIES = list[str](['enemy_0.png',
+                            'enemy_1.png',
+                            'enemy_2.png',
+                            'enemy_3.png'])
 
 # $ Texts Wold $ #
 text_START: str = '-Pressione espaço para jogar'
