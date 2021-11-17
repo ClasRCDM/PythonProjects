@@ -38,8 +38,6 @@ class pacman(entity_mob):
         # \player's absolute variables/ #
         #################################
 
-        # self.get_capsule_move(file_wall)
-
     def update(self):
         self.update_moves()
 
@@ -49,6 +47,10 @@ class pacman(entity_mob):
             self.eat_coin(self.coins)
         elif self.on_big_coin():  # Eat big coins
             self.eat_big_coin(self.big_coins)
+
+    def move(self, direction_mov, sprite):  # move! k
+        self.stored_direction: vec = direction_mov
+        self.set_sprite(sprite)
 
     def get_capsule_move(self, file):  # Set loocation player
         with open(file, mode='r') as file:
@@ -70,6 +72,9 @@ class pacman(entity_mob):
 
     def set_sprite(self, direction):
         self.image = self.get_sprite(direction)
+
+    def set_spawn(self, spawn: str = 'P'):
+        return spawn
 
     def eat_coin(self, coins):  # Check and eat the coins
         coins.remove(self.grid_pos)

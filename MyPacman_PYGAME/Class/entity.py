@@ -14,8 +14,7 @@ class entity_mob(sprite.Sprite):
 
         #################################
         # /player's absolute variables\ #
-        self.entity_sprite = entity_sprite
-        self.image = img.load(self.entity_sprite)
+        self.image = img.load(entity_sprite)
 
         self.rect = self.image.get_rect()
 
@@ -29,7 +28,7 @@ class entity_mob(sprite.Sprite):
         self.direction_mov: vec = vec(0, 0)
 
         # $ Get location walls and coins $ #
-        self.walls = wall
+        self.walls: list[int] = wall
 
         # $ Wall variables $ #
         self.stored_direction, self.able_to_move = None, True
@@ -38,8 +37,6 @@ class entity_mob(sprite.Sprite):
         self.speed, self.lives = 2, 1
         # \player's absolute variables/ #
         #################################
-
-        # self.get_capsule_move(file_wall)
 
     def update_moves(self):
         if self.able_to_move:  # Add movement player
@@ -64,13 +61,11 @@ class entity_mob(sprite.Sprite):
         with open(file, mode='r') as file:
             for yidx, line in enumerate(file):
                 for xidx, char in enumerate(line):
-                    if char in 'P':
-                        print('a')
+                    if char in self.set_spawn():
                         return vec(xidx, yidx)
 
-    def move(self, direction_mov, sprite):  # move! k
+    def move(self, direction_mov):  # move! k
         self.stored_direction: vec = direction_mov
-        self.set_sprite(sprite)
 
     def break_move(self) -> bool:  # Check if it collided with the wall
         return self.get_objects(self.walls, vec(self.grid_pos + self.direction_mov))

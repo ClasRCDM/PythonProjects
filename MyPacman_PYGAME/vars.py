@@ -61,10 +61,10 @@ WIDTH_PACMAN, HEIGHT_PACMAN = 19, 19
 SPRITE_PACMAN: str = 'pacman.png'
 
 # $ Enemies $ #
-SPRITE_ENEMIES = list[str](['enemy_0.png',
+SPRITE_ENEMIES = list[str](['enemy_3.png',
                             'enemy_1.png',
-                            'enemy_2.png',
-                            'enemy_3.png'])
+                            'enemy_0.png',
+                            'enemy_2.png'])
 
 # $ Texts Wold $ #
 text_START: str = '-Pressione espaço para jogar'

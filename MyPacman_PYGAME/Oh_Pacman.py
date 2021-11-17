@@ -7,7 +7,7 @@ import Class.sounds as s  # Add sound
 
 import Class.player as p  # Add player
 import Class.background as b  # Add background
-# import Class.enemies as e  # Spawn Enemies
+import Class.enemies as e  # Spawn Enemies
 
 from pygame import init, display, mixer, time  # Events
 from pygame import sprite, event, image  # Actions
@@ -31,7 +31,7 @@ class World:  # A World l
 
         # &#########################& #
         # self.screen = pygame.display.set_mode(resolution, flags, 16)
-        self.screen = display.set_mode((v.FUllSCREEN), depth=32)
+        self.screen = display.set_mode((v.FUllSCREEN), depth=32, display = 1)
         self.icon = path.join(getcwd(), v.MAIN_FILE, v.FILES[0], v.ICON)
 
         self.Fps = None
@@ -141,11 +141,19 @@ class World:  # A World l
                     self.cell_width, self.cell_height,
                     self.Directory_world['diry_bck_txt'])
 
+                self.Entities_world['Enemies'] = e.spawn_enemies(
+                    self.screen,
+                    self.Directory_world['diry_bck_txt'],
+                    self.Itens_world['Background'].wall_collision,
+                    self.cell_width, self.cell_height)
+
                 # $(Add in world)$ #
                 self.Itens_world['Background_world'].add(
                     self.Itens_world['Background'])
                 self.Itens_world['Background_world'].add(
                     self.Entities_world['Pacman'])
+                self.Itens_world['Background_world'].add(
+                    self.Entities_world['Enemies'].group())
                 # \absolute commands in Game/ #
                 ###############################
 
