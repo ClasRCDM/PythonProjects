@@ -36,11 +36,11 @@ class Enemy(entity_mob):
                        end[1] + trirad * cos(
                            radians(rotation + 120)))))
 
-    def get_pos(self) -> vec:  # Get and add player position
-        return vec((13.5 * self.cell_width)
+    def get_pos(self) -> vec:  # Get and add enemy position
+        return vec((self.arrow_pos[0] * self.cell_width)
                    + TOP_BOTTOM_BUFFER // 2
                    + self.cell_width // 2,
-                   (11 * self.cell_height)
+                   (self.arrow_pos[1] * self.cell_height)
                    + TOP_BOTTOM_BUFFER // 2
                    + self.cell_height // 2)
 
@@ -54,6 +54,8 @@ class Blinky(Enemy):
                        cell_width, cell_height,
                        file_walls)
         self.screen = screen
+
+        self.arrow_pos = vec(1, 1)
 
     def update(self):
         self.update_moves()
@@ -74,12 +76,6 @@ class Inky(Enemy):
                        cell_width, cell_height,
                        file_walls)
         self.screen = screen
-
-    def update(self):
-        self.update_moves()
-        self.way_traversed(self.screen,
-                           GREY, GREY,
-                           self.pix_pos, self.get_pos(), 5)
 
     def set_spawn(self, spawn: str = '@'):
         return spawn

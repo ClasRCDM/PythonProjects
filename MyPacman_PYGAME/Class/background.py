@@ -55,13 +55,13 @@ class background(sprite.Sprite):
                     elif char in 'C':  # creates the spawn path for the big coins
                         self.big_coins.append(vec(xidx, yidx))
 
-    def draw_coins(self, screen):  # Create the coins
+    def draw_coins(self, screen):  # Draw the coins
         for coin in self.coins:
             self.coin(screen, 2, coin)
         for coin in self.big_coins:
             self.coin(screen, 4, coin)
 
-    def coin(self, screen, size, coin):
+    def coin(self, screen, size, coin):  # Create the coins
         draw.circle(screen, v.YELLOW_DARK,
                     (int(coin.x * self.cell_width)
                      + self.cell_width // 2

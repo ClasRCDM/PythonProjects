@@ -9,6 +9,8 @@ class spawn_enemies:
                  wall_dirc: str, walls: list,
                  cell_height: int, cell_width: int):
         self.screen = screen
+        ##################################
+        # /​​Absolute variables for spawn\ #
         self.wall_dirc: str = wall_dirc
         self.walls: list = walls
 
@@ -19,6 +21,8 @@ class spawn_enemies:
         self.sprite_enemy1 = path.join(directory, v.SPRITE_ENEMIES[1])
         self.sprite_enemy2 = path.join(directory, v.SPRITE_ENEMIES[2])
         self.sprite_enemy3 = path.join(directory, v.SPRITE_ENEMIES[3])
+        # \​​Absolute variables for spawn/ #
+        ##################################
 
     def set_enemies(self):
         return list([e.Blinky(self.sprite_enemy0, self.walls,

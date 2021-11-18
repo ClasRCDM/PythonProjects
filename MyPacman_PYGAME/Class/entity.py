@@ -12,8 +12,8 @@ class entity_mob(sprite.Sprite):
 
         sprite.Sprite.__init__(self)
 
-        #################################
-        # /player's absolute variables\ #
+        ###############################
+        # /Absolute entity variables\ #
         self.image = img.load(entity_sprite)
 
         self.rect = self.image.get_rect()
@@ -35,8 +35,8 @@ class entity_mob(sprite.Sprite):
 
         # $ Lives, velocity and Points $ #
         self.speed, self.lives = 2, 1
-        # \player's absolute variables/ #
-        #################################
+        # \Absolute entity variables/ #
+        ###############################
 
     def update_moves(self):
         if self.able_to_move:  # Add movement player
@@ -57,7 +57,7 @@ class entity_mob(sprite.Sprite):
         self.rect[0] = self.pix_pos.x - int(v.TOP_BOTTOM_BUFFER / 5.5)
         self.rect[1] = self.pix_pos.y - int(v.TOP_BOTTOM_BUFFER / 6)
 
-    def get_location(self, file):  # Set loocation player
+    def get_location(self, file):  # Set entity location
         with open(file, mode='r') as file:
             for yidx, line in enumerate(file):
                 for xidx, char in enumerate(line):
@@ -71,20 +71,20 @@ class entity_mob(sprite.Sprite):
         return self.get_objects(self.walls, vec(self.grid_pos + self.direction_mov))
 
     def get_objects(self, object, another_object):
-        for item in object:
+        for item in object:  # Returns false if pasted with object
             if another_object == item:
                 return False
         return True
 
-    def check_capsule(self):
+    def check_capsule(self):  # Check if it can move inside the capsules
         return self.get_capsule(self.pix_pos.x, self.cell_width, (vec(1, 0), vec(-1, 0))) or \
             self.get_capsule(self.pix_pos.y, self.cell_height, (vec(0, 1), vec(0, -1)))
 
-    def get_capsule(self, direction, cell_size, mov):
+    def get_capsule(self, direction, cell_size, mov):  # Calculates the entity's position in the capsules
         if int(direction + v.TOP_BOTTOM_BUFFER // 2) % cell_size == 0:
             return self.get_direction(mov)
 
-    def get_direction(self, mov):
+    def get_direction(self, mov):  # Check entity direction
         if self.direction_mov == mov[0] or self.direction_mov == mov[1] or\
                 self.direction_mov == vec(0, 0):
             return True
